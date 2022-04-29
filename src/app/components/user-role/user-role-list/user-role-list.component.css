@@ -1,0 +1,26 @@
+tr {
+  width: 30%;
+  text-align: center;
+  padding: 20px;
+}
+
+th {
+  font-weight: bolder;
+  background-color: #33ff99;
+  padding: 10px;
+}
+
+table {
+  margin-top: 20px;
+}
+
+.cntnr {
+  padding: 30px;
+}
+
+.mat-mini-fab.mat-raised-button {
+  margin: 5px;
+}
+
+
+

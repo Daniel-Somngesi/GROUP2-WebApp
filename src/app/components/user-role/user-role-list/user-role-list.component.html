@@ -1,0 +1,25 @@
+<div class="container">
+  <h1>USER ROLES</h1>
+
+    <form [formGroup]="userRoleForm" (ngSubmit)="onFormSubmit()">
+      <mat-form-field class="demo-full-width">
+        <input class="form-control" formControlName="userRole_Name" pattern="[a-zA-Z ]*" [(ngModel)]="userRole_Name" matTooltip="Enter user role" matInput placeholder="User role" autocomplete="off" required>
+      </mat-form-field>
+      <mat-error>
+        <span *ngIf="!userRoleForm.get('userRole_Name').value && userRoleForm.get('userRole_Name').touched"></span>
+      </mat-error>
+
+  <button type="submit" mat-raised-button [disabled]="!userRoleForm.valid" color="accent" matTooltip="Submit">Submit</button>
+      </form>
+
+  <div class="form">
+  <table class="table" style="width:50%">
+    <tr><th>Name</th><th>Actions</th></tr>
+    <tr *ngFor="let userrole of userroles"><td>{{userrole.userRole_Name}}</td>
+      <td><button id="btnDelete" mat-mini-fab color="primary" mat-raised-button color="accent" matTooltip="Delete" aria-label="Example icon button with a delete icon" (click)="deleteUserRole(userrole.userRole_Id)">
+        <mat-icon>delete</mat-icon></button><button mat-mini-fab mat-raised-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit" (click)="loadUserRoleToEdit(userrole.userRole_Id )">
+          <mat-icon>edit</mat-icon></button></td></tr>
+  </table>
+  </div>
+</div>
+

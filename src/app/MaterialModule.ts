@@ -1,12 +1,3 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { UserRoleListComponent } from './components/user-role/user-role-list/user-role-list.component';
-import { AddEmployeeComponent } from './components/employee/add-employee/add-employee.component';
 import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,18 +19,11 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
+import { NgModule } from "@angular/core";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    UserRoleListComponent,
-    AddEmployeeComponent
-  ],
   imports: [
-    BrowserModule,
     MatListModule,
-    AppRoutingModule,
-    HttpClientModule,
     MatInputModule,
     MatCardModule,
     MatButtonModule,
@@ -60,7 +44,7 @@ import {MatListModule} from '@angular/material/list';
     CdkTableModule,
     MatPaginatorModule,
     ReactiveFormsModule,
-    MatInputModule
+
   ],
   exports: [
     MatInputModule,
@@ -85,7 +69,6 @@ import {MatListModule} from '@angular/material/list';
     ReactiveFormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: []
 })
-export class AppModule { }
+export class MaterialModule { }
