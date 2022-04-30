@@ -55,8 +55,6 @@
   </mat-error>
 <br>
 
-
-
 <mat-form-field class="demo-full-width">
   <input class="form-control" formControlName="address_Line1" matTooltip="Enter address line 1" matInput placeholder="Address line 1" autocomplete="off" required>
 </mat-form-field>
@@ -86,7 +84,7 @@
 </mat-error>
 
 <h5 id="typeH" for="eType">Employee Type</h5>
-<select (change)="selected()" [(ngModel)]="mySelect" class="form-control" name="eType"  formControlName="eType" required>
+<select [(ngModel)]="mySelect" class="form-control" name="eType"  formControlName="eType" required>
           <option *ngFor="let i of type" [ngValue]="i.employeeType_ID">
             {{ i.employeeType_Name }}
           </option>

@@ -1,3 +1,4 @@
+import { EmployeeListComponent } from './components/employee/employee-list/employee-list.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -28,12 +29,14 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserRoleListComponent,
-    AddEmployeeComponent
+    AddEmployeeComponent,
+    EmployeeListComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,7 @@ import {MatListModule} from '@angular/material/list';
     CdkTableModule,
     MatPaginatorModule,
     ReactiveFormsModule,
-    MatInputModule
+    CommonModule,
   ],
   exports: [
     MatInputModule,

@@ -34,4 +34,9 @@ export class EmployeeService {
   getAllTypes(): Observable<any> {
     return this.http.get(_baseUrl);
   }
+
+
+  getType(id:any): Observable<any> {
+    return this.http.get(`${_baseUrl}/${id}`)
+  }
 }

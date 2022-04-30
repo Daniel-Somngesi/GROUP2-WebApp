@@ -1,10 +1,8 @@
 import { EmployeeService } from './../../../services/employee.service';
-import { EmployeeData, EmployeeTypeData } from './../../../Interface/Interface';
+import { EmployeeData } from './../../../Interface/Interface';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { UserRoleService } from 'src/app/services/user-role.service';
 
 
 @Component({
@@ -15,7 +13,7 @@ import { UserRoleService } from 'src/app/services/user-role.service';
 export class AddEmployeeComponent implements OnInit {
 
   employeeForm:any;
-  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
+  emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$";
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   Male = true;
@@ -57,36 +55,22 @@ export class AddEmployeeComponent implements OnInit {
       .subscribe(
         data => {
           this.type = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
       }
+      );}
 
     getDob(idNumber:any) {
         var Year = idNumber.substring(0, 2);
         var Month = idNumber.substring(2, 4);
         var Day = idNumber.substring(4, 6);
-
         var cutoff = (new Date()).getFullYear() - 2000
-
         var dob = (Year > cutoff ? '19' : '20') + Year + '-' + Month + '-' + Day;
-
-        console.log(dob);
-
         this.Dob = dob;
-
-        console.log("var " + this.Dob);
      }
-
-
 
   createEmployee(employee:EmployeeData) {
     this.service.create(employee).subscribe(
       () => {
         this.SavedSuccessful(1);
-        alert(this.number);
       }
     );
   }
@@ -97,9 +81,6 @@ export class AddEmployeeComponent implements OnInit {
     this.createEmployee(_employee);
   }
 
-  selected(){
-    console.log(this.mySelect)
-  }
   resetForm() {
     this.employeeForm.reset();
     this.dataSaved = false;
@@ -109,7 +90,6 @@ export class AddEmployeeComponent implements OnInit {
 
   onItemChange(value:any){
     this.gender = value;
-    console.log(" Value is : ", value );
  }
 
   SavedSuccessful(isUpdate:any) {
