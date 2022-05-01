@@ -1,5 +1,6 @@
 <h1>Employees</h1>
 
+<button routerLink="/add-employee" mat-mini-fab color="primary" matTooltip="Add employee" mat-raised-button color="accent"><mat-icon>add</mat-icon></button>
 <div class="mat-elevation-z8">
 
   <table mat-table [dataSource]="dataSource">
@@ -69,13 +70,13 @@
 
       <td mat-cell *matCellDef="let employee">
 
-        <button mat-mini-fab mat-raised-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit">
+        <button (click)="openDialog()" [routerLink]="['/update', employee.id]" mat-mini-fab mat-raised-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit">
           <mat-icon>edit</mat-icon></button>
       </td>
     </ng-container>
     <ng-container matColumnDef="Delete">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Delete </th>
-      <td mat-cell *matCellDef="let employee"> <button id="btnDelete" mat-mini-fab color="primary" mat-raised-button color="accent" matTooltip="Delete" aria-label="Example icon button with a delete icon" (click)="deleteEmployee(employee.employee_Id)">
+      <td mat-cell *matCellDef="let employee"> <button id="btnDelete" mat-mini-fab color="primary" mat-raised-button color="accent" matTooltip="Delete" aria-label="icon button with a delete icon" (click)="deleteEmployee(employee.employee_Id)">
         <mat-icon>delete</mat-icon></button></td>
     </ng-container>
 

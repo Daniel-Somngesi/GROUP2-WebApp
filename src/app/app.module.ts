@@ -30,6 +30,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
 import { CommonModule } from '@angular/common';
+import { EditDialogComponent } from './components/employee/edit-dialog/edit-dialog.component';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -37,8 +40,11 @@ import { CommonModule } from '@angular/common';
     UserRoleListComponent,
     AddEmployeeComponent,
     EmployeeListComponent,
+    EditDialogComponent
   ],
+  entryComponents: [EditDialogComponent],
   imports: [
+    MatDialogModule,
     BrowserModule,
     MatListModule,
     AppRoutingModule,
@@ -66,6 +72,7 @@ import { CommonModule } from '@angular/common';
     CommonModule,
   ],
   exports: [
+    MatDialogModule,
     MatInputModule,
     MatCardModule,
     MatButtonModule,

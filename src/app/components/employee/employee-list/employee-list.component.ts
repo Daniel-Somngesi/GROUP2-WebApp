@@ -1,3 +1,4 @@
+import { EditDialogComponent } from './../edit-dialog/edit-dialog.component';
 import { EmployeeService } from './../../../services/employee.service';
 import { EmployeeData } from './../../../Interface/Interface';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -6,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-employee-list',
@@ -22,7 +24,7 @@ export class EmployeeListComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  constructor(private service:EmployeeService, private _snackBar: MatSnackBar, private _liveAnnouncer: LiveAnnouncer) {
+  constructor(public dialog: MatDialog, private service:EmployeeService, private _snackBar: MatSnackBar, private _liveAnnouncer: LiveAnnouncer) {
   }
 
   ngOnInit(): void {
@@ -32,6 +34,11 @@ export class EmployeeListComponent implements OnInit {
     this.dataSource.sort = this.sort;
     })
     }
+
+    openDialog(){
+      this.dialog.open(EditDialogComponent);
+    }
+
     loadAllEmployees() {
       this.service.getAll().subscribe(data => {
         this.dataSource = new MatTableDataSource(data);
