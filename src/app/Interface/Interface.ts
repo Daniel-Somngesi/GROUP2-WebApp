@@ -19,7 +19,7 @@ export interface EmployeeData {
 }
 
 export interface EmployeeTypeData {
-  employeeType_Id?:any;
+  employeeType_ID?:any;
   employeeType_Name:string;
   employeeType_Description?:string;
 }

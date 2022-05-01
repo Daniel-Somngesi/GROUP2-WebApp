@@ -1,0 +1,35 @@
+<div class="container">
+    <h1>Employee Types</h1>
+  
+      <form [formGroup]="employeeTypeForm" (ngSubmit)="onFormSubmit()">
+        <mat-form-field class="demo-full-width">
+          <input class="form-control" formControlName="employeeType_Name" pattern="[a-zA-Z ]*" [(ngModel)]="employeeType_Name" matTooltip="Enter Employee Type" matInput placeholder="Employee Type Name" autocomplete="off" required>
+
+        </mat-form-field>
+<br>
+        <mat-form-field class="demo-full-width">
+        <input class="form-control" formControlName="employeeType_Description" pattern="[a-zA-Z ]*" [(ngModel)]="employeeType_Description" matTooltip="Enter Employee Type" matInput placeholder="Employee Type Description" autocomplete="off" required>
+        </mat-form-field>
+
+        <mat-error>
+          <span *ngIf="!employeeTypeForm.get('employeeType_Name').value && employeeTypeForm.get('employeeType_Name').touched"></span>
+          <span *ngIf="!employeeTypeForm.get('employeeType_Description').value && employeeTypeForm.get('employeeType_Description').touched"></span>
+
+        </mat-error>
+  
+    <button type="submit" mat-raised-button [disabled]="!employeeTypeForm.valid" color="accent" matTooltip="Submit">Submit</button>
+        </form>
+  
+    <div class="form">
+    <table class="table" style="width:50%">
+      <tr> <th>Name</th> <th>Description</th> <th>Actions</th> </tr>
+      <tr *ngFor="let employeeType of employeeTypes"><td>{{employeeType.employeeType_Name}}</td>
+        <td>{{employeeType.employeeType_Description}}</td>
+        <td><button id="btnDelete" mat-mini-fab color="primary" mat-raised-button color="accent" matTooltip="Delete" aria-label="Example icon button with a delete icon" (click)="deleteEmployeeType(employeeType.employeeType_ID)">
+          <mat-icon>delete</mat-icon></button><button mat-mini-fab mat-raised-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit" (click)="loadEmployeeTypeToEdit(employeeType.employeeType_ID )">
+            <mat-icon>edit</mat-icon></button></td></tr>
+    </table>
+    </div>
+  </div>
+  
+  

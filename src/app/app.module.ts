@@ -28,12 +28,14 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
+import { EmployeeTypeListComponent } from './components/employeeType/employee-type-list/employee-type-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserRoleListComponent,
-    AddEmployeeComponent
+    AddEmployeeComponent,
+    EmployeeTypeListComponent
   ],
   imports: [
     BrowserModule,
