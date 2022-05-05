@@ -56,7 +56,7 @@ export class EmployeeListComponent implements OnInit {
           this.myDatabase.dataChange.value.push
           (this.service.getDialogData());
           this.refreshTable();
-          this.loadData();
+          this.reload();
         }
       });
     }
@@ -83,6 +83,7 @@ export class EmployeeListComponent implements OnInit {
           this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
           // And lastly refresh table
           this.refreshTable();
+          this.loadData();
         }
       });
     }

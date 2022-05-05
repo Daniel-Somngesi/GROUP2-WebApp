@@ -25,7 +25,6 @@ export class EditDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.employeeForm = this.formbulider.group({
-      employee_Id: ['', [Validators.required]],
       employee_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
       employee_Surname: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
       employee_Email: ['', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]],
