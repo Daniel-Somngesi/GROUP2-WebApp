@@ -1,9 +1,11 @@
-import { AddEmployeeComponent } from './components/employee/add-employee/add-employee.component';
+
+
 
 import { UserRoleListComponent } from './components/user-role/user-role-list/user-role-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EmployeeListComponent } from './components/employee/employee-list/employee-list.component';
+import { EmployeeTypeListComponent } from './components/employeeType/employee-type-list/employee-type-list.component';
 
 const routes: Routes = [
   {
@@ -11,12 +13,12 @@ const routes: Routes = [
     component: UserRoleListComponent
   },
   {
-    path: 'add-employee',
-    component: AddEmployeeComponent
-  },
-  {
     path: 'employees',
     component: EmployeeListComponent
+  },
+  {
+    path: 'employee-type',
+    component: EmployeeTypeListComponent
   }
 ];
 

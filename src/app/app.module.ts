@@ -1,3 +1,4 @@
+import { EmployeeService } from 'src/app/services/employee.service';
 import { EmployeeListComponent } from './components/employee/employee-list/employee-list.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -7,7 +8,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserRoleListComponent } from './components/user-role/user-role-list/user-role-list.component';
-import { AddEmployeeComponent } from './components/employee/add-employee/add-employee.component';
 import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,20 +30,25 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
 import { CommonModule } from '@angular/common';
-import { EditDialogComponent } from './components/employee/edit-dialog/edit-dialog.component';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import { EmployeeTypeListComponent } from './components/employeeType/employee-type-list/employee-type-list.component';
+import { AddDialogComponent } from './components/employee/add-dialog/add-dialog.component';
+import { MatSortModule } from '@angular/material/sort';
+import { EditDialogComponent } from './components/employee/edit-dialog/edit-dialog.component';
+import { DeleteDialogComponent } from './components/employee/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserRoleListComponent,
-    AddEmployeeComponent,
     EmployeeListComponent,
-    EditDialogComponent
+    EmployeeTypeListComponent,
+    AddDialogComponent,
+    EditDialogComponent,
+    DeleteDialogComponent
   ],
-  entryComponents: [EditDialogComponent],
   imports: [
+    MatSortModule,
     MatDialogModule,
     BrowserModule,
     MatListModule,
@@ -94,7 +99,7 @@ import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angu
     MatPaginatorModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [EmployeeService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
