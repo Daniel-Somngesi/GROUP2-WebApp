@@ -20,12 +20,10 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 export class EmployeeListComponent implements OnInit {
 
 
-  displayedColumns: string[] = ['employee_Id','employee_Name','employee_Surname','id_Number','doB','employee_Email', 'employeeType_ID', 'gender', 'address_Line1', 'address_Line2', 'city',
-   'postal_code', 'phone_Number', 'actions'];
+  displayedColumns: string[] = ['employee_Name','employee_Surname','id_Number','doB','employee_Email','employeeType_ID','gender','address_Line1','address_Line2','city','postal_code','phone_Number','actions'];
    myDatabase!: EmployeeService;
    dataSource!: myDataSource;
-   index!: number;
-  employee_Id!: any;
+  employee_Id!: number;
 
   constructor(public service:EmployeeService,
     public dialog: MatDialog,
@@ -36,7 +34,7 @@ export class EmployeeListComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
   @ViewChild('filter',  {static: true}) filter!: ElementRef;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadData();
     }
 
@@ -53,19 +51,18 @@ export class EmployeeListComponent implements OnInit {
         if (result === 1) {
           // After dialog is closed we're doing frontend updates
           // For add we're just pushing a new row inside DataService
-          this.myDatabase.dataChange.value.push
-          (this.service.getDialogData());
-          this.refreshTable();
+          this.myDatabase.dataChange.value.push(this.service.getDialogData());
           this.reload();
+          this.refreshTable();
         }
+
       });
     }
 
-    startEdit(employee_Id: any, employee_Name: string, employee_Surname: string,
+    startEdit(employee_Id: number, employee_Name: string, employee_Surname: string,
       phone_Number: string, gender: string, employeeType_ID:any, address_Line1: string, address_Line2:string,
       city:string, doB:string, employee_Email:string, id_Number:string, postal_code:string ) {
       this.employee_Id = employee_Id;
-      // index row is used just for debugging proposes and can be removed
 
       const dialogRef = this.dialog.open(EditDialogComponent, {
         data: {employee_Id:employee_Id, employee_Name:employee_Name, employee_Surname:employee_Surname,
@@ -75,15 +72,16 @@ export class EmployeeListComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log(this.employee_Id)
+
         if (result === 1) {
           // When using an edit things are little different, firstly we find record inside DataService by id
           const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.employee_Id === this.employee_Id);
           // Then you update that record using data from dialogData (values you enetered)
           this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
+          console.log(employee_Id)
           // And lastly refresh table
+          this.reload();
           this.refreshTable();
-          this.loadData();
         }
       });
     }
@@ -103,6 +101,7 @@ export class EmployeeListComponent implements OnInit {
           const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.employee_Id === this.employee_Id);
           // for delete we use splice in order to remove single object from DataService
           this.myDatabase.dataChange.value.splice(foundIndex, 1);
+          this.reload();
           this.refreshTable();
         }
       });
@@ -163,7 +162,7 @@ export class EmployeeListComponent implements OnInit {
       this._myDatabase.getAllEmployees();
 
 
-      return merge(...displayDataChanges).pipe(map(() => {
+      return merge(...displayDataChanges).pipe(map( () => {
           // Filter data
           this.filteredData = this._myDatabase.data.slice().filter((employee: EmployeeData) => {
             const searchStr = (employee.employee_Id + employee.employee_Name + employee.employee_Surname +

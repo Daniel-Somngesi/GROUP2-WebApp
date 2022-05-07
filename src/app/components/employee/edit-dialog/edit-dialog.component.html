@@ -4,21 +4,21 @@
 
   <tr>
     <td><mat-form-field class="demo-full-width">
-      <input class="form-control" class="form-control" [(ngModel)]="data.employee_Name" formControlName="employee_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
+      <input class="form-control" [(ngModel)]="data.employee_Name" formControlName="employee_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
     </mat-form-field>
     <mat-error>
       <span *ngIf="!employeeForm.get('employee_Name').value && employeeForm.get('employee_Name').touched"></span>
     </mat-error>
 
     <mat-form-field class="demo-full-width">
-      <input class="form-control" name="employee_Surname" formControlName="employee_Surname" [(ngModel)]="data.employee_Surname" pattern="[a-zA-Z ]*"  matTooltip="Enter enter surname" matInput placeholder="Surname" autocomplete="off" required>
+      <input class="form-control" [(ngModel)]="data.employee_Surname" formControlName="employee_Surname" pattern="[a-zA-Z ]*"  matTooltip="Enter enter surname" matInput placeholder="Surname" autocomplete="off" required>
     </mat-form-field>
     <mat-error>
       <span *ngIf="!employeeForm.get('employee_Surname').value && employeeForm.get('employee_Surname').touched"></span>
     </mat-error>
 
     <mat-form-field class="demo-full-width">
-      <input class="form-control" formControlName="id_Number" [(ngModel)]="data.id_Number" (blur)="getDob(employeeForm.get('id_Number').value)" name="id_Number"  matTooltip="Enter ID number" matInput placeholder="ID number" autocomplete="off" required>
+      <input class="form-control" formControlName="id_Number" (blur)="getDob(employeeForm.get('id_Number').value)" [(ngModel)]="data.id_Number" name="id_Number" matTooltip="Enter ID number" matInput placeholder="ID number" autocomplete="off" required>
     </mat-form-field>
     <mat-error>
       <span *ngIf="!employeeForm.get('id_Number').value && employeeForm.get('id_Number').touched"></span>
@@ -33,8 +33,8 @@
   <br>
     <mat-radio-group matTooltip="Enter Gender" name="gender" [(ngModel)]="data.gender" formControlName="gender">
       <label id="lbl" for="gender">Gender</label>
-      <mat-radio-button value="Male" name="gender" (change)="onItemChange($event.value)">Male</mat-radio-button>
-      <mat-radio-button value="Female" name="gender" (change)="onItemChange($event.value)">Female</mat-radio-button>
+      <mat-radio-button value="Male" name="gender" >Male</mat-radio-button>
+      <mat-radio-button value="Female" name="gender">Female</mat-radio-button>
     </mat-radio-group>
 
   <br>
@@ -86,7 +86,7 @@
   </mat-error>
 
   <label id="lbl" for="employeeType_ID">Type</label>
-  <select name="employeeType_ID" formControlName="eType" required>
+  <select name="employeeType_ID" formControlName="eType" [(ngModel)]="data.employee_Type"  required>
             <option *ngFor="let i of type" [ngValue]="i.employeeType_ID">
               {{ i.employeeType_Name }}
             </option>

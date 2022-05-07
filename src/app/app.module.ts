@@ -76,6 +76,11 @@ import { DeleteDialogComponent } from './components/employee/delete-dialog/delet
     ReactiveFormsModule,
     CommonModule,
   ],
+  entryComponents: [
+    AddDialogComponent,
+    EditDialogComponent,
+    DeleteDialogComponent
+  ],
   exports: [
     MatDialogModule,
     MatInputModule,

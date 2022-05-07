@@ -17,7 +17,7 @@
     </mat-error>
 
     <mat-form-field class="demo-full-width">
-      <input class="form-control" formControlName="id_Number" [(ngModel)]="data.id_Number" name="id_Number"  matTooltip="Enter ID number" matInput placeholder="ID number" autocomplete="off" required>
+      <input class="form-control" formControlName="id_Number" (blur)="getDob(employeeForm.get('id_Number').value)" [(ngModel)]="data.id_Number" name="id_Number"  matTooltip="Enter ID number" matInput placeholder="ID number" autocomplete="off" required>
     </mat-form-field>
     <mat-error>
       <span *ngIf="!employeeForm.get('id_Number').value && employeeForm.get('id_Number').touched"></span>

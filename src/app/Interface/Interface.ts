@@ -4,7 +4,7 @@ export interface UserRoleData {
 }
 
 export interface EmployeeData {
-  employee_Id?: any;
+  employee_Id: number;
   employee_Name: string;
   employee_Surname: string;
   phone_Number: any;

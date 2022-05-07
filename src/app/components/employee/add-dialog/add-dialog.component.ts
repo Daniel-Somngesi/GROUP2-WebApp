@@ -16,7 +16,7 @@ export class AddDialogComponent {
   employeeForm:any;
   emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$";
   type: any;
-  Dob!: Date;
+  Dob!: string;
   gender:any="Male";
   idNumber:any;
   maxDate:any = new Date().toISOString().slice(0, 10);
@@ -55,6 +55,14 @@ retrieveEmployeeTypes(): void {
     }
     );}
 
+    getDob(idNumber:any) {
+      var Year = idNumber.substring(0, 2);
+      var Month = idNumber.substring(2, 4);
+      var Day = idNumber.substring(4, 6);
+      var cutoff = (new Date()).getFullYear() - 2000
+      var dob = (Year > cutoff ? '19' : '20') + Year + '-' + Month + '-' + Day;
+      this.Dob = dob;
+    }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -95,6 +103,6 @@ retrieveEmployeeTypes(): void {
       verticalPosition: this.verticalPosition,
     });
   }
-}
+  }
 }
 
