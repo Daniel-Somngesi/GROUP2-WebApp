@@ -44,6 +44,7 @@ export class EmployeeService {
       (err: HttpErrorResponse) => {
       alert('Error occurred. Details: ' + err.name + ' ' + err.message);
     });
+    this.getAllEmployees();
    }
 
 
@@ -61,12 +62,12 @@ export class EmployeeService {
   // DELETE METHOD
   deleteItem(id: number): void {
     this.httpClient.delete(`${baseUrl}/${id}`).subscribe(data => {
-      this.getAllEmployees();
       },
       (err: HttpErrorResponse) => {
         alert('Error occurred. Details: ' + err.name + ' ' + err.message);
       }
     );
+    this.getAllEmployees();
   }
 
   getAllTypes():Observable<any> {
@@ -82,12 +83,12 @@ export class EmployeeService {
     console.log(employee)
     this.dialogData = employee;
    this.httpClient.put(`${baseUrl}/${employee.employee_Id}`, employee).subscribe(data => {
-    this.getAllEmployees();
+
    },
    (err: HttpErrorResponse) => {
      alert('Error occurred. Details: ' + err.name + ' ' + err.message);
    });
-
+   this.getAllEmployees();
  }
 
 }

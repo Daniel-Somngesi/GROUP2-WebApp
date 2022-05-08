@@ -7,6 +7,76 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
+<mat-toolbar>
+  <button mat-icon-button (click)="drawer.toggle()">
+    <mat-icon >menu</mat-icon>
+  </button>
+  <span class="header">Hatfield Montesorri Pre-school</span>
+  <span class="spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon class="usericon">account_circle</mat-icon>
+  </button>
+
+</mat-toolbar>
+
+<mat-drawer-container class="container" autosize >
+<mat-drawer #drawer class="sidenav" mode="side">
+  <h2>Menu</h2>
+
+  <button mat-button class="menu-button">
+          <mat-icon>home</mat-icon>
+          <span>Home</span>
+      </button>
+       <mat-divider></mat-divider>
+      <button mat-button class="menu-button" [routerLink]="['./url']">
+          <mat-icon> face</mat-icon>
+          <span> Parent</span>
+      </button> <mat-divider></mat-divider>
+       <button mat-button class="menu-button">
+          <mat-icon>escalator_warning</mat-icon>
+          <span>Child</span>
+      </button>  <mat-divider></mat-divider>
+       <button mat-button class="menu-button">
+          <mat-icon>person</mat-icon>
+          <span>User</span>
+      </button> <mat-divider></mat-divider>
+      <button mat-button class="menu-button" [routerLink]="['/list-bookingtypes']">
+          <mat-icon>event_available</mat-icon>
+          <span>Booking</span>
+      </button> <mat-divider></mat-divider>
+       <button mat-button class="menu-button">
+          <mat-icon>badge</mat-icon>
+          <span>Administration</span>
+      </button> <mat-divider></mat-divider>
+       <button mat-button class="menu-button">
+          <mat-icon>description</mat-icon>
+          <span>Teacher</span>
+      </button> <mat-divider></mat-divider>
+       <button mat-button class="menu-button">
+          <mat-icon>sports_soccer</mat-icon>
+          <span>Sports & Recreation</span>
+      </button> <mat-divider></mat-divider>
+       <button mat-button class="menu-button">
+          <mat-icon>chat</mat-icon>
+          <span>Communication</span>
+      </button> <mat-divider></mat-divider>
+       <button mat-button class="menu-button">
+          <mat-icon>calendar_month</mat-icon>
+          <span>Scheduling</span>
+      </button> <mat-divider></mat-divider>
+       <button mat-button class="menu-button">
+          <mat-icon>bar_chart</mat-icon>
+          <span>Reports</span>
+      </button> <mat-divider></mat-divider>
+       <button mat-button class="menu-button">
+          <mat-icon>payments</mat-icon>
+          <span>Fee</span>
+      </button> <mat-divider></mat-divider>
+       <button mat-button class="menu-button">
+          <mat-icon>shopping_cart</mat-icon>
+          <span>Consumables</span>
+            </button> <mat-divider></mat-divider>
+</mat-drawer>
 
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -16,5 +86,7 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<div class="cntr">
+  <router-outlet></router-outlet>
+</div>
 
-<router-outlet></router-outlet>

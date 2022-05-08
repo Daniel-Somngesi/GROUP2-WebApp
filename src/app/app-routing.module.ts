@@ -1,3 +1,4 @@
+import { AppComponent } from './app.component';
 
 
 
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'user-roles',
     component: UserRoleListComponent
+  },
+  {
+    path: '',
+    component: AppComponent
   }
 ];
 

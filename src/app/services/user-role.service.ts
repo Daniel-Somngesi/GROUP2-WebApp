@@ -39,11 +39,12 @@ export class UserRoleService {
   addItem(userrole: UserRoleData): void {
     this.httpClient.post(baseUrl, userrole).subscribe(data => {
       this.dialogData = userrole;
-      this.getAllUserRoles();
+
       },
       (err: HttpErrorResponse) => {
       alert('Error occurred. Details: ' + err.name + ' ' + err.message);
     });
+    this.getAllUserRoles();
    }
 
 
@@ -67,6 +68,7 @@ export class UserRoleService {
         alert('Error occurred. Details: ' + err.name + ' ' + err.message);
       }
     );
+    this.getAllUserRoles();
   }
 
 
@@ -83,6 +85,6 @@ export class UserRoleService {
    (err: HttpErrorResponse) => {
      alert('Error occurred. Details: ' + err.name + ' ' + err.message);
    });
-
+   this.getAllUserRoles();
  }
 }
