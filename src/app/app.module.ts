@@ -1,3 +1,4 @@
+import { DeleteUserRoleDeleteComponent } from './components/user-role/delete-user-role-delete/delete-user-role-delete.component';
 import { EditUserRoleDialogComponent } from './components/user-role/edit-user-role-dialog/edit-user-role-dialog.component';
 import { AddUserRoleDialogComponent } from './components/user-role/add-user-role-dialog/add-user-role-dialog.component';
 import { UserRoleService } from './services/user-role.service';
@@ -50,7 +51,8 @@ import { DeleteDialogComponent } from './components/employee/delete-dialog/delet
     EditDialogComponent,
     DeleteDialogComponent,
     AddUserRoleDialogComponent,
-    EditUserRoleDialogComponent
+    DeleteUserRoleDeleteComponent,
+    EditUserRoleDialogComponent,
   ],
   imports: [
     MatSortModule,

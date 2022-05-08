@@ -14,7 +14,8 @@ export class DeleteDialogComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(public dialogRef: MatDialogRef<DeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, public service: EmployeeService,private _snackBar: MatSnackBar) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, public service: EmployeeService,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
