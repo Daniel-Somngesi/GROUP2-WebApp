@@ -1,9 +1,20 @@
+
+import { DeleteUserRoleDeleteComponent } from './../delete-user-role-delete/delete-user-role-delete.component';
+import { EditUserRoleDialogComponent } from './../edit-user-role-dialog/edit-user-role-dialog.component';
+import { AddUserRoleDialogComponent } from './../add-user-role-dialog/add-user-role-dialog.component';
 import { UserRoleData } from './../../../Interface/Interface';
 import { UserRoleService } from './../../../services/user-role.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { DataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-user-role-list',
@@ -13,104 +24,179 @@ import { ActivatedRoute } from '@angular/router';
 
 export class UserRoleListComponent implements OnInit {
 
-  userRoleForm:any;
-  userroles:any;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  currentUserRole:any = null;
-  userRoleIdUpdate = null;
-  userRoleId = null;
-  userRole_Name : string = "";
+  displayedColumns: string[] = ['userRole_Name','actions'];
+   myDatabase!: UserRoleService;
+   dataSource!: myDataSource;
+  userRole_Id!: number;
 
-  constructor(private route: ActivatedRoute, private formbulider: FormBuilder, private service: UserRoleService, private _snackBar: MatSnackBar) { }
+  constructor(public dialog: MatDialog,
+    public http:HttpClient, private service: UserRoleService, private _snackBar: MatSnackBar) { }
+
+  @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort!: MatSort;
+  @ViewChild('filter',  {static: true}) filter!: ElementRef;
 
   ngOnInit(): void {
-    this.retrieveUserRoles();
-    this.userRoleForm = this.formbulider.group({
-      userRole_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(20)]]
+    this.loadData();
+  }
+
+  reload() {
+    this.loadData();
+  }
+
+  openAddDialog() {
+    const dialogRef = this.dialog.open(AddUserRoleDialogComponent, {
+      data: {EmployeeData: {} }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        // After dialog is closed we're doing frontend updates
+        // For add we're just pushing a new row inside DataService
+        this.myDatabase.dataChange.value.push(this.service.getDialogData());
+        this.reload();
+        this.refreshTable();
+      }
+
     });
   }
 
-  retrieveUserRoles(): void {
-    this.service.getAll()
-      .subscribe(
-        data => {
-          this.userroles = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
+  startEdit(userRole_Id: number, userRole_Name: string) {
+    this.userRole_Id = userRole_Id;
+
+    const dialogRef = this.dialog.open(EditUserRoleDialogComponent, {
+      data: {userRole_Id:userRole_Id, userRole_Name:userRole_Name}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.userRole_Id === this.userRole_Id);
+        // Then you update that record using data from dialogData (values you enetered)
+        this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
+        // And lastly refresh table
+        this.reload();
+        this.refreshTable();
       }
+    });
+  }
 
-      onFormSubmit() {
-        const _userrole = this.userRoleForm.value;
-        this.CreateUserRole(_userrole);
+  deleteItem(userRole_Id: number, userRole_Name: string) {
+
+    this.userRole_Id = userRole_Id;
+    const dialogRef = this.dialog.open(DeleteUserRoleDeleteComponent, {
+      data: {userRole_Id: userRole_Id, userRole_Name: userRole_Name}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.userRole_Id === this.userRole_Id);
+        // for delete we use splice in order to remove single object from DataService
+        this.myDatabase.dataChange.value.splice(foundIndex, 1);
+        this.reload();
+        this.refreshTable();
       }
+    });
+  }
 
-      loadUserRoleToEdit(_userroleId:any) {
-        this.service.get(_userroleId).subscribe(userrole => {
-          this.userRoleIdUpdate = userrole.userRole_Id;
-          this.userRoleForm.controls['userRole_Name'].setValue(userrole.userRole_Name);
+  private refreshTable() {
+    this.paginator._changePageSize(this.paginator.pageSize);
+  }
 
+
+  public loadData() {
+    this.myDatabase = new UserRoleService(this.http);
+    this.dataSource = new myDataSource(this.myDatabase, this.paginator, this.sort);
+    fromEvent(this.filter.nativeElement, 'keyup')
+      // s.debounceTime(150)
+      // .distinctUntilChanged()
+      .subscribe(() => {
+        if (!this.dataSource) {
+          return;
+        }
+        this.dataSource.filter = this.filter.nativeElement.value;
+      });
+  }
+}
+
+export class myDataSource extends DataSource<UserRoleData> {
+  _filterChange = new BehaviorSubject('');
+
+  get filter(): string {
+    return this._filterChange.value;
+  }
+
+  set filter(filter: string) {
+    this._filterChange.next(filter);
+  }
+
+  filteredData: UserRoleData[] = [];
+  renderedData: UserRoleData[] = [];
+
+  constructor(public _myDatabase: UserRoleService,
+              public _paginator: MatPaginator,
+              public _sort: MatSort) {
+    super();
+    // Reset to the first page when the user changes the filter.
+    this._filterChange.subscribe(() => this._paginator.pageIndex = 0);
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<UserRoleData[]> {
+    // Listen for any changes in the base data, sorting, filtering, or pagination
+    const displayDataChanges = [
+      this._myDatabase.dataChange,
+      this._sort.sortChange,
+      this._filterChange,
+      this._paginator.page
+    ];
+
+    this._myDatabase.getAllUserRoles();
+
+
+    return merge(...displayDataChanges).pipe(map( () => {
+        // Filter data
+        this.filteredData = this._myDatabase.data.slice().filter((userRole: UserRoleData) => {
+          const searchStr = (userRole.userRole_Id + userRole.userRole_Name ).toLowerCase();
+          return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
+
+        // Sort filtered data
+        const sortedData = this.sortData(this.filteredData.slice());
+
+
+        // Grab the page's slice of the filtered sorted data.
+        const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+        this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
+        return this.renderedData;
+      }
+    ));
+  }
+
+
+  disconnect() {}
+
+  sortData(data: UserRoleData[]): UserRoleData[] {
+    if (!this._sort.active || this._sort.direction === '') {
+      return data;
     }
 
-      deleteUserRole(employeeId: string) {
-        if (confirm("Are you sure you want to delete this user role?")) {
-          this.service.delete(employeeId).subscribe(() => {
-            this.SavedSuccessful(2);
-            this.retrieveUserRoles();
-            this.userRoleForm.reset();
+    return data.sort((a, b) => {
+      let propertyA: number | string = '' ;
+      let propertyB: number | string = '';
 
-          });
-        }
+      switch (this._sort.active) {
+        case 'userRole_Id': [propertyA, propertyB] = [a.userRole_Id, b.userRole_Id]; break;
+        case 'userRole_Name': [propertyA, propertyB] = [a.userRole_Name, b.userRole_Name]; break;
       }
 
-      CreateUserRole(userrole: UserRoleData) {
-        if (this.userRoleIdUpdate == null) {
+      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
 
-          this.service.create(userrole).subscribe(
-            () => {
-              this.SavedSuccessful(1);
-              this.retrieveUserRoles();
-              this.userRoleIdUpdate = null;
-              this.userRoleForm.reset();
-            }
-          );
-        } else {
-          userrole.userRole_Id = this.userRoleIdUpdate;
-          userrole.userRole_Name = this.userRole_Name;
-          this.service.update(userrole.userRole_Id, userrole).subscribe(() => {
-            this.SavedSuccessful(0);
-            this.retrieveUserRoles();
-            this.userRoleIdUpdate = null;
-            this.userRoleForm.reset();
-          });
-        }
-      }
+      return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
+    });
 
-      SavedSuccessful(isUpdate:any) {
-        if (isUpdate == 0) {
-          this._snackBar.open('Record Updated Successfully!', 'Close', {
-            duration: 2000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
-        }
-        else if (isUpdate == 1) {
-          this._snackBar.open('Record Saved Successfully!', 'Close', {
-            duration: 2000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
-        }
-        else if (isUpdate == 2) {
-          this._snackBar.open('Record Deleted Successfully!', 'Close', {
-            duration: 2000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
-        }
-      }
-    }
+
+  }
+}

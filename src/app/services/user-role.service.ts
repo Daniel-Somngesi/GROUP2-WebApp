@@ -1,34 +1,88 @@
-import { HttpClient } from '@angular/common/http';
+import { UserRoleData } from './../Interface/Interface';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 
 const baseUrl = 'https://localhost:44341/api/UserRole';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserRoleService {
 
-  constructor(private http: HttpClient) { }
+  dataChange: BehaviorSubject<UserRoleData[]> = new BehaviorSubject<UserRoleData[]>([]);
+  // Temporarily stores data from dialogs
+  dialogData: any;
+  horizontalPosition!: MatSnackBarHorizontalPosition;
+  verticalPosition!: MatSnackBarVerticalPosition;
 
-  getAll(): Observable<any> {
-    return this.http.get(baseUrl);
+  constructor(private httpClient: HttpClient) { }
+
+  get data(): UserRoleData[] {
+    return this.dataChange.value;
   }
 
-  get(id:any): Observable<any> {
-    return this.http.get(`${baseUrl}/${id}`);
+  getDialogData() {
+    return this.dialogData;
   }
 
-  create(data:any): Observable<any> {
-    return this.http.post(baseUrl, data);
+  getAllUserRoles(): void {
+    this.httpClient.get<UserRoleData[]>(baseUrl).subscribe(data => {
+      this.dataChange.next(data);
+    },
+    (error: HttpErrorResponse) => {
+      console.log (error.name + ' ' + error.message);
+    });
   }
 
-  update(id:any, data:any): Observable<any> {
-    return this.http.put(`${baseUrl}/${id}`, data);
+  // ADD, POST METHOD
+  addItem(userrole: UserRoleData): void {
+    this.httpClient.post(baseUrl, userrole).subscribe(data => {
+      this.dialogData = userrole;
+      this.getAllUserRoles();
+      },
+      (err: HttpErrorResponse) => {
+      alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+    });
+   }
+
+
+
+   /*/ UPDATE, PUT METHOD
+   updateItem(employee: EmployeeData): void {
+    this.httpClient.put(baseUrl + employee.employee_Id, employee).subscribe(data => {
+        this.dialogData = employee;
+      },
+      (err: HttpErrorResponse) => {
+        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+      }
+    );
+  }*/
+  // DELETE METHOD
+  deleteItem(id: number): void {
+    this.httpClient.delete(`${baseUrl}/${id}`).subscribe(data => {
+      this.getAllUserRoles();
+      },
+      (err: HttpErrorResponse) => {
+        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+      }
+    );
   }
 
-  delete(id:any): Observable<any> {
-    return this.http.delete(`${baseUrl}/${id}`);
-  }
+
+  /*update(data:any): Observable<any> {
+    return this.httpClient.put(`${baseUrl}/${data.id}`, data);
+
+  }*/
+
+  updateItem(userrole: any): void {
+    this.dialogData = userrole;
+   this.httpClient.put(`${baseUrl}/${userrole.userRole_Id}`, userrole).subscribe(data => {
+    this.getAllUserRoles();
+   },
+   (err: HttpErrorResponse) => {
+     alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+   });
+
+ }
 }

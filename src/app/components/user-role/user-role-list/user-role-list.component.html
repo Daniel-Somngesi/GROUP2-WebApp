@@ -1,25 +1,63 @@
-<div class="container">
-  <h1>USER ROLES</h1>
+<h1>User Role</h1>
 
-    <form [formGroup]="userRoleForm" (ngSubmit)="onFormSubmit()">
-      <mat-form-field class="demo-full-width">
-        <input class="form-control" formControlName="userRole_Name" pattern="[a-zA-Z ]*" [(ngModel)]="userRole_Name" matTooltip="Enter user role" matInput placeholder="User role" autocomplete="off" required>
-      </mat-form-field>
-      <mat-error>
-        <span *ngIf="!userRoleForm.get('userRole_Name').value && userRoleForm.get('userRole_Name').touched"></span>
-      </mat-error>
-
-  <button type="submit" mat-raised-button [disabled]="!userRoleForm.valid" color="accent" matTooltip="Submit">Submit</button>
-      </form>
+<div class="container mat-elevation-z8">
 
   <div class="form">
-  <table class="table" style="width:50%">
-    <tr><th>Name</th><th>Actions</th></tr>
-    <tr *ngFor="let userrole of userroles"><td>{{userrole.userRole_Name}}</td>
-      <td><button id="btnDelete" mat-mini-fab color="primary" mat-raised-button color="accent" matTooltip="Delete" aria-label="Example icon button with a delete icon" (click)="deleteUserRole(userrole.userRole_Id)">
-        <mat-icon>delete</mat-icon></button><button mat-mini-fab mat-raised-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit" (click)="loadUserRoleToEdit(userrole.userRole_Id )">
-          <mat-icon>edit</mat-icon></button></td></tr>
-  </table>
+    <mat-form-field floatPlaceholder="never" color="accent">
+      <input matInput #filter placeholder="Find userrole..">
+    </mat-form-field>
   </div>
+
+  <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+    ng update @angular/cli @angular/core
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+          <ng-container matColumnDef="userRole_Id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+            <mat-cell *matCellDef="let userRole"> {{userRole.userRole_Id}}</mat-cell>
+          </ng-container>
+
+
+    <ng-container matColumnDef="userRole_Name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let userRole"> {{userRole.userRole_Name}}</mat-cell>
+    </ng-container>
+
+
+
+    <!-- actions -->
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button color="primary" (click)="openAddDialog()">
+          <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+        </button>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let userRole; let i=index;">
+        <button mat-icon-button color="accent" (click)="startEdit(userRole.userRole_Id, userRole.userRole_Name)">
+          <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="accent">
+          <mat-icon aria-label="Delete" (click)="deleteItem(userRole.userRole_Id, userRole.userRole_Name)">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let employee; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+  <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+    <h4>No user roles..</h4>
+  </div>
+
+  <mat-paginator #paginator
+                 [length]="dataSource.filteredData.length"
+                 [pageIndex]="0"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 25, 100]">
+  </mat-paginator>
 </div>
 

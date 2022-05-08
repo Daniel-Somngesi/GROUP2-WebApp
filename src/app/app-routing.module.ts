@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'employee-type',
     component: EmployeeTypeListComponent
+  },
+  {
+    path: 'user-roles',
+    component: UserRoleListComponent
   }
 ];
 

@@ -1,3 +1,6 @@
+import { EditUserRoleDialogComponent } from './components/user-role/edit-user-role-dialog/edit-user-role-dialog.component';
+import { AddUserRoleDialogComponent } from './components/user-role/add-user-role-dialog/add-user-role-dialog.component';
+import { UserRoleService } from './services/user-role.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { EmployeeListComponent } from './components/employee/employee-list/employee-list.component';
 import { NgModule } from '@angular/core';
@@ -45,7 +48,9 @@ import { DeleteDialogComponent } from './components/employee/delete-dialog/delet
     EmployeeTypeListComponent,
     AddDialogComponent,
     EditDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    AddUserRoleDialogComponent,
+    EditUserRoleDialogComponent
   ],
   imports: [
     MatSortModule,
@@ -104,7 +109,7 @@ import { DeleteDialogComponent } from './components/employee/delete-dialog/delet
     MatPaginatorModule,
     ReactiveFormsModule,
   ],
-  providers: [EmployeeService],
+  providers: [EmployeeService, UserRoleService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
