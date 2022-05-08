@@ -6,21 +6,21 @@
       <input class="form-control" class="form-control" [(ngModel)]="data.employee_Name" formControlName="employee_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
     </mat-form-field>
     <mat-error>
-      <span *ngIf="!employeeForm.get('employee_Name').value && employeeForm.get('employee_Name').touched"></span>
+      <span *ngIf="!employeeForm.get('employee_Name').value && employeeForm.get('employee_Name').touched">Invalid format</span>
     </mat-error>
 
     <mat-form-field class="demo-full-width">
       <input class="form-control" formControlName="employee_Surname" [(ngModel)]="data.employee_Surname" pattern="[a-zA-Z ]*"  matTooltip="Enter enter surname" matInput placeholder="Surname" autocomplete="off" required>
     </mat-form-field>
     <mat-error>
-      <span *ngIf="!employeeForm.get('employee_Surname').value && employeeForm.get('employee_Surname').touched"></span>
+      <span *ngIf="!employeeForm.get('employee_Surname').value && employeeForm.get('employee_Surname').touched">Invalid format</span>
     </mat-error>
 
     <mat-form-field class="demo-full-width">
       <input class="form-control" formControlName="id_Number" (blur)="getDob(employeeForm.get('id_Number').value)" [(ngModel)]="data.id_Number" name="id_Number"  matTooltip="Enter ID number" matInput placeholder="ID number" autocomplete="off" required>
     </mat-form-field>
     <mat-error>
-      <span *ngIf="!employeeForm.get('id_Number').value && employeeForm.get('id_Number').touched"></span>
+      <span *ngIf="!employeeForm.get('id_Number').value && employeeForm.get('id_Number').touched">Invalid format</span>
     </mat-error></td>
     <td><mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Date of birth</mat-label>
@@ -42,14 +42,14 @@
       <input class="form-control" name="employee_Email" [(ngModel)]="data.employee_Email" formControlName="employee_Email" matTooltip="Enter email" matInput placeholder="Email" autocomplete="off" required>
     </mat-form-field>
     <mat-error>
-      <span *ngIf="!employeeForm.get('employee_Email').value && employeeForm.get('employee_Email').touched"></span>
+      <span *ngIf="!employeeForm.get('employee_Email').value && employeeForm.get('employee_Email').touched">Invalid format</span>
     </mat-error></td>
     <td><mat-form-field class="demo-full-width">
       <input class="form-control" name="phone_Number" [(ngModel)]="data.phone_Number" formControlName="phone_Number" matTooltip="Enter phone number" matInput placeholder="Phone number" autocomplete="off" required>
       <mat-hint>should start with 0 and spaces must not be included</mat-hint>
     </mat-form-field>
     <mat-error>
-      <span *ngIf="!employeeForm.get('phone_Number').value && employeeForm.get('phone_Number').touched"></span>
+      <span *ngIf="!employeeForm.get('phone_Number').value && employeeForm.get('phone_Number').touched">Invalid format</span>
     </mat-error>
 
   <br>
@@ -58,7 +58,7 @@
     <input class="form-control" name="address_Line1" [(ngModel)]="data.address_Line1" formControlName="address_Line1" matTooltip="Enter address line 1" matInput placeholder="Address line 1" autocomplete="off" required>
   </mat-form-field>
   <mat-error>
-    <span *ngIf="!employeeForm.get('address_Line1').value && employeeForm.get('address_Line1').touched"></span>
+    <span *ngIf="!employeeForm.get('address_Line1').value && employeeForm.get('address_Line1').touched">Invalid format</span>
   </mat-error>
 
 
@@ -66,7 +66,7 @@
     <input class="form-control" name="address_Line2" [(ngModel)]="data.address_Line2" formControlName="address_Line2"  matTooltip="Enter address line 2" matInput placeholder="Address line 2" autocomplete="off" required>
   </mat-form-field>
   <mat-error>
-    <span *ngIf="!employeeForm.get('address_Line2').value && employeeForm.get('address_Line2').touched"></span>
+    <span *ngIf="!employeeForm.get('address_Line2').value && employeeForm.get('address_Line2').touched">Invalid format</span>
   </mat-error>
 </td>
 <td>
@@ -74,14 +74,14 @@
     <input class="form-control" formControlName="postal_Code" [(ngModel)]="data.postal_code" name="postal_code" matTooltip="Postal code" matInput placeholder="Postal code" autocomplete="off" required>
   </mat-form-field>
   <mat-error>
-    <span *ngIf="!employeeForm.get('postal_Code').value && employeeForm.get('postal_Code').touched"></span>
+    <span *ngIf="!employeeForm.get('postal_Code').value && employeeForm.get('postal_Code').touched">Invalid format</span>
   </mat-error>
 
   <mat-form-field class="demo-full-width">
     <input class="form-control" pattern="[a-zA-Z ]*" [(ngModel)]="data.city" formControlName="city" matTooltip="Enter city" matInput placeholder="City" autocomplete="off" required>
   </mat-form-field>
   <mat-error>
-    <span *ngIf="!employeeForm.get('city').value && employeeForm.get('city').touched"></span>
+    <span *ngIf="!employeeForm.get('city').value && employeeForm.get('city').touched">Invalid format</span>
   </mat-error>
 
   <label id="lbl" for="employeeType_ID">Type</label>

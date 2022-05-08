@@ -5,7 +5,7 @@
       <input class="form-control" [(ngModel)]="data.userRole_Name" formControlName="userRole_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
     </mat-form-field>
     <mat-error>
-      <span *ngIf="!userRoleForm.get('userRole_Name').value && userRoleForm.get('userRole_Name').touched"></span>
+      <span *ngIf="!userRoleForm.get('userRole_Name').value && userRoleForm.get('userRole_Name').touched">Invalid format</span>
     </mat-error>
 
 <br>
