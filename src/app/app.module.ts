@@ -25,7 +25,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatRadioModule } from '@angular/material/radio';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
@@ -34,7 +33,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
 import { CommonModule } from '@angular/common';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { EmployeeTypeListComponent } from './components/employeeType/employee-type-list/employee-type-list.component';
 import { AddDialogComponent } from './components/employee/add-dialog/add-dialog.component';
 import { MatSortModule } from '@angular/material/sort';
@@ -74,7 +73,6 @@ import { DeleteDialogComponent } from './components/employee/delete-dialog/delet
     MatToolbarModule,
     MatRadioModule,
     BrowserAnimationsModule,
-    MatCheckboxModule,
     MatSelectModule,
     MatSnackBarModule,
     MatTableModule,
@@ -82,34 +80,6 @@ import { DeleteDialogComponent } from './components/employee/delete-dialog/delet
     MatPaginatorModule,
     ReactiveFormsModule,
     CommonModule,
-  ],
-  entryComponents: [
-    AddDialogComponent,
-    EditDialogComponent,
-    DeleteDialogComponent
-  ],
-  exports: [
-    MatDialogModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatMenuModule,
-    MatNativeDateModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatFormFieldModule,
-    MatTooltipModule,
-    MatToolbarModule,
-    MatRadioModule,
-    BrowserAnimationsModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatTableModule,
-    CdkTableModule,
-    MatPaginatorModule,
-    ReactiveFormsModule,
   ],
   providers: [EmployeeService, UserRoleService],
   bootstrap: [AppComponent],

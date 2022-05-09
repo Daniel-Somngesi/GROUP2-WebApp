@@ -44,7 +44,6 @@ export class UserRoleService {
       (err: HttpErrorResponse) => {
       alert('Error occurred. Details: ' + err.name + ' ' + err.message);
     });
-    this.getAllUserRoles();
    }
 
 
@@ -62,13 +61,11 @@ export class UserRoleService {
   // DELETE METHOD
   deleteItem(id: number): void {
     this.httpClient.delete(`${baseUrl}/${id}`).subscribe(data => {
-      this.getAllUserRoles();
       },
       (err: HttpErrorResponse) => {
         alert('Error occurred. Details: ' + err.name + ' ' + err.message);
       }
     );
-    this.getAllUserRoles();
   }
 
 
@@ -80,11 +77,9 @@ export class UserRoleService {
   updateItem(userrole: any): void {
     this.dialogData = userrole;
    this.httpClient.put(`${baseUrl}/${userrole.userRole_Id}`, userrole).subscribe(data => {
-    this.getAllUserRoles();
    },
    (err: HttpErrorResponse) => {
      alert('Error occurred. Details: ' + err.name + ' ' + err.message);
    });
-   this.getAllUserRoles();
  }
 }

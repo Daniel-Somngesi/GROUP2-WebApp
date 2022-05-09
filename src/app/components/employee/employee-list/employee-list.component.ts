@@ -78,7 +78,6 @@ export class EmployeeListComponent implements OnInit {
           const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.employee_Id === this.employee_Id);
           // Then you update that record using data from dialogData (values you enetered)
           this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
-          console.log(employee_Id)
           // And lastly refresh table
           this.reload();
           this.refreshTable();

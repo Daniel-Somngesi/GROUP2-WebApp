@@ -26,7 +26,7 @@ export class DeleteUserRoleDeleteComponent implements OnInit {
 
   confirmDelete(): void {
     this.service.deleteItem(this.data.userRole_Id);
-    this.SavedSuccessful(2)
+
   }
 
   SavedSuccessful(isUpdate:any) {

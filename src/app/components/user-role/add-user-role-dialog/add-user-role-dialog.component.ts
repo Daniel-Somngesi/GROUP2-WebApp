@@ -28,7 +28,6 @@ verticalPosition: MatSnackBarVerticalPosition = 'bottom';
     })
   }
 
-
       onNoClick(): void {
         this.dialogRef.close();
       }
@@ -36,7 +35,7 @@ verticalPosition: MatSnackBarVerticalPosition = 'bottom';
       public confirmAdd(): void {
         const _employee = this.userRoleForm.value;
         this.service.addItem(this.data);
-        this.SavedSuccessful(1);
+
       }
 
       SavedSuccessful(isUpdate:any) {

@@ -28,6 +28,8 @@ export class UserRoleListComponent implements OnInit {
    myDatabase!: UserRoleService;
    dataSource!: myDataSource;
   userRole_Id!: number;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(public dialog: MatDialog,
     public http:HttpClient, private service: UserRoleService, private _snackBar: MatSnackBar) { }
@@ -38,6 +40,30 @@ export class UserRoleListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+  }
+
+  SavedSuccessful(isUpdate:any) {
+    if (isUpdate == 0) {
+      this._snackBar.open('Record Updated Successfully!', 'Close', {
+        duration: 3000,
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+    }
+    else if (isUpdate == 1) {
+      this._snackBar.open('Record Saved Successfully!', 'Close', {
+        duration: 2000,
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+    }
+    else if (isUpdate == 2) {
+      this._snackBar.open('Record Deleted Successfully!', 'Close', {
+        duration: 2000,
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+    }
   }
 
   reload() {
@@ -56,6 +82,7 @@ export class UserRoleListComponent implements OnInit {
         this.myDatabase.dataChange.value.push(this.service.getDialogData());
         this.reload();
         this.refreshTable();
+        this.SavedSuccessful(1);
       }
 
     });
@@ -78,6 +105,7 @@ export class UserRoleListComponent implements OnInit {
         // And lastly refresh table
         this.reload();
         this.refreshTable();
+        this.SavedSuccessful(0);
       }
     });
   }
@@ -96,6 +124,7 @@ export class UserRoleListComponent implements OnInit {
         this.myDatabase.dataChange.value.splice(foundIndex, 1);
         this.reload();
         this.refreshTable();
+        this.SavedSuccessful(2)
       }
     });
   }
@@ -198,5 +227,8 @@ export class myDataSource extends DataSource<UserRoleData> {
     });
 
 
+
   }
+
+
 }

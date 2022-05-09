@@ -1,7 +1,4 @@
 import { AppComponent } from './app.component';
-
-
-
 import { UserRoleListComponent } from './components/user-role/user-role-list/user-role-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
