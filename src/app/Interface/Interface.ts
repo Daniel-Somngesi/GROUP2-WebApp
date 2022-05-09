@@ -3,6 +3,11 @@ export interface UserRoleData {
   userRole_Name: string;
 }
 
+export interface MedicalAidTypeData {
+  medicalAidTypeId:number;
+  medicalAidTypeName:any;
+}
+
 export interface EmployeeData {
   employee_Id: number;
   employee_Name: string;

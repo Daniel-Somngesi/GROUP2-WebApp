@@ -46,19 +46,6 @@ export class EmployeeService {
     });
    }
 
-
-
-   /*/ UPDATE, PUT METHOD
-   updateItem(employee: EmployeeData): void {
-    this.httpClient.put(baseUrl + employee.employee_Id, employee).subscribe(data => {
-        this.dialogData = employee;
-      },
-      (err: HttpErrorResponse) => {
-        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-      }
-    );
-  }*/
-  // DELETE METHOD
   deleteItem(id: number): void {
     this.httpClient.delete(`${baseUrl}/${id}`).subscribe(data => {
       this.getAllEmployees()
@@ -72,11 +59,6 @@ export class EmployeeService {
   getAllTypes():Observable<any> {
     return this.httpClient.get(_baseUrl);
   }
-
-  /*update(data:any): Observable<any> {
-    return this.httpClient.put(`${baseUrl}/${data.id}`, data);
-
-  }*/
 
   updateItem(employee: any): void {
     this.dialogData = employee;

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EmployeeListComponent } from './components/employee/employee-list/employee-list.component';
 import { EmployeeTypeListComponent } from './components/employeeType/employee-type-list/employee-type-list.component';
+import { MedicalAidTypeListdComponent } from './components/medical-aid-type/medical-aid-type-listd/medical-aid-type-listd.component';
 
 const routes: Routes = [
   {
@@ -23,9 +24,10 @@ const routes: Routes = [
     component: UserRoleListComponent
   },
   {
-    path: '',
-    component: AppComponent
+    path: 'medical-aid-type',
+    component: MedicalAidTypeListdComponent
   }
+
 ];
 
 @NgModule({

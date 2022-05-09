@@ -1,3 +1,4 @@
+import { MedicalAidTypeService } from './services/medical-aid-type.service';
 import { DeleteUserRoleDeleteComponent } from './components/user-role/delete-user-role-delete/delete-user-role-delete.component';
 import { EditUserRoleDialogComponent } from './components/user-role/edit-user-role-dialog/edit-user-role-dialog.component';
 import { AddUserRoleDialogComponent } from './components/user-role/add-user-role-dialog/add-user-role-dialog.component';
@@ -39,6 +40,10 @@ import { AddDialogComponent } from './components/employee/add-dialog/add-dialog.
 import { MatSortModule } from '@angular/material/sort';
 import { EditDialogComponent } from './components/employee/edit-dialog/edit-dialog.component';
 import { DeleteDialogComponent } from './components/employee/delete-dialog/delete-dialog.component';
+import { MedicalAidTypeListdComponent } from './components/medical-aid-type/medical-aid-type-listd/medical-aid-type-listd.component';
+import { AddMedicalAidTypeDialogComponent } from './components/medical-aid-type/add-medical-aid-type-dialog/add-medical-aid-type-dialog.component';
+import { EditMedicalAidTypeDialogComponent } from './components/medical-aid-type/edit-medical-aid-type-dialog/edit-medical-aid-type-dialog.component';
+import { DeleteMedicalAidTypeDialogComponent } from './components/medical-aid-type/delete-medical-aid-type-dialog/delete-medical-aid-type-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +57,10 @@ import { DeleteDialogComponent } from './components/employee/delete-dialog/delet
     AddUserRoleDialogComponent,
     DeleteUserRoleDeleteComponent,
     EditUserRoleDialogComponent,
+    MedicalAidTypeListdComponent,
+    AddMedicalAidTypeDialogComponent,
+    EditMedicalAidTypeDialogComponent,
+    DeleteMedicalAidTypeDialogComponent,
   ],
   imports: [
     MatSortModule,
@@ -81,7 +90,7 @@ import { DeleteDialogComponent } from './components/employee/delete-dialog/delet
     ReactiveFormsModule,
     CommonModule,
   ],
-  providers: [EmployeeService, UserRoleService],
+  providers: [EmployeeService, UserRoleService, MedicalAidTypeService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
