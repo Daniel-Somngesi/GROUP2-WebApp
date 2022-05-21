@@ -1,0 +1,20 @@
+<h1>Update User Role {{data.userRole_Id}}</h1>
+<form [formGroup]="userRoleForm">
+
+    <td><mat-form-field class="demo-full-width">
+      <input class="form-control" [(ngModel)]="data.userRole_Name" formControlName="userRole_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
+    </mat-form-field>
+    <mat-error>
+      <span *ngIf="!userRoleForm.get('userRole_Name').value && userRoleForm.get('userRole_Name').touched">Invalid format</span>
+    </mat-error>
+
+<br>
+<div mat-dialog-actions>
+  <button mat-button [disabled]="!userRoleForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+</div>
+</form>
+
+
+
+
