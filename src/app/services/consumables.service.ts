@@ -59,7 +59,7 @@ export class ConsumablesService {
 
   updateItem(consumable: any): void {
     this.dialogData = consumable;
-   this.httpClient.put(`${baseUrl}/${consumable.Consumable_Id}`, consumable).subscribe(data => {
+   this.httpClient.put(`${baseUrl}/${consumable.consumable_Id}`, consumable).subscribe(data => {
     this.getAllConsumables()
    },
    (err: HttpErrorResponse) => {
