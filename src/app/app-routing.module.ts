@@ -1,3 +1,4 @@
+import { SlotTypeListComponent } from './components/slot-type/slot-type-list/slot-type-list.component';
 import { ConsumablesListComponent } from './components/consumables/consumables-list/consumables-list.component';
 import { AppComponent } from './app.component';
 import { UserRoleListComponent } from './components/user-role/user-role-list/user-role-list.component';
@@ -6,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EmployeeListComponent } from './components/employee/employee-list/employee-list.component';
 import { EmployeeTypeListComponent } from './components/employeeType/employee-type-list/employee-type-list.component';
 import { MedicalAidTypeListdComponent } from './components/medical-aid-type/medical-aid-type-listd/medical-aid-type-listd.component';
+import { DocumentUploadComponent } from './components/document/document-upload/document-upload.component';
 
 const routes: Routes = [
   {
@@ -17,7 +19,7 @@ const routes: Routes = [
     component: EmployeeListComponent
   },
   {
-    path: 'employee-type',
+    path: 'employee-types',
     component: EmployeeTypeListComponent
   },
   {
@@ -25,12 +27,20 @@ const routes: Routes = [
     component: UserRoleListComponent
   },
   {
-    path: 'medical-aid-type',
+    path: 'medical-aid-types',
     component: MedicalAidTypeListdComponent
   },
   {
     path: 'consumables',
     component: ConsumablesListComponent
+  },
+  {
+    path: 'slot-types',
+    component: SlotTypeListComponent
+  },
+  {
+    path: 'document',
+    component: DocumentUploadComponent
   }
 
 ];

@@ -36,3 +36,21 @@ export interface EmployeeTypeData {
   employeeType_Name: string;
   employeeType_Description?: string;
 }
+
+export interface SlotTypeData {
+  slotType_Id: number;
+  name: string;
+}
+
+
+export interface DocumentData {
+  document_Id: number;
+  document_Name: string;
+  docPath: string;
+}
+
+export interface DocumentToCreate {
+  document_Name: string;
+  docPath: string;
+}
+

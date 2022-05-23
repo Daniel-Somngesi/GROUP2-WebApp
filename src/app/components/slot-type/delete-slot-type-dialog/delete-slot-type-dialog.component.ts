@@ -1,20 +1,20 @@
-import { ConsumablesService } from './../../../services/consumables.service';
+import { SlotTypeService } from './../../../services/slot-type.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-delete-consumables-dialog',
-  templateUrl: './delete-consumables-dialog.component.html',
-  styleUrls: ['./delete-consumables-dialog.component.css']
+  selector: 'app-delete-slot-type-dialog',
+  templateUrl: './delete-slot-type-dialog.component.html',
+  styleUrls: ['./delete-slot-type-dialog.component.css']
 })
-export class DeleteConsumablesDialogComponent implements OnInit {
+export class DeleteSlotTypeDialogComponent implements OnInit {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  constructor(public dialogRef: MatDialogRef<DeleteConsumablesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, public service: ConsumablesService,
+  constructor(public dialogRef: MatDialogRef<DeleteSlotTypeDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any, public service: SlotTypeService,
     private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -25,6 +25,7 @@ export class DeleteConsumablesDialogComponent implements OnInit {
   }
 
   confirmDelete(): void {
+    console.log(this.data.slotType_Id);
     this.service.deleteItem(this.data.slotType_Id);
 
   }

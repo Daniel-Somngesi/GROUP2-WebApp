@@ -1,3 +1,4 @@
+import { SlotTypeService } from './services/slot-type.service';
 import { ConsumablesService } from './services/consumables.service';
 import { MedicalAidTypeService } from './services/medical-aid-type.service';
 import { DeleteUserRoleDeleteComponent } from './components/user-role/delete-user-role-delete/delete-user-role-delete.component';
@@ -32,7 +33,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -49,6 +50,12 @@ import { ConsumablesListComponent } from './components/consumables/consumables-l
 import { AddConsumablesDialogComponent } from './components/consumables/add-consumables-dialog/add-consumables-dialog.component';
 import { EditConsumablesDialogComponent } from './components/consumables/edit-consumables-dialog/edit-consumables-dialog.component';
 import { DeleteConsumablesDialogComponent } from './components/consumables/delete-consumables-dialog/delete-consumables-dialog.component';
+import { SlotTypeListComponent } from './components/slot-type/slot-type-list/slot-type-list.component';
+import { AddSlotTypeDialogComponent } from './components/slot-type/add-slot-type-dialog/add-slot-type-dialog.component';
+import { EditSlotTypeDialogComponent } from './components/slot-type/edit-slot-type-dialog/edit-slot-type-dialog.component';
+import { DeleteSlotTypeDialogComponent } from './components/slot-type/delete-slot-type-dialog/delete-slot-type-dialog.component';
+import { DocumentUploadComponent } from './components/document/document-upload/document-upload.component';
+
 
 @NgModule({
   declarations: [
@@ -70,6 +77,11 @@ import { DeleteConsumablesDialogComponent } from './components/consumables/delet
     AddConsumablesDialogComponent,
     EditConsumablesDialogComponent,
     DeleteConsumablesDialogComponent,
+    SlotTypeListComponent,
+    AddSlotTypeDialogComponent,
+    EditSlotTypeDialogComponent,
+    DeleteSlotTypeDialogComponent,
+    DocumentUploadComponent,
   ],
   imports: [
     MatSortModule,
@@ -98,8 +110,9 @@ import { DeleteConsumablesDialogComponent } from './components/consumables/delet
     MatPaginatorModule,
     ReactiveFormsModule,
     CommonModule,
+    FormsModule
   ],
-  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService],
+  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
