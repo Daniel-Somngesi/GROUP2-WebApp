@@ -1,1 +1,12 @@
-<p>edit-slot-type-dialog works!</p>
+<h1>Update Slot Type</h1>
+<form [formGroup]="slotTypeForm">
+
+    <mat-form-field class="demo-full-width">
+      <input class="form-control" [(ngModel)]="data.name" formControlName="Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
+    </mat-form-field>
+
+<div mat-dialog-actions>
+  <button mat-button [disabled]="!slotTypeForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+</div>
+</form>
