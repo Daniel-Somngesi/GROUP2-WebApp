@@ -25,7 +25,7 @@ export class DeleteConsumablesDialogComponent implements OnInit {
   }
 
   confirmDelete(): void {
-    this.service.deleteItem(this.data.slotType_Id);
+    this.service.deleteItem(this.data.consumable_Id);
 
   }
 

@@ -11,6 +11,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-employee-list',
@@ -24,10 +25,12 @@ export class EmployeeListComponent implements OnInit {
    myDatabase!: EmployeeService;
    dataSource!: myDataSource;
   employee_Id!: number;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(public service:EmployeeService,
     public dialog: MatDialog,
-    public http:HttpClient) {
+    public http:HttpClient, private _snackBar: MatSnackBar) {
   }
 
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
@@ -36,6 +39,30 @@ export class EmployeeListComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    }
+
+    SavedSuccessful(isUpdate:any) {
+      if (isUpdate == 0) {
+        this._snackBar.open('Record Updated Successfully!', 'Close', {
+          duration: 4000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      }
+      else if (isUpdate == 1) {
+        this._snackBar.open('Record Saved Successfully!', 'Close', {
+          duration: 4000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      }
+      else if (isUpdate == 2) {
+        this._snackBar.open('Record Deleted Successfully!', 'Close', {
+          duration: 4000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      }
     }
 
     reload() {
@@ -54,6 +81,7 @@ export class EmployeeListComponent implements OnInit {
           this.myDatabase.dataChange.value.push(this.service.getDialogData());
           this.reload();
           this.refreshTable();
+          this.SavedSuccessful(1);
         }
 
       });
@@ -81,6 +109,7 @@ export class EmployeeListComponent implements OnInit {
           // And lastly refresh table
           this.reload();
           this.refreshTable();
+          this.SavedSuccessful(0);
         }
       });
     }
@@ -102,12 +131,14 @@ export class EmployeeListComponent implements OnInit {
           this.myDatabase.dataChange.value.splice(foundIndex, 1);
           this.reload();
           this.refreshTable();
+          this.SavedSuccessful(2);
         }
       });
     }
 
     private refreshTable() {
       this.paginator._changePageSize(this.paginator.pageSize);
+      window.location.reload();
     }
 
 

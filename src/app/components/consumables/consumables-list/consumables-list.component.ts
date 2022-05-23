@@ -110,7 +110,7 @@ export class ConsumablesListComponent implements OnInit {
 
     this.consumable_Id = consumable_Id;
     const dialogRef = this.dialog.open(DeleteConsumablesDialogComponent, {
-      data: {consumable_Id: consumable_Id, Name: name, description: description, quantity: quantity}
+      data: {consumable_Id: consumable_Id, name: name, description: description, quantity: quantity}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -127,6 +127,7 @@ export class ConsumablesListComponent implements OnInit {
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
+    window.location.reload();
   }
 
   public loadData() {

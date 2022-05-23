@@ -101,7 +101,9 @@ export class DocumentUploadComponent  {
               }
             })
         }
+
     }
+
 
     SavedSuccessful(isUpdate:any) {
       if (isUpdate == 0) {
