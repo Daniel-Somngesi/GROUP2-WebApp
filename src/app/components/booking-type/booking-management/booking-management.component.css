@@ -1,0 +1,14 @@
+mat-grid-tile{
+    background-color: white;
+    color: White;
+    position: center;
+}
+
+button{
+    height:200px !important;
+    width:400px !important;
+    font-size:48px !important;
+    background-color: #008b8b;
+    border-radius: 1em;
+}
+

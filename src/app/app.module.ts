@@ -18,6 +18,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -49,6 +50,13 @@ import { ConsumablesListComponent } from './components/consumables/consumables-l
 import { AddConsumablesDialogComponent } from './components/consumables/add-consumables-dialog/add-consumables-dialog.component';
 import { EditConsumablesDialogComponent } from './components/consumables/edit-consumables-dialog/edit-consumables-dialog.component';
 import { DeleteConsumablesDialogComponent } from './components/consumables/delete-consumables-dialog/delete-consumables-dialog.component';
+import { BookingTypeListComponent } from './components/booking-type/booking-type-list/booking-type-list.component';
+import { AddBookingTypeComponent } from './components/booking-type/add-booking-type/add-booking-type.component';
+import { EditBookingTypeComponent } from './components/booking-type/edit-booking-type/edit-booking-type.component';
+import { DeleteBookingTypeComponent } from './components/booking-type/delete-booking-type/delete-booking-type.component';
+import { BookingManagementComponent } from './components/booking-type/booking-management/booking-management.component';
+import { EmployeeManagementComponent } from './components/employee/employee-management/employee-management.component';
+import { UserManagementComponent } from './components/user-role/user-management/user-management.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +78,13 @@ import { DeleteConsumablesDialogComponent } from './components/consumables/delet
     AddConsumablesDialogComponent,
     EditConsumablesDialogComponent,
     DeleteConsumablesDialogComponent,
+    BookingTypeListComponent,
+    AddBookingTypeComponent,
+    EditBookingTypeComponent,
+    DeleteBookingTypeComponent,
+    BookingManagementComponent,
+    EmployeeManagementComponent,
+    UserManagementComponent,
   ],
   imports: [
     MatSortModule,
@@ -81,6 +96,7 @@ import { DeleteConsumablesDialogComponent } from './components/consumables/delet
     MatInputModule,
     MatCardModule,
     MatButtonModule,
+    MatGridListModule,
     MatDatepickerModule,
     MatMenuModule,
     MatNativeDateModule,
