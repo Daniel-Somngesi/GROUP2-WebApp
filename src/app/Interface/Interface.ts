@@ -54,3 +54,10 @@ export interface DocumentToCreate {
   docPath: string;
 }
 
+export interface FeeTypeData {
+  feeType_Id: number;
+  feeType_Name: string;
+  feeType_Description: string;
+ 
+}
+

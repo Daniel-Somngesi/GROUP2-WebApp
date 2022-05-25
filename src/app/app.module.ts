@@ -55,6 +55,11 @@ import { AddSlotTypeDialogComponent } from './components/slot-type/add-slot-type
 import { EditSlotTypeDialogComponent } from './components/slot-type/edit-slot-type-dialog/edit-slot-type-dialog.component';
 import { DeleteSlotTypeDialogComponent } from './components/slot-type/delete-slot-type-dialog/delete-slot-type-dialog.component';
 import { DocumentUploadComponent } from './components/document/document-upload/document-upload.component';
+import { FeeTypeListComponent } from './components/feeType/fee-type-list/fee-type-list.component';
+import { AddFeeTypeDialogComponent } from './components/feeType/add-fee-type-dialog/add-fee-type-dialog.component';
+import { EditFeeTypeDialogComponent } from './components/feeType/edit-fee-type-dialog/edit-fee-type-dialog.component';
+import { DeleteFeeTypeDialogComponent } from './components/feeType/delete-fee-type-dialog/delete-fee-type-dialog.component';
+import { FeeTypeService } from './services/fee-type.service';
 
 
 @NgModule({
@@ -82,6 +87,10 @@ import { DocumentUploadComponent } from './components/document/document-upload/d
     EditSlotTypeDialogComponent,
     DeleteSlotTypeDialogComponent,
     DocumentUploadComponent,
+    FeeTypeListComponent,
+    AddFeeTypeDialogComponent,
+    EditFeeTypeDialogComponent,
+    DeleteFeeTypeDialogComponent,
   ],
   imports: [
     MatSortModule,
@@ -112,7 +121,7 @@ import { DocumentUploadComponent } from './components/document/document-upload/d
     CommonModule,
     FormsModule
   ],
-  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService],
+  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService, FeeTypeService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
