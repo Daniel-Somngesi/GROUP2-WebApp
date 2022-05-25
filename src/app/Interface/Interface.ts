@@ -36,3 +36,9 @@ export interface EmployeeTypeData {
   employeeType_Name: string;
   employeeType_Description?: string;
 }
+
+export interface BookingTypeData {
+  bookingType_ID?:any;
+  bookingType_Name:string;
+  bookingType_Description?:string;
+}

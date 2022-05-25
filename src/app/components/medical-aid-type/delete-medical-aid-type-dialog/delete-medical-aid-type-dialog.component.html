@@ -1,1 +1,15 @@
-<p>delete-medical-aid-type-dialog works!</p>
+<div class="container">
+    
+    <h4 mat-dialog-title>Are you sure you want to delete the medical aid type?</h4>
+    <div mat-dialog-content>
+      <p>Medical Aid Type ID: {{data.medicalAidTypeId}}</p>
+      <p></p>
+      <p>Medical Aid Type Name: {{data.medicalAidTypeName}} </p>
+      
+    </div>
+  
+    <div mat-dialog-actions>
+      <button mat-button  mat-raised-button mat-dialog-close="1" color="accent" (click)="confirmDelete()">Yes</button>
+      <button mat-button mat-raised-button (click)="onNoClick()" tabindex="-1">No</button>
+    </div>
+  </div>

@@ -1,1 +1,26 @@
-<p>edit-medical-aid-type-dialog works!</p>
+<div class="container">
+    <h1>Update Medical Aid Type {{data.medicalAidTypeId}}</h1>
+
+
+        <form [formGroup]="medicalAidTypeForm" >
+        <table>
+
+          <tr>
+            <td>
+              <td><mat-form-field class="demo-full-width">
+                <input class="form-control" class="form-control" [(ngModel)]="data.medicalAidTypeName" formControlName="medicalAidTypeName" pattern="[a-zA-Z ]*"  matTooltip="Enter medical aid type name" matInput placeholder="Medical Aid Type Name" autocomplete="off" required>
+              </mat-form-field>
+              <mat-error>
+                <span *ngIf="!medicalAidTypeForm.get('medicalAidTypeName').value && medicalAidTypeForm.get('medicalAidTypeName').touched">Entered text is not in the correct format. Please try again.</span>
+              </mat-error>
+
+            </td>          
+          </tr>
+        </table>  
+        <br>
+        <div mat-dialog-actions>
+          <button mat-button [disabled]="!medicalAidTypeForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+          <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+        </div>
+      </form>
+</div>
