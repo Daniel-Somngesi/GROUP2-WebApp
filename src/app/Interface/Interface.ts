@@ -61,3 +61,8 @@ export interface FeeTypeData {
  
 }
 
+export interface AllergyData {
+  allergy_Id: number;
+  allergy_Name: string;
+}
+

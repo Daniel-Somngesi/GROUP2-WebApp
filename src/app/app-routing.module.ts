@@ -9,6 +9,7 @@ import { EmployeeTypeListComponent } from './components/employeeType/employee-ty
 import { MedicalAidTypeListdComponent } from './components/medical-aid-type/medical-aid-type-listd/medical-aid-type-listd.component';
 import { DocumentUploadComponent } from './components/document/document-upload/document-upload.component';
 import { FeeTypeListComponent } from './components/feeType/fee-type-list/fee-type-list.component';
+import { AllergyListComponent } from './components/allergy/allergy-list/allergy-list.component';
 
 const routes: Routes = [
   {
@@ -47,7 +48,13 @@ const routes: Routes = [
   {
     path: 'fee-type',
     component: FeeTypeListComponent
+  },
+
+  {
+    path: 'allergy',
+    component: AllergyListComponent
   }
+
 
 ];
 

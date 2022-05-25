@@ -60,6 +60,11 @@ import { AddFeeTypeDialogComponent } from './components/feeType/add-fee-type-dia
 import { EditFeeTypeDialogComponent } from './components/feeType/edit-fee-type-dialog/edit-fee-type-dialog.component';
 import { DeleteFeeTypeDialogComponent } from './components/feeType/delete-fee-type-dialog/delete-fee-type-dialog.component';
 import { FeeTypeService } from './services/fee-type.service';
+import { AllergyListComponent } from './components/allergy/allergy-list/allergy-list.component';
+import { AllergyService } from './services/allergy.service';
+import { AddAllergyDialogComponent } from './components/allergy/add-allergy-dialog/add-allergy-dialog.component';
+import { EditAllergyDialogComponent } from './components/allergy/edit-allergy-dialog/edit-allergy-dialog.component';
+import { DeleteAllergyDialogComponent } from './components/allergy/delete-allergy-dialog/delete-allergy-dialog.component';
 
 
 @NgModule({
@@ -91,6 +96,10 @@ import { FeeTypeService } from './services/fee-type.service';
     AddFeeTypeDialogComponent,
     EditFeeTypeDialogComponent,
     DeleteFeeTypeDialogComponent,
+    AllergyListComponent,
+    AddAllergyDialogComponent,
+    EditAllergyDialogComponent,
+    DeleteAllergyDialogComponent,
   ],
   imports: [
     MatSortModule,
@@ -121,7 +130,7 @@ import { FeeTypeService } from './services/fee-type.service';
     CommonModule,
     FormsModule
   ],
-  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService, FeeTypeService],
+  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService, FeeTypeService, AllergyService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
