@@ -34,7 +34,7 @@ export interface EmployeeData {
 export interface EmployeeTypeData {
   employeeType_ID?: any;
   employeeType_Name: string;
-  employeeType_Description?: string;
+  employeeType_Description: string;
 }
 
 export interface SlotTypeData {

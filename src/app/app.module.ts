@@ -65,6 +65,10 @@ import { AllergyService } from './services/allergy.service';
 import { AddAllergyDialogComponent } from './components/allergy/add-allergy-dialog/add-allergy-dialog.component';
 import { EditAllergyDialogComponent } from './components/allergy/edit-allergy-dialog/edit-allergy-dialog.component';
 import { DeleteAllergyDialogComponent } from './components/allergy/delete-allergy-dialog/delete-allergy-dialog.component';
+import { AddEmployeeTypeDialogComponent } from './components/employeeType/add-employee-type-dialog/add-employee-type-dialog.component';
+import { EditEmployeeTypeDialogComponent } from './components/employeeType/edit-employee-type-dialog/edit-employee-type-dialog.component';
+import { DeleteEmployeeTypeDialogComponent } from './components/employeeType/delete-employee-type-dialog/delete-employee-type-dialog.component';
+import { EmployeeTypeService } from './services/employee-type.service';
 
 
 @NgModule({
@@ -100,6 +104,9 @@ import { DeleteAllergyDialogComponent } from './components/allergy/delete-allerg
     AddAllergyDialogComponent,
     EditAllergyDialogComponent,
     DeleteAllergyDialogComponent,
+    AddEmployeeTypeDialogComponent,
+    EditEmployeeTypeDialogComponent,
+    DeleteEmployeeTypeDialogComponent,
   ],
   imports: [
     MatSortModule,
@@ -130,7 +137,7 @@ import { DeleteAllergyDialogComponent } from './components/allergy/delete-allerg
     CommonModule,
     FormsModule
   ],
-  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService, FeeTypeService, AllergyService],
+  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService, FeeTypeService, AllergyService, EmployeeTypeService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
