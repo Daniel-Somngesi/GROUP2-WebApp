@@ -1,0 +1,67 @@
+<h1>Fee Types</h1>
+
+<div class="container mat-elevation-z8">
+
+  <div class="form">
+    <mat-form-field floatPlaceholder="never" color="accent">
+      <input matInput #filter placeholder="Find Fee Type">
+    </mat-form-field>
+  </div>
+
+  <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+    ng update @angular/cli @angular/core
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+          <ng-container matColumnDef="feeType_Id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+            <mat-cell *matCellDef="let feeType"> {{feeType.feeType_Id}}</mat-cell>
+          </ng-container>
+
+
+    <ng-container matColumnDef="feeType_Name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Fee Type Name</mat-header-cell>
+      <mat-cell *matCellDef="let feeType"> {{feeType.feeType_Name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="feeType_Description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Fee Type Description</mat-header-cell>
+        <mat-cell *matCellDef="let feeType"> {{feeType.feeType_Description}}</mat-cell>
+      </ng-container>
+  
+
+    <!-- actions -->
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button color="primary" (click)="openAddDialog()">
+          <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+        </button>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let feeType; let i=index;">
+        <button mat-icon-button color="accent" (click)="startEdit(feeType.feeType_Id, feeType.feeType_Name, feeType.feeType_Description)">
+          <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="accent">
+          <mat-icon aria-label="Delete" (click)="deleteItem(feeType.feeType_Id, feeType.feeType_Name, feeType.feeType_Description)">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let feeType; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+  <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+    <h4>No fee types..</h4>
+  </div>
+
+  <mat-paginator #paginator
+                 [length]="dataSource.filteredData.length"
+                 [pageIndex]="0"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 25, 100]">
+  </mat-paginator>
+</div>
+

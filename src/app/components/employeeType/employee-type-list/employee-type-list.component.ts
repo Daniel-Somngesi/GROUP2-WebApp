@@ -1,9 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { DeleteEmployeeTypeDialogComponent } from './../delete-employee-type-dialog/delete-employee-type-dialog.component';
+import { EditEmployeeTypeDialogComponent } from './../edit-employee-type-dialog/edit-employee-type-dialog.component';
+import { AddEmployeeTypeDialogComponent } from './../add-employee-type-dialog/add-employee-type-dialog.component';
+import { EmployeeTypeData } from './../../../Interface/Interface';
+import { EmployeeTypeService } from './../../../services/employee-type.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { EmployeeTypeData } from 'src/app/Interface/Interface';
-import { EmployeeTypeService } from './../../../services/employee-type.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { DataSource } from '@angular/cdk/collections';
+
 
 @Component({
   selector: 'app-employee-type-list',
@@ -11,112 +22,183 @@ import { EmployeeTypeService } from './../../../services/employee-type.service';
   styleUrls: ['./employee-type-list.component.css']
 })
 export class EmployeeTypeListComponent implements OnInit {
-  employeeTypeForm:any;
-  employeeTypes:any;
+
+  displayedColumns: string[] = ['employeeType_Name', 'employeeType_Description','actions'];
+
+   myDatabase!: EmployeeTypeService;
+   dataSource!: myDataSource;
+  employeeType_ID!: number;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  currentEmployeeTypes:any = null;
-  employeeTypeIdUpdate = null;
-  employeeTypeID = null;
-  employeeType_Name : string = "";
-  employeeType_Description : string = "";
 
-  constructor(private route: ActivatedRoute, private formbulider: FormBuilder, private service: EmployeeTypeService, private _snackBar: MatSnackBar) { }
+  constructor(public dialog: MatDialog,
+    public http:HttpClient, private service: EmployeeTypeService, private _snackBar: MatSnackBar) { }
 
-  ngOnInit(): void {
-    this.retrieveEmployeeType();
-    this.employeeTypeForm = this.formbulider.group({
-      employeeType_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(50)]],
-      employeeType_Description: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(50)]]
+  @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort!: MatSort;
+  @ViewChild('filter',  {static: true}) filter!: ElementRef;
+
+ngOnInit(): void {
+    this.loadData();
+  }
+
+  reload() {
+    this.loadData();
+  }
+
+  openAddDialog() {
+    const dialogRef = this.dialog.open(AddEmployeeTypeDialogComponent, {
+      data: {EmployeeTypeData: {} }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        // After dialog is closed we're doing frontend updates
+        // For add we're just pushing a new row inside DataService
+        this.myDatabase.dataChange.value.push(this.service.getDialogData());
+        this.reload();
+        this.refreshTable();
+      }
 
     });
   }
 
-  retrieveEmployeeType(): void {
-    this.service.getAll()
-      .subscribe(
-        data => {
-          this.employeeTypes = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
-      }
+  startEdit(employeeType_ID: number, employeeType_Name: string, employeeType_Description: string ) {
+    this.employeeType_ID = employeeType_ID;
 
-      onFormSubmit() {
-        const _employeeType = this.employeeTypeForm.value;
-        this.CreateEmployeeType(_employeeType);
-      }
+    const dialogRef = this.dialog.open(EditEmployeeTypeDialogComponent, {
+      data: {employeeType_ID: employeeType_ID, employeeType_Name: employeeType_Name, employeeType_Description: employeeType_Description}
+    });
 
-      loadEmployeeTypeToEdit(employeeType_ID:any) {
-        this.service.get(employeeType_ID).subscribe(employeeType => {
-          this.employeeTypeIdUpdate = employeeType.employeeType_ID;
-          this.employeeTypeForm.controls['employeeType_Name'].setValue(employeeType.employeeType_Name);
-          this.employeeTypeForm.controls['employeeType_Description'].setValue(employeeType.employeeType_Description);
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.employeeType_ID === this.employeeType_ID);
+        // Then you update that record using data from dialogData (values you enetered)
+        this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
+        // And lastly refresh table
+        this.reload();
+        this.refreshTable();
+      }
+    });
+
+}
+
+deleteItem(employeeType_ID: number, employeeType_Name: string, employeeType_Description: string) {
+
+  this.employeeType_ID = employeeType_ID;
+  const dialogRef = this.dialog.open(DeleteEmployeeTypeDialogComponent, {
+    data: {employeeType_ID: employeeType_ID, employeeType_Name: employeeType_Name, employeeType_Description: employeeType_Description}
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === 1) {
+      const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.employeeType_ID === this.employeeType_ID);
+      // for delete we use splice in order to remove single object from DataService
+      this.myDatabase.dataChange.value.splice(foundIndex, 1);
+      this.reload();
+      this.refreshTable();
+    }
+  });
+}
+
+private refreshTable() {
+  this.paginator._changePageSize(this.paginator.pageSize);
+  window.location.reload();
+}
+
+public loadData() {
+  this.myDatabase = new EmployeeTypeService(this.http);
+  this.dataSource = new myDataSource(this.myDatabase, this.paginator, this.sort);
+  fromEvent(this.filter.nativeElement, 'keyup')
+    // s.debounceTime(150)
+    // .distinctUntilChanged()
+    .subscribe(() => {
+      if (!this.dataSource) {
+        return;
+      }
+      this.dataSource.filter = this.filter.nativeElement.value;
+    });
+}
+}
+
+export class myDataSource extends DataSource<EmployeeTypeData> {
+  _filterChange = new BehaviorSubject('');
+
+  get filter(): string {
+    return this._filterChange.value;
+  }
+
+  set filter(filter: string) {
+    this._filterChange.next(filter);
+  }
+
+  filteredData: EmployeeTypeData[] = [];
+  renderedData: EmployeeTypeData[] = [];
+
+  constructor(public _myDatabase: EmployeeTypeService,
+              public _paginator: MatPaginator,
+              public _sort: MatSort) {
+    super();
+    // Reset to the first page when the user changes the filter.
+    this._filterChange.subscribe(() => this._paginator.pageIndex = 0);
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<EmployeeTypeData[]> {
+    // Listen for any changes in the base data, sorting, filtering, or pagination
+    const displayDataChanges = [
+      this._myDatabase.dataChange,
+      this._sort.sortChange,
+      this._filterChange,
+      this._paginator.page
+    ];
+
+    this._myDatabase.getAllEmployeeTypes();
+
+
+    return merge(...displayDataChanges).pipe(map( () => {
+        // Filter data
+        this.filteredData = this._myDatabase.data.slice().filter((employeeType: EmployeeTypeData) => {
+          const searchStr = (employeeType.employeeType_ID + employeeType.employeeType_Name + employeeType.employeeType_Description).toLowerCase();
+          return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
+
+
+          // Sort filtered data
+          const sortedData = this.sortData(this.filteredData.slice());
+
+
+          // Grab the page's slice of the filtered sorted data.
+          const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+          this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
+          return this.renderedData;
+        }
+      ));
     }
 
-      deleteEmployeeType(id: any) {
-        if (confirm("Are you sure you want to delete this employee type?")) {
-          this.service.delete(id).subscribe(() => {
-            console.log(id);
-            this.SavedSuccessful(2);
-            this.retrieveEmployeeType();
-            this.employeeTypeForm.reset();
+    disconnect() {}
 
-
-          });
-        }
-      }
-
-      CreateEmployeeType(employeeType: EmployeeTypeData) {
-        if (this.employeeTypeIdUpdate == null) {
-
-          this.service.create(employeeType).subscribe(
-            () => {
-              this.SavedSuccessful(1);
-              this.retrieveEmployeeType();
-              this.employeeTypeIdUpdate = null;
-              this.employeeTypeForm.reset();
-            }
-          );
-        } else {
-          employeeType.employeeType_ID = this.employeeTypeIdUpdate;
-          employeeType.employeeType_Name = this.employeeType_Name;
-          employeeType.employeeType_Description = this.employeeType_Description;
-          this.service.update(employeeType.employeeType_ID, employeeType).subscribe(() => {
-            this.SavedSuccessful(0);
-            this.retrieveEmployeeType();
-            this.employeeTypeIdUpdate = null;
-            this.employeeTypeForm.reset();
-          });
-        }
-      }
-
-      SavedSuccessful(isUpdate:any) {
-        if (isUpdate == 0) {
-          this._snackBar.open('Record Updated Successfully!', 'Close', {
-            duration: 2000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
-        }
-        else if (isUpdate == 1) {
-          this._snackBar.open('Record Saved Successfully!', 'Close', {
-            duration: 2000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
-        }
-        else if (isUpdate == 2) {
-          this._snackBar.open('Record Deleted Successfully!', 'Close', {
-            duration: 2000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
-        }
-      }
+  sortData(data: EmployeeTypeData[]): EmployeeTypeData[] {
+    if (!this._sort.active || this._sort.direction === '') {
+      return data;
     }
 
+    return data.sort((a, b) => {
+      let propertyA: number | string = '' ;
+      let propertyB: number | string = '';
 
+      switch (this._sort.active) {
+        case 'employeeType_ID': [propertyA, propertyB] = [a.employeeType_ID, b.employeeType_ID]; break;
+        case 'employeeType_Name': [propertyA, propertyB] = [a.employeeType_Name, b.employeeType_Name]; break;
+        case 'employeeType_Description': [propertyA, propertyB] = [a.employeeType_Description, b.employeeType_Description]; break;
+
+      }
+      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+
+      return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
+    });
+  }
+}

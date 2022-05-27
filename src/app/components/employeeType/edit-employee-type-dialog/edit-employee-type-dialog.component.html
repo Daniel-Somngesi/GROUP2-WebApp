@@ -1,0 +1,27 @@
+<h1>Update Employee Type {{data.employeeType_ID}}</h1>
+<form [formGroup]="employeeTypeForm">
+
+    <td><mat-form-field class="demo-full-width">
+      <input class="form-control" [(ngModel)]="data.employeeType_Name" formControlName="employeeType_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
+    </mat-form-field>
+    <mat-error>
+      <span *ngIf="!employeeTypeForm.get('employeeType_Name').value && employeeTypeForm.get('employeeType_Name').touched">Invalid format</span>
+    </mat-error>
+
+    <mat-form-field class="demo-full-width">
+        <input class="form-control" [(ngModel)]="data.employeeType_Description" formControlName="employeeType_Description" pattern="[a-zA-Z ]*"  matTooltip="Enter Description" matInput placeholder="Description" autocomplete="off" required>
+      </mat-form-field>
+      <mat-error>
+        <span *ngIf="!employeeTypeForm.get('employeeType_Description').value && employeeTypeForm.get('employeeType_Description').touched">Invalid format</span>
+      </mat-error>
+
+<br>
+<div mat-dialog-actions>
+  <button mat-button [disabled]="!employeeTypeForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+</div>
+</form>
+
+
+
+

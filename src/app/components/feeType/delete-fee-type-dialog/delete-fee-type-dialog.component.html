@@ -1,0 +1,16 @@
+<div class="container">
+    <h4 mat-dialog-title>Are you sure?</h4>
+    <div mat-dialog-content>
+      <p>Deleting Fee type {{data.feeType_Id}}</p>
+      <p></p>
+      <p>Name: {{data.feeType_Name}} </p>
+      <p>Description: {{data.feeType_Description}} </p>
+    </div>
+  
+    <div mat-dialog-actions>
+      <button mat-button [mat-dialog-close]="1" color="accent" (click)="confirmDelete()">Yes</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">No</button>
+    </div>
+  </div>
+  
+  

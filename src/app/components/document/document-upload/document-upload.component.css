@@ -1,0 +1,55 @@
+.file-input {
+  display: none;
+
+}
+
+.docUploadDiv {
+  border: 2px solid black;
+  width: 50%;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 20px;
+  text-align: center;
+  background-color: teal;
+  color: white;
+
+}
+
+th {
+  padding: 15px;
+  background-color: slategray;
+  border-bottom: 4px solid black;
+  font-family: "Helvetica Neue", sans-serif,
+}
+
+table {
+  text-align: center;
+  width:60%;
+  margin: 0 auto;
+  padding-top: 50px;
+}
+
+
+p {
+  text-align: center;
+}
+
+.create{
+  width: 700px;
+  border: 1px solid rgb(206, 195, 195);;
+  margin: 10px auto;
+  padding: 10px;
+  box-shadow: 1px 1px 1px gray;
+}
+
+article section h1{
+  text-align: center;
+}
+
+.users{
+  width: 900px;
+  border: 1px solid rgb(206, 195, 195);;
+  margin: 10px auto;
+  padding: 10px;
+  box-shadow: 1px 1px 1px gray;
+}

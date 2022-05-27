@@ -1,0 +1,15 @@
+<h1>Add Slot Type</h1>
+<form [formGroup]="slotTypeForm">
+    <mat-form-field class="demo-full-width">
+      <input class="form-control" class="form-control" [(ngModel)]="data.name" formControlName="Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
+    </mat-form-field>
+    <mat-error>
+      <span *ngIf="!slotTypeForm.get('Name').value && slotTypeForm.get('Name').touched">Invalid format</span>
+    </mat-error>
+
+<br>
+<div mat-dialog-actions>
+  <button mat-button mat-raised-button [disabled]="!slotTypeForm.valid" color="accent" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+</div>
+</form>
