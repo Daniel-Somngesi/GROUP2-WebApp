@@ -69,4 +69,4 @@ export interface AllergyData {
 export interface Question {
   question_Id: number;
   question_Text: string;
-}
+} 

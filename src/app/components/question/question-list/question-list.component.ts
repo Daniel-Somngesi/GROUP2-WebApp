@@ -123,7 +123,7 @@ export class QuestionListComponent implements OnInit {
             duration: 2000,
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
-          });
+          });    
         }
       }
     }
