@@ -66,7 +66,7 @@ export interface AllergyData {
   allergy_Name: string;
 }
 
-export interface Question {
+export interface QuestionData {
   question_Id: number;
   question_Text: string;
 } 

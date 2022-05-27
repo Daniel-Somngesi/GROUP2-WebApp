@@ -1,18 +1,3 @@
-import { Component, OnInit } from '@angular/core';
-
-@Component({
-  selector: 'app-question-list',
-  templateUrl: './question-list.component.html',
-  styleUrls: ['./question-list.component.css']
-})
-export class QuestionListComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
 import { QuestionService } from './../../../services/question.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -123,7 +108,7 @@ export class QuestionListComponent implements OnInit {
             duration: 2000,
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
-          });    
+          });
         }
       }
     }
