@@ -12,22 +12,23 @@ import { EditUserRoleDialogComponent } from '../../user-role/edit-user-role-dial
   styleUrls: ['./edit-medical-aid-type-dialog.component.css']
 })
 export class EditMedicalAidTypeDialogComponent implements OnInit {
-  userRoleForm: any;
+  medicalAidTypeForm: any;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(public service: MedicalAidTypeService,private _snackBar: MatSnackBar,
-    private formbulider: FormBuilder, public dialog: MatDialogRef<EditMedicalAidTypeDialogComponent>,
+    private formbuilder: FormBuilder, public dialog: MatDialogRef<EditMedicalAidTypeDialogComponent>,
    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    this.userRoleForm = this.formbulider.group({
+    this.medicalAidTypeForm = this.formbuilder.group({
       medicalAidTypeName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
 
     })
   }
 
   stopEdit(): void {
+
     this.service.updateItem(this.data);
   }
 

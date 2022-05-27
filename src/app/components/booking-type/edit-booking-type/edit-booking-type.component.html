@@ -1,0 +1,33 @@
+<div class="container">
+    <h1>Update Booking Type {{data.bookingType_ID}}</h1>
+
+
+        <form [formGroup]="bookingTypeForm" >
+        <table>
+
+          <tr>
+            <td>
+              <td><mat-form-field class="demo-full-width">
+                <input class="form-control" [(ngModel)]="data.bookingType_Name" formControlName="bookingType_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter updated booking type name" matInput placeholder="Booking Type Name" autocomplete="off" required>
+              </mat-form-field>
+              <mat-error>
+                <span *ngIf="!bookingTypeForm.get('bookingType_Name').value && bookingTypeForm.get('bookingType_Name').touched"></span>
+              </mat-error>
+          
+              <mat-form-field class="demo-full-width">
+                <input class="form-control" name="bookingType_Description" formControlName="bookingType_Description" [(ngModel)]="data.bookingType_Description" pattern="[a-zA-Z ]*"  matTooltip="Enter updated description" matInput placeholder="Booking Type Description" autocomplete="off" required>
+              </mat-form-field>
+              <mat-error>
+                <span *ngIf="!bookingTypeForm.get('bookingType_Description').value && bookingTypeForm.get('bookingType_Description').touched"></span>
+              </mat-error>
+
+            </td>          
+          </tr>
+        </table>  
+        <br>
+        <div mat-dialog-actions>
+          <button mat-button [disabled]="!bookingTypeForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+          <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+        </div>
+      </form>
+</div>

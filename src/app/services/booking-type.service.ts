@@ -2,15 +2,18 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { EmployeeData } from '../Interface/Interface';
+import { BookingTypeData } from '../Interface/Interface';
+
+const baseUrl = 'https://localhost:44341/api/bookingType';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class BookingTypeService {
 
 
-const baseUrl = 'https://localhost:44341/api/Employee';
-const _baseUrl = 'https://localhost:44341/api/EmployeeType';
-@Injectable()
-export class EmployeeService {
-
-  dataChange: BehaviorSubject<EmployeeData[]> = new BehaviorSubject<EmployeeData[]>([]);
+  dataChange: BehaviorSubject<BookingTypeData[]> = new BehaviorSubject<BookingTypeData[]>([]);
   // Temporarily stores data from dialogs
   dialogData: any;
   horizontalPosition!: MatSnackBarHorizontalPosition;
@@ -18,7 +21,7 @@ export class EmployeeService {
 
   constructor(private httpClient: HttpClient) { }
 
-  get data(): EmployeeData[] {
+  get data(): BookingTypeData[] {
     return this.dataChange.value;
   }
 
@@ -26,12 +29,8 @@ export class EmployeeService {
     return this.dialogData;
   }
 
-  getEmployeeTypeById(id:any): Observable<any> {
-    return this.httpClient.get(`${_baseUrl}/${id}`);
-  }
-
-  getAllEmployees(): void {
-    this.httpClient.get<EmployeeData[]>(baseUrl).subscribe(data => {
+  getAllBookingTypes(): void {
+    this.httpClient.get<BookingTypeData[]>(baseUrl).subscribe(data => {
       this.dataChange.next(data);
     },
     (error: HttpErrorResponse) => {
@@ -40,19 +39,21 @@ export class EmployeeService {
   }
 
   // ADD, POST METHOD
-  addItem(employee: EmployeeData): void {
-    this.httpClient.post(baseUrl, employee).subscribe(data => {
-      this.dialogData = employee;
-      this.getAllEmployees();
+  addItem(bookingType: BookingTypeData): void {
+    this.httpClient.post(baseUrl, bookingType).subscribe(data => {
+      this.dialogData = bookingType;
+      this.getAllBookingTypes();
       },
       (err: HttpErrorResponse) => {
       alert('Error occurred. Details: ' + err.name + ' ' + err.message);
     });
    }
 
+
+ // DELETE METHOD
   deleteItem(id: number): void {
     this.httpClient.delete(`${baseUrl}/${id}`).subscribe(data => {
-      this.getAllEmployees()
+      this.getAllBookingTypes();
       },
       (err: HttpErrorResponse) => {
         alert('Error occurred. Details: ' + err.name + ' ' + err.message);
@@ -61,19 +62,19 @@ export class EmployeeService {
   }
 
   getAllTypes():Observable<any> {
-    return this.httpClient.get(_baseUrl);
+    return this.httpClient.get(baseUrl);
   }
 
 
-
-  updateItem(employee: any): void {
-    this.dialogData = employee;
-   this.httpClient.put(`${baseUrl}/${employee.employee_Id}`, employee).subscribe(data => {
-    this.getAllEmployees()
+  updateItem(bookingType: any): void {
+    this.dialogData = bookingType;
+   this.httpClient.put(`${baseUrl}/${bookingType.bookingType_ID}`, bookingType).subscribe(data => {
+    this.getAllBookingTypes();
    },
    (err: HttpErrorResponse) => {
      alert('Error occurred. Details: ' + err.name + ' ' + err.message);
    });
+
  }
 
 }

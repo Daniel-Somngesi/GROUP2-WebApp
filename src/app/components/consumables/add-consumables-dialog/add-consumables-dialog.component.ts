@@ -34,7 +34,6 @@ export class AddConsumablesDialogComponent implements OnInit {
   }
 
   public confirmAdd(): void {
-    const _medicalaidtype = this.consumablesForm.value;
     this.service.addItem(this.data);
 
   }
