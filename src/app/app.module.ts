@@ -69,6 +69,7 @@ import { AddEmployeeTypeDialogComponent } from './components/employeeType/add-em
 import { EditEmployeeTypeDialogComponent } from './components/employeeType/edit-employee-type-dialog/edit-employee-type-dialog.component';
 import { DeleteEmployeeTypeDialogComponent } from './components/employeeType/delete-employee-type-dialog/delete-employee-type-dialog.component';
 import { EmployeeTypeService } from './services/employee-type.service';
+import { QuestionListComponent } from './components/question/question-list/question-list.component';
 
 
 @NgModule({
@@ -107,6 +108,7 @@ import { EmployeeTypeService } from './services/employee-type.service';
     AddEmployeeTypeDialogComponent,
     EditEmployeeTypeDialogComponent,
     DeleteEmployeeTypeDialogComponent,
+    QuestionListComponent,
   ],
   imports: [
     MatSortModule,
