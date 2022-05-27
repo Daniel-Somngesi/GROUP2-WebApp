@@ -2,7 +2,7 @@
 
 <form [formGroup]="questionForm" (ngSubmit)="onFormSubmit()">
   <mat-form-field class="demo-full-width">
-    <input class="form-control" formControlName="question_Text" pattern="[a-zA-Z ]*" [(ngModel)]="question_Text" matTooltip="Enter question" matInput placeholder="Type question" autocomplete="off" required>
+    <input class="form-control" formControlName="question_Text" [(ngModel)]="question_Text" matTooltip="Enter question" matInput placeholder="Type question" autocomplete="off" required>
   </mat-form-field>
 <br>
 
@@ -23,6 +23,6 @@
             <mat-icon>edit</mat-icon></button>
            </li>
 
-     </ng-container> 
+     </ng-container>
     </ol>
   </div>
