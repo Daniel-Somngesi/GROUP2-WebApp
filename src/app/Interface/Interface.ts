@@ -67,6 +67,6 @@ export interface AllergyData {
 }
 
 export interface QuestionData {
-  question_Id: number;
+  question_Id: any;
   question_Text: string;
 } 

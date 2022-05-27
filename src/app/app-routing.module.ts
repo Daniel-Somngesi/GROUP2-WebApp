@@ -10,6 +10,7 @@ import { MedicalAidTypeListdComponent } from './components/medical-aid-type/medi
 import { DocumentUploadComponent } from './components/document/document-upload/document-upload.component';
 import { FeeTypeListComponent } from './components/feeType/fee-type-list/fee-type-list.component';
 import { AllergyListComponent } from './components/allergy/allergy-list/allergy-list.component';
+import { QuestionListComponent } from './components/question/question-list/question-list.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: 'allergy',
     component: AllergyListComponent
+  },
+  {
+    path: 'question',
+    component: QuestionListComponent
   }
 
 
