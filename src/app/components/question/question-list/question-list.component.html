@@ -1,0 +1,28 @@
+<h1>Survey Questions</h1>
+
+<form [formGroup]="questionForm" (ngSubmit)="onFormSubmit()">
+  <mat-form-field class="demo-full-width">
+    <input class="form-control" formControlName="question_Text" pattern="[a-zA-Z ]*" [(ngModel)]="question_Text" matTooltip="Enter question" matInput placeholder="Type question" autocomplete="off" required>
+  </mat-form-field>
+<br>
+
+  <mat-error>
+    <span *ngIf="!questionForm.get('question_Text').value && questionForm.get('question_Text').touched"></span>
+
+  </mat-error>
+
+<button type="submit" mat-raised-button [disabled]="!questionForm.valid" color="accent" matTooltip="Submit">Submit</button>
+  </form>
+
+  <div >
+    <h2>Questions</h2>
+    <ol>
+     <ng-container *ngFor="let q of questions; let i=index">
+        <li>{{q.question_Text}}<button id="btnDelete" mat-mini-fab color="primary" mat-raised-button color="accent" matTooltip="Delete" aria-label="Example icon button with a delete icon" (click)="deleteQuestion(q.question_Id)">
+          <mat-icon>delete</mat-icon></button><button mat-mini-fab mat-raised-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit" (click)="loadQuestionToEdit(q.question_Id )">
+            <mat-icon>edit</mat-icon></button>
+           </li>
+
+     </ng-container> 
+    </ol>
+  </div>

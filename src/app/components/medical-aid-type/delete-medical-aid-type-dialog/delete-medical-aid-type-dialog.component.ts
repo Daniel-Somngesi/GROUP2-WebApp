@@ -26,7 +26,6 @@ export class DeleteMedicalAidTypeDialogComponent implements OnInit {
 
     confirmDelete(): void {
       this.service.deleteItem(this.data.medicalAidTypeId);
-
     }
 
     SavedSuccessful(isUpdate:any) {

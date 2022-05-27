@@ -19,6 +19,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -50,11 +51,33 @@ import { ConsumablesListComponent } from './components/consumables/consumables-l
 import { AddConsumablesDialogComponent } from './components/consumables/add-consumables-dialog/add-consumables-dialog.component';
 import { EditConsumablesDialogComponent } from './components/consumables/edit-consumables-dialog/edit-consumables-dialog.component';
 import { DeleteConsumablesDialogComponent } from './components/consumables/delete-consumables-dialog/delete-consumables-dialog.component';
+import { BookingTypeListComponent } from './components/booking-type/booking-type-list/booking-type-list.component';
+import { AddBookingTypeComponent } from './components/booking-type/add-booking-type/add-booking-type.component';
+import { EditBookingTypeComponent } from './components/booking-type/edit-booking-type/edit-booking-type.component';
+import { DeleteBookingTypeComponent } from './components/booking-type/delete-booking-type/delete-booking-type.component';
+import { BookingManagementComponent } from './components/booking-type/booking-management/booking-management.component';
+import { EmployeeManagementComponent } from './components/employee/employee-management/employee-management.component';
+import { UserManagementComponent } from './components/user-role/user-management/user-management.component';
 import { SlotTypeListComponent } from './components/slot-type/slot-type-list/slot-type-list.component';
 import { AddSlotTypeDialogComponent } from './components/slot-type/add-slot-type-dialog/add-slot-type-dialog.component';
 import { EditSlotTypeDialogComponent } from './components/slot-type/edit-slot-type-dialog/edit-slot-type-dialog.component';
 import { DeleteSlotTypeDialogComponent } from './components/slot-type/delete-slot-type-dialog/delete-slot-type-dialog.component';
 import { DocumentUploadComponent } from './components/document/document-upload/document-upload.component';
+import { FeeTypeListComponent } from './components/feeType/fee-type-list/fee-type-list.component';
+import { AddFeeTypeDialogComponent } from './components/feeType/add-fee-type-dialog/add-fee-type-dialog.component';
+import { EditFeeTypeDialogComponent } from './components/feeType/edit-fee-type-dialog/edit-fee-type-dialog.component';
+import { DeleteFeeTypeDialogComponent } from './components/feeType/delete-fee-type-dialog/delete-fee-type-dialog.component';
+import { FeeTypeService } from './services/fee-type.service';
+import { AllergyListComponent } from './components/allergy/allergy-list/allergy-list.component';
+import { AllergyService } from './services/allergy.service';
+import { AddAllergyDialogComponent } from './components/allergy/add-allergy-dialog/add-allergy-dialog.component';
+import { EditAllergyDialogComponent } from './components/allergy/edit-allergy-dialog/edit-allergy-dialog.component';
+import { DeleteAllergyDialogComponent } from './components/allergy/delete-allergy-dialog/delete-allergy-dialog.component';
+import { AddEmployeeTypeDialogComponent } from './components/employeeType/add-employee-type-dialog/add-employee-type-dialog.component';
+import { EditEmployeeTypeDialogComponent } from './components/employeeType/edit-employee-type-dialog/edit-employee-type-dialog.component';
+import { DeleteEmployeeTypeDialogComponent } from './components/employeeType/delete-employee-type-dialog/delete-employee-type-dialog.component';
+import { EmployeeTypeService } from './services/employee-type.service';
+import { QuestionListComponent } from './components/question/question-list/question-list.component';
 
 @NgModule({
   declarations: [
@@ -76,11 +99,30 @@ import { DocumentUploadComponent } from './components/document/document-upload/d
     AddConsumablesDialogComponent,
     EditConsumablesDialogComponent,
     DeleteConsumablesDialogComponent,
+    BookingTypeListComponent,
+    AddBookingTypeComponent,
+    EditBookingTypeComponent,
+    DeleteBookingTypeComponent,
+    BookingManagementComponent,
+    EmployeeManagementComponent,
+    UserManagementComponent,
     SlotTypeListComponent,
     AddSlotTypeDialogComponent,
     EditSlotTypeDialogComponent,
     DeleteSlotTypeDialogComponent,
     DocumentUploadComponent,
+    FeeTypeListComponent,
+    AddFeeTypeDialogComponent,
+    EditFeeTypeDialogComponent,
+    DeleteFeeTypeDialogComponent,
+    AllergyListComponent,
+    AddAllergyDialogComponent,
+    EditAllergyDialogComponent,
+    DeleteAllergyDialogComponent,
+    AddEmployeeTypeDialogComponent,
+    EditEmployeeTypeDialogComponent,
+    DeleteEmployeeTypeDialogComponent,
+    QuestionListComponent,
   ],
   imports: [
     MatSortModule,
@@ -92,6 +134,7 @@ import { DocumentUploadComponent } from './components/document/document-upload/d
     MatInputModule,
     MatCardModule,
     MatButtonModule,
+    MatGridListModule,
     MatDatepickerModule,
     MatMenuModule,
     MatNativeDateModule,
@@ -111,7 +154,7 @@ import { DocumentUploadComponent } from './components/document/document-upload/d
     CommonModule,
     FormsModule
   ],
-  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService],
+  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService, FeeTypeService, AllergyService, EmployeeTypeService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

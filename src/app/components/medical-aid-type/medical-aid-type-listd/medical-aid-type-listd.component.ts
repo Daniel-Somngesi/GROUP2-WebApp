@@ -21,9 +21,8 @@ import { map } from 'rxjs/operators';
 export class MedicalAidTypeListdComponent implements OnInit {
 
   displayedColumns: string[] = ['medicalAidTypeName','actions'];
-   myDatabase!: MedicalAidTypeService;
-   dataSource!: myDataSource;
-  userRole_Id!: number;
+  myDatabase!: MedicalAidTypeService;
+  dataSource!: myDataSource;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   medicalAidTypeId!: number;
@@ -70,7 +69,7 @@ export class MedicalAidTypeListdComponent implements OnInit {
 
   openAddDialog() {
     const dialogRef = this.dialog.open(AddMedicalAidTypeDialogComponent, {
-      data: {EmployeeData: {} }
+      data: {MedicalAidTypeData: {} }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -82,7 +81,6 @@ export class MedicalAidTypeListdComponent implements OnInit {
         this.refreshTable();
         this.SavedSuccessful(1);
       }
-
     });
   }
 
@@ -102,27 +100,24 @@ export class MedicalAidTypeListdComponent implements OnInit {
         this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
         // And lastly refresh table
         this.reload();
-        this.refreshTable();
         this.SavedSuccessful(0);
       }
     });
   }
 
   deleteItem(medicalAidTypeId: number, medicalAidTypeName: string) {
-
     this.medicalAidTypeId = medicalAidTypeId;
     const dialogRef = this.dialog.open(DeleteMedicalAidTypeDialogComponent, {
       data: {medicalAidTypeId: medicalAidTypeId, medicalAidTypeName: medicalAidTypeName}
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
         const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.medicalAidTypeId === this.medicalAidTypeId);
         // for delete we use splice in order to remove single object from DataService
         this.myDatabase.dataChange.value.splice(foundIndex, 1);
+
         this.reload();
-        this.refreshTable();
-        this.SavedSuccessful(2)
+        this.SavedSuccessful(0);
       }
     });
   }
@@ -224,10 +219,5 @@ export class myDataSource extends DataSource<MedicalAidTypeData> {
 
       return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
     });
-
-
-
   }
-
-
 }

@@ -35,9 +35,14 @@ export interface EmployeeData {
 export interface EmployeeTypeData {
   employeeType_ID?: any;
   employeeType_Name: string;
-  employeeType_Description?: string;
+  employeeType_Description: string;
 }
 
+export interface BookingTypeData {
+  bookingType_ID?:any;
+  bookingType_Name:string;
+  bookingType_Description?:string;
+}
 export interface SlotTypeData {
   slotType_Id: number;
   name: string;
@@ -58,5 +63,17 @@ export interface DocumentToCreate {
 export interface QuestionData {
   question_Id:any;
   question_Text:string;
+}
+
+export interface FeeTypeData {
+  feeType_Id: number;
+  feeType_Name: string;
+  feeType_Description: string;
+
+}
+
+export interface AllergyData {
+  allergy_Id: number;
+  allergy_Name: string;
 }
 
