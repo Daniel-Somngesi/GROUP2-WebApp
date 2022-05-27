@@ -56,7 +56,6 @@ import { EditSlotTypeDialogComponent } from './components/slot-type/edit-slot-ty
 import { DeleteSlotTypeDialogComponent } from './components/slot-type/delete-slot-type-dialog/delete-slot-type-dialog.component';
 import { DocumentUploadComponent } from './components/document/document-upload/document-upload.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

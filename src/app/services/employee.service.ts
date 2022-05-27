@@ -26,6 +26,10 @@ export class EmployeeService {
     return this.dialogData;
   }
 
+  getEmployeeTypeById(id:any): Observable<any> {
+    return this.httpClient.get(`${_baseUrl}/${id}`);
+  }
+
   getAllEmployees(): void {
     this.httpClient.get<EmployeeData[]>(baseUrl).subscribe(data => {
       this.dataChange.next(data);
@@ -59,6 +63,8 @@ export class EmployeeService {
   getAllTypes():Observable<any> {
     return this.httpClient.get(_baseUrl);
   }
+
+
 
   updateItem(employee: any): void {
     this.dialogData = employee;

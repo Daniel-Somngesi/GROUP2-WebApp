@@ -1,3 +1,4 @@
+
 import { SlotTypeListComponent } from './components/slot-type/slot-type-list/slot-type-list.component';
 import { ConsumablesListComponent } from './components/consumables/consumables-list/consumables-list.component';
 import { AppComponent } from './app.component';
@@ -41,7 +42,8 @@ const routes: Routes = [
   {
     path: 'document',
     component: DocumentUploadComponent
-  }
+  },
+
 
 ];
 

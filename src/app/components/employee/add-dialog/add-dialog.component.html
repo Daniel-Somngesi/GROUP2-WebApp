@@ -84,8 +84,13 @@
     <span *ngIf="!employeeForm.get('city').value && employeeForm.get('city').touched">Invalid format</span>
   </mat-error>
 
+
+    <input class="form-control invisible"  [(ngModel)]="data.employeeType_Name" [(ngModel)]="typeName" formControlName="emplTypeName" autocomplete="off">
+
+
+
   <label id="lbl" for="employeeType_ID">Type</label>
-  <select name="employeeType_ID" [(ngModel)]="mySelect" formControlName="eType" required>
+  <select name="employeeType_ID" (mouseleave)="getEmployeeTypeName()" [(ngModel)]="mySelect" formControlName="eType"  required>
             <option *ngFor="let i of type" [ngValue]="i.employeeType_ID">
               {{ i.employeeType_Name }}
             </option>
@@ -95,10 +100,12 @@
 </table>
 <br>
 <div mat-dialog-actions>
-  <button mat-button mat-raised-button [disabled]="!employeeForm.valid" color="accent" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+  <button mat-button mat-raised-button color="accent" [disabled]="!employeeForm.valid" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
   <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
 </div>
 </form>
+
+
 
 
 

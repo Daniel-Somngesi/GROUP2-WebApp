@@ -29,6 +29,7 @@ export interface EmployeeData {
   employee_Email:any;
   id_Number: string;
   postal_code: string;
+  employeeType_Name:string;
 }
 
 export interface EmployeeTypeData {
@@ -52,5 +53,10 @@ export interface DocumentData {
 export interface DocumentToCreate {
   document_Name: string;
   docPath: string;
+}
+
+export interface QuestionData {
+  question_Id:any;
+  question_Text:string;
 }
 

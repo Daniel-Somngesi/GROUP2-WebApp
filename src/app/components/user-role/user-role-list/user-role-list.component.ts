@@ -190,8 +190,8 @@ export class myDataSource extends DataSource<UserRoleData> {
       let propertyB: number | string = '';
 
       switch (this._sort.active) {
-        case 'employee_Id': [propertyA, propertyB] = [a.userRole_Id, b.userRole_Id]; break;
-        case 'employee_Name': [propertyA, propertyB] = [a.userRole_Name, b.userRole_Name]; break;
+        case 'userRole_Id': [propertyA, propertyB] = [a.userRole_Id, b.userRole_Id]; break;
+        case 'userRole_Name': [propertyA, propertyB] = [a.userRole_Name, b.userRole_Name]; break;
       }
 
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
