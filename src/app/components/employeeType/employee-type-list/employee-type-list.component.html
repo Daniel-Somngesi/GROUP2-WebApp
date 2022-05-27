@@ -1,35 +1,67 @@
-<div class="container">
-    <h1>Employee Types</h1>
+<h1>Employee Types</h1>
 
-      <form [formGroup]="employeeTypeForm" (ngSubmit)="onFormSubmit()">
-        <mat-form-field class="demo-full-width">
-          <input class="form-control" formControlName="employeeType_Name" pattern="[a-zA-Z ]*" [(ngModel)]="employeeType_Name" matTooltip="Enter Employee Type" matInput placeholder="Type name" autocomplete="off" required>
+<div class="container mat-elevation-z8">
 
-        </mat-form-field>
-    <br>
-        <mat-form-field class="demo-full-width">
-        <input class="form-control" formControlName="employeeType_Description" pattern="[a-zA-Z ]*" [(ngModel)]="employeeType_Description" matTooltip="Enter Employee Type" matInput placeholder="Description" autocomplete="off" required>
-        </mat-form-field>
-
-        <mat-error>
-          <span *ngIf="!employeeTypeForm.get('employeeType_Name').value && employeeTypeForm.get('employeeType_Name').touched"></span>
-          <span *ngIf="!employeeTypeForm.get('employeeType_Description').value && employeeTypeForm.get('employeeType_Description').touched"></span>
-
-        </mat-error>
-
-    <button type="submit" mat-raised-button [disabled]="!employeeTypeForm.valid" color="accent" matTooltip="Submit">Submit</button>
-        </form>
-
-    <div class="form">
-    <table class="table" style="width:50%">
-      <tr> <th>Name</th> <th>Description</th> <th>Actions</th> </tr>
-      <tr *ngFor="let employeeType of employeeTypes"><td>{{employeeType.employeeType_Name}}</td>
-        <td>{{employeeType.employeeType_Description}}</td>
-        <td><button id="btnDelete" mat-mini-fab color="primary" mat-raised-button color="accent" matTooltip="Delete" aria-label="Example icon button with a delete icon" (click)="deleteEmployeeType(employeeType.employeeType_ID)">
-          <mat-icon>delete</mat-icon></button><button mat-mini-fab mat-raised-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit" (click)="loadEmployeeTypeToEdit(employeeType.employeeType_ID )">
-            <mat-icon>edit</mat-icon></button></td></tr>
-    </table>
-    </div>
+  <div class="form">
+    <mat-form-field floatPlaceholder="never" color="accent">
+      <input matInput #filter placeholder="Find Employee Type">
+    </mat-form-field>
   </div>
 
+  <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+    ng update @angular/cli @angular/core
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+          <ng-container matColumnDef="employeeType_ID">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+            <mat-cell *matCellDef="let employeeType"> {{employeeType.employeeType_ID}}</mat-cell>
+          </ng-container>
+
+
+    <ng-container matColumnDef="employeeType_Name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Employee Type Name</mat-header-cell>
+      <mat-cell *matCellDef="let employeeType"> {{employeeType.employeeType_Name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="employeeType_Description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Employee Type Description</mat-header-cell>
+        <mat-cell *matCellDef="let employeeType"> {{employeeType.employeeType_Description}}</mat-cell>
+      </ng-container>
+  
+
+    <!-- actions -->
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button color="primary" (click)="openAddDialog()">
+          <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+        </button>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let employeeType; let i=index;">
+        <button mat-icon-button color="accent" (click)="startEdit(employeeType.employeeType_ID, employeeType.employeeType_Name, employeeType.employeeType_Description)">
+          <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="accent">
+          <mat-icon aria-label="Delete" (click)="deleteItem(employeeType.employeeType_ID, employeeType.employeeType_Name, employeeType.employeeType_Description)">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let employeeType; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+  <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+    <h4>No employee types..</h4>
+  </div>
+
+  <mat-paginator #paginator
+                 [length]="dataSource.filteredData.length"
+                 [pageIndex]="0"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 25, 100]">
+  </mat-paginator>
+</div>
 

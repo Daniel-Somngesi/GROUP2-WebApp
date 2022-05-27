@@ -104,5 +104,9 @@ mat-grid-tile {
 app-sidenav { display: flex; }
 mat-drawer-container { flex: 1 1 auto; }
 
+th {
+  font-family: 'Work Sans', sans-serif;
+}
+
 
 

@@ -1,0 +1,27 @@
+<h1>Update Fee Type {{data.feeType_Id}}</h1>
+<form [formGroup]="feeTypeForm">
+
+    <td><mat-form-field class="demo-full-width">
+      <input class="form-control" [(ngModel)]="data.feeType_Name" formControlName="feeType_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
+    </mat-form-field>
+    <mat-error>
+      <span *ngIf="!feeTypeForm.get('feeType_Name').value && feeTypeForm.get('feeType_Name').touched">Invalid format</span>
+    </mat-error>
+
+    <mat-form-field class="demo-full-width">
+        <input class="form-control" [(ngModel)]="data.feeType_Description" formControlName="feeType_Description" pattern="[a-zA-Z ]*"  matTooltip="Enter Description" matInput placeholder="Description" autocomplete="off" required>
+      </mat-form-field>
+      <mat-error>
+        <span *ngIf="!feeTypeForm.get('feeType_Description').value && feeTypeForm.get('feeType_Description').touched">Invalid format</span>
+      </mat-error>
+
+<br>
+<div mat-dialog-actions>
+  <button mat-button [disabled]="!feeTypeForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+</div>
+</form>
+
+
+
+
