@@ -74,12 +74,10 @@ const routes: Routes = [
     path: 'document',
     component: DocumentUploadComponent
   },
-
   {
     path: 'fee-type',
     component: FeeTypeListComponent
   },
-
   {
     path: 'allergy',
     component: AllergyListComponent

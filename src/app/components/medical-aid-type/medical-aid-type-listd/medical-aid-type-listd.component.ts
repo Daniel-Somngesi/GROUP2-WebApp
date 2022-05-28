@@ -124,7 +124,7 @@ export class MedicalAidTypeListdComponent implements OnInit {
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
-    window.location.reload();
+    this.reload();
   }
 
 

@@ -127,7 +127,7 @@ export class SurveyListComponent implements OnInit {
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
-
+    this.reload();
   }
 
   public loadData() {

@@ -23,12 +23,12 @@ import {map} from 'rxjs/operators';
 
 export class BookingTypeListComponent implements OnInit {
 
-  
+
   displayedColumns: string[] = ['bookingType_Name','bookingType_Description', 'actions'];
   myDatabase!: BookingTypeService;
   dataSource!: myDataSource;
   bookingType_ID!: any;
-  
+
   constructor(public service:BookingTypeService,
    public dialog: MatDialog,
    public http:HttpClient,
@@ -73,7 +73,7 @@ export class BookingTypeListComponent implements OnInit {
      });
 
      dialogRef.afterClosed().subscribe(result => {
- 
+
        if (result === 1) {
          // When using an edit things are little different, firstly we find record inside DataService by id
          const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.bookingType_ID === this.bookingType_ID);
@@ -106,6 +106,7 @@ export class BookingTypeListComponent implements OnInit {
 
    private refreshTable() {
      this.paginator._changePageSize(this.paginator.pageSize);
+     this.reload();
    }
 
 
@@ -204,5 +205,5 @@ export class BookingTypeListComponent implements OnInit {
 
 
    }
-  
+
   }

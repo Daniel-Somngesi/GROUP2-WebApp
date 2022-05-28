@@ -102,7 +102,7 @@ deleteItem(fee_Id: number, fee_Name: string, fee_Amount: number, feeType_Id:numb
 
 private refreshTable() {
   this.paginator._changePageSize(this.paginator.pageSize);
-  window.location.reload();
+  this.reload();
 }
 
 public loadData() {
