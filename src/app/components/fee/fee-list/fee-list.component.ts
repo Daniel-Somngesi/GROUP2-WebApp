@@ -1,12 +1,8 @@
-import { DeleteFeeTypeDialogComponent } from './../delete-fee-type-dialog/delete-fee-type-dialog.component';
-import { EditFeeTypeDialogComponent } from './../edit-fee-type-dialog/edit-fee-type-dialog.component';
-import { AddFeeTypeDialogComponent } from './../add-fee-type-dialog/add-fee-type-dialog.component';
-import { FeeTypeData } from './../../../Interface/Interface';
-import { FeeTypeService } from './../../../services/fee-type.service';
+import { DeleteFeeDialogComponent } from './../delete-fee-dialog/delete-fee-dialog.component';
+import { EditFeeDialogComponent } from './../edit-fee-dialog/edit-fee-dialog.component';
+import { AddFeeDialogComponent } from './../add-fee-dialog/add-fee-dialog.component';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,25 +10,26 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DataSource } from '@angular/cdk/collections';
+import { FeeService } from 'src/app/services/fee.service';
+import { FeeData } from 'src/app/Interface/Interface';
 
 
 @Component({
-  selector: 'app-fee-type-list',
-  templateUrl: './fee-type-list.component.html',
-  styleUrls: ['./fee-type-list.component.css']
+  selector: 'app-fee-list',
+  templateUrl: './fee-list.component.html',
+  styleUrls: ['./fee-list.component.css']
 })
-export class FeeTypeListComponent implements OnInit {
+export class FeeListComponent implements OnInit {
 
-  displayedColumns: string[] = ['feeType_Name', 'feeType_Description','actions'];
-
-   myDatabase!: FeeTypeService;
-   dataSource!: myDataSource;
-  feeType_Id!: number;
+  displayedColumns: string[] = ['fee_Id','fee_Name', 'fee_Amount','fee_Type','actions'];
+  myDatabase!: FeeService;
+  dataSource!: myDataSource;
+  fee_Id!: number;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(public dialog: MatDialog,
-    public http:HttpClient, private service: FeeTypeService, private _snackBar: MatSnackBar) { }
+    public http:HttpClient, private service: FeeService, private _snackBar: MatSnackBar) { }
 
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
@@ -47,8 +44,8 @@ ngOnInit(): void {
   }
 
   openAddDialog() {
-    const dialogRef = this.dialog.open(AddFeeTypeDialogComponent, {
-      data: {FeeTypeData: {} }
+    const dialogRef = this.dialog.open(AddFeeDialogComponent, {
+      data: {FeeData: {} }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -63,18 +60,18 @@ ngOnInit(): void {
     });
   }
 
-  startEdit(feeType_Id: number, feeType_Name: string, feeType_Description: string ) {
-    this.feeType_Id = feeType_Id;
+  startEdit(fee_Id: number, fee_Name: string, fee_Amount: number, feeType_Id:number ) {
+    this.fee_Id = fee_Id;
 
-    const dialogRef = this.dialog.open(EditFeeTypeDialogComponent, {
-      data: {feeType_Id: feeType_Id, feeType_Name: feeType_Name, feeType_Description: feeType_Description}
+    const dialogRef = this.dialog.open(EditFeeDialogComponent, {
+      data: {fee_Id: fee_Id, fee_Name:fee_Name, fee_Amount:fee_Amount, feeType_Id: feeType_Id}
     });
 
     dialogRef.afterClosed().subscribe(result => {
 
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.feeType_Id === this.feeType_Id);
+        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.fee_Id === this.fee_Id);
         // Then you update that record using data from dialogData (values you enetered)
         this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
         // And lastly refresh table
@@ -85,16 +82,16 @@ ngOnInit(): void {
 
 }
 
-deleteItem(feeType_Id: number, feeType_Name: string, feeType_Description: string) {
+deleteItem(fee_Id: number, fee_Name: string, fee_Amount: number, feeType_Id:number) {
 
-  this.feeType_Id = feeType_Id;
-  const dialogRef = this.dialog.open(DeleteFeeTypeDialogComponent, {
-    data: {feeType_Id: feeType_Id, feeType_Name: feeType_Name, feeType_Description: feeType_Description}
+  this.fee_Id = fee_Id;
+  const dialogRef = this.dialog.open(DeleteFeeDialogComponent, {
+    data: {fee_Id: fee_Id, fee_Name: fee_Name, fee_Amount: fee_Amount, feeType_Id:feeType_Id}
   });
 
   dialogRef.afterClosed().subscribe(result => {
     if (result === 1) {
-      const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.feeType_Id === this.feeType_Id);
+      const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.fee_Id === this.fee_Id);
       // for delete we use splice in order to remove single object from DataService
       this.myDatabase.dataChange.value.splice(foundIndex, 1);
       this.reload();
@@ -109,7 +106,7 @@ private refreshTable() {
 }
 
 public loadData() {
-  this.myDatabase = new FeeTypeService(this.http);
+  this.myDatabase = new FeeService(this.http);
   this.dataSource = new myDataSource(this.myDatabase, this.paginator, this.sort);
   fromEvent(this.filter.nativeElement, 'keyup')
     // s.debounceTime(150)
@@ -123,7 +120,7 @@ public loadData() {
 }
 }
 
-export class myDataSource extends DataSource<FeeTypeData> {
+export class myDataSource extends DataSource<FeeData> {
   _filterChange = new BehaviorSubject('');
 
   get filter(): string {
@@ -134,10 +131,10 @@ export class myDataSource extends DataSource<FeeTypeData> {
     this._filterChange.next(filter);
   }
 
-  filteredData: FeeTypeData[] = [];
-  renderedData: FeeTypeData[] = [];
+  filteredData: FeeData[] = [];
+  renderedData: FeeData[] = [];
 
-  constructor(public _myDatabase: FeeTypeService,
+  constructor(public _myDatabase: FeeService,
               public _paginator: MatPaginator,
               public _sort: MatSort) {
     super();
@@ -146,7 +143,7 @@ export class myDataSource extends DataSource<FeeTypeData> {
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<FeeTypeData[]> {
+  connect(): Observable<FeeData[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this._myDatabase.dataChange,
@@ -155,13 +152,13 @@ export class myDataSource extends DataSource<FeeTypeData> {
       this._paginator.page
     ];
 
-    this._myDatabase.getAllFeeTypes();
+    this._myDatabase.getAllFees();
 
 
     return merge(...displayDataChanges).pipe(map( () => {
         // Filter data
-        this.filteredData = this._myDatabase.data.slice().filter((feetype: FeeTypeData) => {
-          const searchStr = (feetype.feeType_Id + feetype.feeType_Name + feetype.feeType_Description).toLowerCase();
+        this.filteredData = this._myDatabase.data.slice().filter((fee: FeeData) => {
+          const searchStr = (fee.fee_Id + fee.fee_Name + fee.fee_Amount + fee.feeType_Id +  fee.feeType_Name).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
 
@@ -180,7 +177,7 @@ export class myDataSource extends DataSource<FeeTypeData> {
 
     disconnect() {}
 
-  sortData(data: FeeTypeData[]): FeeTypeData[] {
+  sortData(data: FeeData[]): FeeData[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -190,10 +187,11 @@ export class myDataSource extends DataSource<FeeTypeData> {
       let propertyB: number | string = '';
 
       switch (this._sort.active) {
+        case 'fee_Id': [propertyA, propertyB] = [a.fee_Id, b.fee_Id]; break;
+        case 'feeType_Name': [propertyA, propertyB] = [a.fee_Name, b.fee_Name]; break;
+        case 'fee_Amount': [propertyA, propertyB] = [a.fee_Amount, b.fee_Amount]; break;
         case 'feeType_Id': [propertyA, propertyB] = [a.feeType_Id, b.feeType_Id]; break;
         case 'feeType_Name': [propertyA, propertyB] = [a.feeType_Name, b.feeType_Name]; break;
-        case 'feeType_Description': [propertyA, propertyB] = [a.feeType_Description, b.feeType_Description]; break;
-
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

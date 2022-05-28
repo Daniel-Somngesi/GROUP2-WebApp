@@ -1,3 +1,5 @@
+import { FeeService } from './services/fee.service';
+import { SurveyService } from './services/survey.service';
 import { SlotTypeService } from './services/slot-type.service';
 import { ConsumablesService } from './services/consumables.service';
 import { MedicalAidTypeService } from './services/medical-aid-type.service';
@@ -78,6 +80,17 @@ import { EditEmployeeTypeDialogComponent } from './components/employeeType/edit-
 import { DeleteEmployeeTypeDialogComponent } from './components/employeeType/delete-employee-type-dialog/delete-employee-type-dialog.component';
 import { EmployeeTypeService } from './services/employee-type.service';
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
+import { AddSurveyDialogComponent } from './components/survey/add-survey-dialog/add-survey-dialog.component';
+import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
+import { DeleteSurveyDialogComponent } from './components/survey/delete-survey-dialog/delete-survey-dialog.component';
+import { EditSurveyDialogComponent } from './components/survey/edit-survey-dialog/edit-survey-dialog.component';
+import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
+import { FeeListComponent } from './components/fee/fee-list/fee-list.component';
+import { AddFeeDialogComponent } from './components/fee/add-fee-dialog/add-fee-dialog.component';
+import { EditFeeDialogComponent } from './components/fee/edit-fee-dialog/edit-fee-dialog.component';
+import { DeleteFeeDialogComponent } from './components/fee/delete-fee-dialog/delete-fee-dialog.component';
+import { SurveymanagementComponent } from './components/survey/surveymanagement/surveymanagement.component';
+
 
 @NgModule({
   declarations: [
@@ -123,6 +136,16 @@ import { QuestionListComponent } from './components/question/question-list/quest
     EditEmployeeTypeDialogComponent,
     DeleteEmployeeTypeDialogComponent,
     QuestionListComponent,
+    AddSurveyDialogComponent,
+    SurveyListComponent,
+    DeleteSurveyDialogComponent,
+    EditSurveyDialogComponent,
+    FeeManagementComponent,
+    FeeListComponent,
+    AddFeeDialogComponent,
+    EditFeeDialogComponent,
+    DeleteFeeDialogComponent,
+    SurveymanagementComponent,
   ],
   imports: [
     MatSortModule,
@@ -152,9 +175,11 @@ import { QuestionListComponent } from './components/question/question-list/quest
     MatPaginatorModule,
     ReactiveFormsModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+
   ],
-  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService, FeeTypeService, AllergyService, EmployeeTypeService],
+  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService,
+    SlotTypeService, FeeTypeService, AllergyService, FeeService,EmployeeTypeService, SurveyService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

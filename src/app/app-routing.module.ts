@@ -1,3 +1,5 @@
+import { FeeListComponent } from './components/fee/fee-list/fee-list.component';
+import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
 import { EmployeeManagementComponent } from './components/employee/employee-management/employee-management.component';
 import { UserManagementComponent } from './components/user-role/user-management/user-management.component';
 import { SlotTypeListComponent } from './components/slot-type/slot-type-list/slot-type-list.component';
@@ -14,7 +16,8 @@ import { DocumentUploadComponent } from './components/document/document-upload/d
 import { FeeTypeListComponent } from './components/feeType/fee-type-list/fee-type-list.component';
 import { AllergyListComponent } from './components/allergy/allergy-list/allergy-list.component';
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
-
+import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
+import {SurveymanagementComponent} from './components/survey/surveymanagement/surveymanagement.component';
 
 const routes: Routes = [
   {
@@ -71,12 +74,10 @@ const routes: Routes = [
     path: 'document',
     component: DocumentUploadComponent
   },
-
   {
     path: 'fee-type',
     component: FeeTypeListComponent
   },
-
   {
     path: 'allergy',
     component: AllergyListComponent
@@ -84,9 +85,23 @@ const routes: Routes = [
   {
     path: 'question',
     component: QuestionListComponent
+  },
+  {
+    path: 'survey',
+    component: SurveyListComponent
+  },
+  {
+    path: 'fee-management',
+    component: FeeManagementComponent
+  },
+  {
+    path: 'fee',
+    component: FeeListComponent
+  },
+  {
+    path: 'survey-management',
+    component: SurveymanagementComponent
   }
-
-
 ];
 
 @NgModule({

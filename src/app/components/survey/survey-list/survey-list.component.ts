@@ -1,39 +1,39 @@
-import { DeleteConsumablesDialogComponent } from './../delete-consumables-dialog/delete-consumables-dialog.component';
-import { EditConsumablesDialogComponent } from './../edit-consumables-dialog/edit-consumables-dialog.component';
-import { AddConsumablesDialogComponent } from './../add-consumables-dialog/add-consumables-dialog.component';
-import { ConsumablesData } from './../../../Interface/Interface';
-import { ConsumablesService } from './../../../services/consumables.service';
+import { DeleteSurveyDialogComponent } from './../delete-survey-dialog/delete-survey-dialog.component';
+import { EditSurveyDialogComponent } from './../edit-survey-dialog/edit-survey-dialog.component';
+import { SurveyData } from './../../../Interface/Interface';
+import { AddSurveyDialogComponent } from './../add-survey-dialog/add-survey-dialog.component';
+import { SurveyService } from './../../../services/survey.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-consumables-list',
-  templateUrl: './consumables-list.component.html',
-  styleUrls: ['./consumables-list.component.css']
+  selector: 'app-survey-list',
+  templateUrl: './survey-list.component.html',
+  styleUrls: ['./survey-list.component.css']
 })
-export class ConsumablesListComponent implements OnInit {
+export class SurveyListComponent implements OnInit {
 
-  displayedColumns: string[] = ['Name','Description','Quantity','actions'];
-  myDatabase!: ConsumablesService;
+  displayedColumns: string[] = ['survey', 'startDate','endDate', 'actions'];
+  myDatabase!: SurveyService;
   dataSource!: myDataSource;
-  consumable_Id!: number;
+  survey_Id!: number;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(public dialog: MatDialog,
-    public http:HttpClient, private service: ConsumablesService,
+    public http:HttpClient, private service: SurveyService,
      private _snackBar: MatSnackBar) { }
 
-    @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
-    @ViewChild(MatSort, {static: true}) sort!: MatSort;
-    @ViewChild('filter',  {static: true}) filter!: ElementRef;
+     @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
+     @ViewChild(MatSort, {static: true}) sort!: MatSort;
+     @ViewChild('filter',  {static: true}) filter!: ElementRef;
 
   ngOnInit(): void {
     this.loadData();
@@ -68,8 +68,8 @@ export class ConsumablesListComponent implements OnInit {
   }
 
   openAddDialog() {
-    const dialogRef = this.dialog.open(AddConsumablesDialogComponent, {
-      data: {ConsumablesData: {} }
+    const dialogRef = this.dialog.open(AddSurveyDialogComponent, {
+      data: {SurveyData: {} }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -84,18 +84,18 @@ export class ConsumablesListComponent implements OnInit {
     });
   }
 
-  startEdit(consumable_Id: number, name: string, description: string, quantity: number) {
-    this.consumable_Id = consumable_Id;
+  startEdit(survey_Id: number, survey_Name: string, startDate: Date, endDate: Date) {
+    this.survey_Id = survey_Id;
 
-    const dialogRef = this.dialog.open(EditConsumablesDialogComponent, {
-      data: {consumable_Id:consumable_Id, name:name, description, quantity}
+    const dialogRef = this.dialog.open(EditSurveyDialogComponent, {
+      data: {survey_Id:survey_Id, survey_Name:survey_Name, startDate:startDate, endDate:endDate}
     });
 
     dialogRef.afterClosed().subscribe(result => {
 
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.consumable_Id === this.consumable_Id);
+        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.survey_Id === this.survey_Id);
         // Then you update that record using data from dialogData (values you enetered)
         this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
         // And lastly refresh table
@@ -106,16 +106,16 @@ export class ConsumablesListComponent implements OnInit {
     });
   }
 
-  deleteItem(consumable_Id: number, name: string, description: string, quantity: number) {
+  deleteItem(survey_Id: number, survey_Name: string, startDate: Date, endDate: Date) {
 
-    this.consumable_Id = consumable_Id;
-    const dialogRef = this.dialog.open(DeleteConsumablesDialogComponent, {
-      data: {consumable_Id: consumable_Id, name: name, description: description, quantity: quantity}
+    this.survey_Id = survey_Id;
+    const dialogRef = this.dialog.open(DeleteSurveyDialogComponent, {
+      data: {survey_Id:survey_Id, survey_Name: survey_Name}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
-        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.consumable_Id === this.consumable_Id);
+        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.survey_Id === this.survey_Id);
         // for delete we use splice in order to remove single object from DataService
         this.myDatabase.dataChange.value.splice(foundIndex, 1);
         this.reload();
@@ -131,7 +131,7 @@ export class ConsumablesListComponent implements OnInit {
   }
 
   public loadData() {
-    this.myDatabase = new ConsumablesService(this.http);
+    this.myDatabase = new SurveyService(this.http);
     this.dataSource = new myDataSource(this.myDatabase, this.paginator, this.sort);
     fromEvent(this.filter.nativeElement, 'keyup')
       // s.debounceTime(150)
@@ -145,7 +145,7 @@ export class ConsumablesListComponent implements OnInit {
   }
 }
 
-export class myDataSource extends DataSource<ConsumablesData> {
+export class myDataSource extends DataSource<SurveyData> {
   _filterChange = new BehaviorSubject('');
 
   get filter(): string {
@@ -156,10 +156,10 @@ export class myDataSource extends DataSource<ConsumablesData> {
     this._filterChange.next(filter);
   }
 
-  filteredData: ConsumablesData[] = [];
-  renderedData: ConsumablesData[] = [];
+  filteredData: SurveyData[] = [];
+  renderedData: SurveyData[] = [];
 
-  constructor(public _myDatabase: ConsumablesService,
+  constructor(public _myDatabase: SurveyService,
               public _paginator: MatPaginator,
               public _sort: MatSort) {
     super();
@@ -168,7 +168,7 @@ export class myDataSource extends DataSource<ConsumablesData> {
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<ConsumablesData[]> {
+  connect(): Observable<SurveyData[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this._myDatabase.dataChange,
@@ -177,14 +177,13 @@ export class myDataSource extends DataSource<ConsumablesData> {
       this._paginator.page
     ];
 
-    this._myDatabase.getAllConsumables();
+    this._myDatabase.getAllSurveys();
 
 
     return merge(...displayDataChanges).pipe(map( () => {
         // Filter data
-        this.filteredData = this._myDatabase.data.slice().filter((consumable: ConsumablesData) => {
-          const searchStr = (consumable.consumable_Id + consumable.name + consumable.description +
-            consumable.quantity );
+        this.filteredData = this._myDatabase.data.slice().filter((survey: SurveyData) => {
+          const searchStr = (survey.survey_Id + survey.survey_Name + survey.startDate + survey.endDate);
           return searchStr.toString().indexOf(this.filter.toLowerCase()) !== -1;
         });
 
@@ -203,22 +202,21 @@ export class myDataSource extends DataSource<ConsumablesData> {
 
   disconnect() {}
 
-  sortData(data: ConsumablesData[]): ConsumablesData[] {
+  sortData(data: SurveyData[]): SurveyData[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
 
     return data.sort((a, b) => {
-      let propertyA: number | string = '' ;
-      let propertyB: number | string = '';
+      let propertyA: number | string | Date = '' ;
+      let propertyB: number | string  | Date= '';
 
       switch (this._sort.active) {
-        case 'consumable_Id': [propertyA, propertyB] = [a.consumable_Id, b.consumable_Id]; break;
-        case 'name': [propertyA, propertyB] = [a.name, b.name]; break;
-        case 'description': [propertyA, propertyB] = [a.description, b.description]; break;
-        case 'quantity': [propertyA, propertyB] = [a.quantity, b.quantity]; break;
+        case 'survey_Id': [propertyA, propertyB] = [a.survey_Id, b.survey_Id]; break;
+        case 'survey_Name': [propertyA, propertyB] = [a.survey_Name, b.survey_Name]; break;
+        case 'startDate': [propertyA, propertyB] = [a.startDate, b.startDate]; break;
+        case 'endDate': [propertyA, propertyB] = [a.endDate, b.endDate]; break;
       }
-
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
 

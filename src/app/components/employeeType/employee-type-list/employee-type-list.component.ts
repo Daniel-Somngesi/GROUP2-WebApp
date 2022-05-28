@@ -105,7 +105,7 @@ deleteItem(employeeType_ID: number, employeeType_Name: string, employeeType_Desc
 
 private refreshTable() {
   this.paginator._changePageSize(this.paginator.pageSize);
-  window.location.reload();
+  this.reload();
 }
 
 public loadData() {
