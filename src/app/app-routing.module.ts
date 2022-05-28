@@ -1,3 +1,4 @@
+import { FeeListComponent } from './components/fee/fee-list/fee-list.component';
 import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
 import { EmployeeManagementComponent } from './components/employee/employee-management/employee-management.component';
 import { UserManagementComponent } from './components/user-role/user-management/user-management.component';
@@ -94,6 +95,10 @@ const routes: Routes = [
   {
     path: 'fee-management',
     component: FeeManagementComponent
+  },
+  {
+    path: 'fee',
+    component: FeeListComponent
   }
 
 

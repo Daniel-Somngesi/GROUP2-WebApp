@@ -1,3 +1,4 @@
+import { FeeService } from './services/fee.service';
 import { SurveyService } from './services/survey.service';
 import { SlotTypeService } from './services/slot-type.service';
 import { ConsumablesService } from './services/consumables.service';
@@ -84,6 +85,10 @@ import { SurveyListComponent } from './components/survey/survey-list/survey-list
 import { DeleteSurveyDialogComponent } from './components/survey/delete-survey-dialog/delete-survey-dialog.component';
 import { EditSurveyDialogComponent } from './components/survey/edit-survey-dialog/edit-survey-dialog.component';
 import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
+import { FeeListComponent } from './components/fee/fee-list/fee-list.component';
+import { AddFeeDialogComponent } from './components/fee/add-fee-dialog/add-fee-dialog.component';
+import { EditFeeDialogComponent } from './components/fee/edit-fee-dialog/edit-fee-dialog.component';
+import { DeleteFeeDialogComponent } from './components/fee/delete-fee-dialog/delete-fee-dialog.component';
 
 
 @NgModule({
@@ -135,6 +140,10 @@ import { FeeManagementComponent } from './components/feeType/fee-management/fee-
     DeleteSurveyDialogComponent,
     EditSurveyDialogComponent,
     FeeManagementComponent,
+    FeeListComponent,
+    AddFeeDialogComponent,
+    EditFeeDialogComponent,
+    DeleteFeeDialogComponent,
   ],
   imports: [
     MatSortModule,
@@ -168,7 +177,7 @@ import { FeeManagementComponent } from './components/feeType/fee-management/fee-
 
   ],
   providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService,
-    SlotTypeService, FeeTypeService, AllergyService, EmployeeTypeService, SurveyService],
+    SlotTypeService, FeeTypeService, AllergyService, FeeService,EmployeeTypeService, SurveyService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

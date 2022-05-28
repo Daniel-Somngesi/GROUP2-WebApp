@@ -83,3 +83,11 @@ export interface SurveyData {
   startDate: Date;
   endDate: Date;
 }
+
+export interface FeeData {
+  fee_Id:number;
+  fee_Name:string;
+  fee_Amount:string;
+  feeType_Id:number;
+  feeType_Name:string;
+}
