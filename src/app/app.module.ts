@@ -78,6 +78,7 @@ import { EditEmployeeTypeDialogComponent } from './components/employeeType/edit-
 import { DeleteEmployeeTypeDialogComponent } from './components/employeeType/delete-employee-type-dialog/delete-employee-type-dialog.component';
 import { EmployeeTypeService } from './services/employee-type.service';
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
+import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { QuestionListComponent } from './components/question/question-list/quest
     EditEmployeeTypeDialogComponent,
     DeleteEmployeeTypeDialogComponent,
     QuestionListComponent,
+    FeeManagementComponent,
   ],
   imports: [
     MatSortModule,
