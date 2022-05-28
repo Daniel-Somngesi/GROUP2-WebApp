@@ -83,7 +83,7 @@ import { AddSurveyDialogComponent } from './components/survey/add-survey-dialog/
 import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
 import { DeleteSurveyDialogComponent } from './components/survey/delete-survey-dialog/delete-survey-dialog.component';
 import { EditSurveyDialogComponent } from './components/survey/edit-survey-dialog/edit-survey-dialog.component';
-import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
 
 
 @NgModule({
@@ -134,6 +134,7 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     SurveyListComponent,
     DeleteSurveyDialogComponent,
     EditSurveyDialogComponent,
+    FeeManagementComponent,
   ],
   imports: [
     MatSortModule,

@@ -15,6 +15,7 @@ import { DocumentUploadComponent } from './components/document/document-upload/d
 import { FeeTypeListComponent } from './components/feeType/fee-type-list/fee-type-list.component';
 import { AllergyListComponent } from './components/allergy/allergy-list/allergy-list.component';
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
+import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
 
 
 const routes: Routes = [
@@ -89,6 +90,10 @@ const routes: Routes = [
   {
     path: 'survey',
     component: SurveyListComponent
+  },
+  {
+    path: 'fee-management',
+    component: FeeManagementComponent
   }
 
 
