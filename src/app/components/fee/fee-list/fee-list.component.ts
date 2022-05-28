@@ -53,8 +53,8 @@ ngOnInit(): void {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
         this.myDatabase.dataChange.value.push(this.service.getDialogData());
-        this.reload();
         this.refreshTable();
+        this.reload();
       }
 
     });
@@ -75,8 +75,8 @@ ngOnInit(): void {
         // Then you update that record using data from dialogData (values you enetered)
         this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
         // And lastly refresh table
-        this.reload();
         this.refreshTable();
+        this.reload();
       }
     });
 
@@ -94,15 +94,15 @@ deleteItem(fee_Id: number, fee_Name: string, fee_Amount: number, feeType_Id:numb
       const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.fee_Id === this.fee_Id);
       // for delete we use splice in order to remove single object from DataService
       this.myDatabase.dataChange.value.splice(foundIndex, 1);
-      this.reload();
       this.refreshTable();
+      this.reload();
     }
   });
 }
 
 private refreshTable() {
   this.paginator._changePageSize(this.paginator.pageSize);
-  this.reload();
+  window.location.reload();
 }
 
 public loadData() {

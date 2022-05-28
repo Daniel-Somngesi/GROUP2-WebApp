@@ -20,14 +20,14 @@ export class DeleteFeeTypeDialogComponent implements OnInit {
 
     ngOnInit(): void {
     }
-  
+
     onNoClick(): void {
       this.dialogRef.close();
     }
 
     confirmDelete(): void {
       this.service.deleteItem(this.data.feeType_Id);
-  
+      this.SavedSuccessful(2);;
     }
 
     SavedSuccessful(isUpdate:any) {
@@ -53,5 +53,5 @@ export class DeleteFeeTypeDialogComponent implements OnInit {
         });
       }
     }
-  
+
   }

@@ -25,7 +25,7 @@ export class DeleteEmployeeTypeDialogComponent implements OnInit {
 
   confirmDelete(): void {
     this.service.deleteItem(this.data.employeeType_ID);
-
+    this.SavedSuccessful(2);
   }
 
   SavedSuccessful(isUpdate:any) {

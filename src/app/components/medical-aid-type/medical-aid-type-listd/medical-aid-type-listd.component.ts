@@ -77,8 +77,8 @@ export class MedicalAidTypeListdComponent implements OnInit {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
         this.myDatabase.dataChange.value.push(this.service.getDialogData());
-        this.reload();
         this.refreshTable();
+        this.reload();
         this.SavedSuccessful(1);
       }
     });
@@ -99,6 +99,7 @@ export class MedicalAidTypeListdComponent implements OnInit {
         // Then you update that record using data from dialogData (values you enetered)
         this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
         // And lastly refresh table
+        this.refreshTable();
         this.reload();
         this.SavedSuccessful(0);
       }
@@ -124,7 +125,7 @@ export class MedicalAidTypeListdComponent implements OnInit {
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
-    this.reload();
+    window.location.reload();
   }
 
 
