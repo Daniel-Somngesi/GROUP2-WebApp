@@ -1,3 +1,4 @@
+import { SurveyService } from './services/survey.service';
 import { SlotTypeService } from './services/slot-type.service';
 import { ConsumablesService } from './services/consumables.service';
 import { MedicalAidTypeService } from './services/medical-aid-type.service';
@@ -78,6 +79,12 @@ import { EditEmployeeTypeDialogComponent } from './components/employeeType/edit-
 import { DeleteEmployeeTypeDialogComponent } from './components/employeeType/delete-employee-type-dialog/delete-employee-type-dialog.component';
 import { EmployeeTypeService } from './services/employee-type.service';
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
+import { AddSurveyDialogComponent } from './components/survey/add-survey-dialog/add-survey-dialog.component';
+import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
+import { DeleteSurveyDialogComponent } from './components/survey/delete-survey-dialog/delete-survey-dialog.component';
+import { EditSurveyDialogComponent } from './components/survey/edit-survey-dialog/edit-survey-dialog.component';
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+
 
 @NgModule({
   declarations: [
@@ -123,6 +130,10 @@ import { QuestionListComponent } from './components/question/question-list/quest
     EditEmployeeTypeDialogComponent,
     DeleteEmployeeTypeDialogComponent,
     QuestionListComponent,
+    AddSurveyDialogComponent,
+    SurveyListComponent,
+    DeleteSurveyDialogComponent,
+    EditSurveyDialogComponent,
   ],
   imports: [
     MatSortModule,
@@ -152,9 +163,11 @@ import { QuestionListComponent } from './components/question/question-list/quest
     MatPaginatorModule,
     ReactiveFormsModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+
   ],
-  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, SlotTypeService, FeeTypeService, AllergyService, EmployeeTypeService],
+  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService,
+    SlotTypeService, FeeTypeService, AllergyService, EmployeeTypeService, SurveyService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -77,3 +77,9 @@ export interface AllergyData {
   allergy_Name: string;
 }
 
+export interface SurveyData {
+  survey_Id: number;
+  survey_Name: string;
+  startDate: Date;
+  endDate: Date;
+}

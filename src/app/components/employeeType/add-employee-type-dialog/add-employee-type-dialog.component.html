@@ -1,7 +1,7 @@
 <h1>Add Employee Type</h1>
 <form [formGroup]="employeeTypeForm">
     <mat-form-field class="demo-full-width">
-      <input class="form-control" class="form-control" [(ngModel)]="data.employeeType_Name" formControlName="employeeType_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter Employee Type" matInput placeholder="Name" autocomplete="off" required>
+      <input class="form-control" [(ngModel)]="data.employeeType_Name" formControlName="employeeType_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter Employee Type" matInput placeholder="Name" autocomplete="off" required>
     </mat-form-field>
 
     <mat-error>
@@ -12,7 +12,7 @@
         <input class="form-control" class="form-control" [(ngModel)]="data.employeeType_Description" formControlName="employeeType_Description" pattern="[a-zA-Z ]*"  matTooltip="Enter Employee Type" matInput placeholder="Description" autocomplete="off" required>
       </mat-form-field>
 
-       
+
     <mat-error>
         <span *ngIf="!employeeTypeForm.get('employeeType_Description').value && employeeTypeForm.get('employeeType_Description').touched">Invalid format</span>
       </mat-error>

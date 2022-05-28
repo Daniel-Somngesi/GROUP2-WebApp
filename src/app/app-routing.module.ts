@@ -1,3 +1,4 @@
+import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
 import { EmployeeManagementComponent } from './components/employee/employee-management/employee-management.component';
 import { UserManagementComponent } from './components/user-role/user-management/user-management.component';
 import { SlotTypeListComponent } from './components/slot-type/slot-type-list/slot-type-list.component';
@@ -84,6 +85,10 @@ const routes: Routes = [
   {
     path: 'question',
     component: QuestionListComponent
+  },
+  {
+    path: 'survey',
+    component: SurveyListComponent
   }
 
 
