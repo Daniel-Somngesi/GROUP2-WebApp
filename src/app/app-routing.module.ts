@@ -16,7 +16,7 @@ import { FeeTypeListComponent } from './components/feeType/fee-type-list/fee-typ
 import { AllergyListComponent } from './components/allergy/allergy-list/allergy-list.component';
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
 import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
-
+import {SurveymanagementComponent} from './components/survey/surveymanagement/surveymanagement.component';
 
 const routes: Routes = [
   {
@@ -94,9 +94,11 @@ const routes: Routes = [
   {
     path: 'fee-management',
     component: FeeManagementComponent
+  },
+  {
+    path: 'survey-management',
+    component: SurveymanagementComponent
   }
-
-
 ];
 
 @NgModule({
