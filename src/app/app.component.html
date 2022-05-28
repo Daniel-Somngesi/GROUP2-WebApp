@@ -86,7 +86,7 @@
           <span>Child</span>
       </button>  <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" >
         <mat-icon>sports_soccer</mat-icon>
         <span>Sports & Recreation</span>
     </button> <mat-divider></mat-divider>
@@ -94,6 +94,11 @@
         <mat-icon>chat</mat-icon>
         <span>Communication</span>
     </button> <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button" [routerLink]="['/document']">
+      <mat-icon>upload_file</mat-icon>
+      <span>Documents</span>
+  </button> <mat-divider></mat-divider>
 
     <button mat-button class="menu-button">
         <mat-icon>bar_chart</mat-icon>
