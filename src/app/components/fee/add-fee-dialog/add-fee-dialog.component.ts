@@ -60,9 +60,8 @@ export class AddFeeDialogComponent implements OnInit {
       _fee.feeType_Id = this.mySelect;
       this.data.feeType_Id = this.mySelect;
       this.data.feeType_Name = this.feeName;
-      console.log(this.feeName);
       this.service.addItem(this.data);
-
+      this.SavedSuccessful(1);
     }
 
     SavedSuccessful(isUpdate:any) {
