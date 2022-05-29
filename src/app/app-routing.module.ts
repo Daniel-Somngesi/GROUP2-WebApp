@@ -1,10 +1,9 @@
+import { FeeListComponent } from './components/fee/fee-list/fee-list.component';
+import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
 import { EmployeeManagementComponent } from './components/employee/employee-management/employee-management.component';
 import { UserManagementComponent } from './components/user-role/user-management/user-management.component';
-import { EditBookingTypeComponent } from './components/booking-type/edit-booking-type/edit-booking-type.component';
-import { AddBookingTypeComponent } from './components/booking-type/add-booking-type/add-booking-type.component';
 import { SlotTypeListComponent } from './components/slot-type/slot-type-list/slot-type-list.component';
 import { ConsumablesListComponent } from './components/consumables/consumables-list/consumables-list.component';
-import { AppComponent } from './app.component';
 import { UserRoleListComponent } from './components/user-role/user-role-list/user-role-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -17,6 +16,8 @@ import { DocumentUploadComponent } from './components/document/document-upload/d
 import { FeeTypeListComponent } from './components/feeType/fee-type-list/fee-type-list.component';
 import { AllergyListComponent } from './components/allergy/allergy-list/allergy-list.component';
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
+import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
+import {SurveymanagementComponent} from './components/survey/surveymanagement/surveymanagement.component';
 
 const routes: Routes = [
   {
@@ -31,7 +32,7 @@ const routes: Routes = [
     path: 'employee-types',
     component: EmployeeTypeListComponent
   },
- 
+
   {
     path: 'medical-aid-types',
     component: MedicalAidTypeListdComponent
@@ -51,11 +52,11 @@ const routes: Routes = [
   },
   {
     path: 'add-booking-type',
-    component: AddBookingTypeComponent
+    component: BookingTypeListComponent
   },
   {
     path: 'edit-booking-type',
-    component: EditBookingTypeComponent
+    component: BookingTypeListComponent
   },
   {
     path: 'user-management',
@@ -73,12 +74,10 @@ const routes: Routes = [
     path: 'document',
     component: DocumentUploadComponent
   },
-
   {
     path: 'fee-type',
     component: FeeTypeListComponent
   },
-
   {
     path: 'allergy',
     component: AllergyListComponent
@@ -86,9 +85,23 @@ const routes: Routes = [
   {
     path: 'question',
     component: QuestionListComponent
+  },
+  {
+    path: 'survey',
+    component: SurveyListComponent
+  },
+  {
+    path: 'fee-management',
+    component: FeeManagementComponent
+  },
+  {
+    path: 'fee',
+    component: FeeListComponent
+  },
+  {
+    path: 'survey-management',
+    component: SurveymanagementComponent
   }
-
-
 ];
 
 @NgModule({

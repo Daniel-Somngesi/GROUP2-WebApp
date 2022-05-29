@@ -28,6 +28,7 @@ export class EditMedicalAidTypeDialogComponent implements OnInit {
   }
 
   stopEdit(): void {
+
     this.service.updateItem(this.data);
   }
 

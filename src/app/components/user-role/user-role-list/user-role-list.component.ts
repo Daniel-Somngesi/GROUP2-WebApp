@@ -56,8 +56,8 @@ export class UserRoleListComponent implements OnInit {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
         this.myDatabase.dataChange.value.push(this.service.getDialogData());
-        this.reload();
         this.refreshTable();
+        this.reload();
       }
 
     });
@@ -78,8 +78,8 @@ export class UserRoleListComponent implements OnInit {
         // Then you update that record using data from dialogData (values you enetered)
         this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
         // And lastly refresh table
-        this.reload();
         this.refreshTable();
+        this.reload();
       }
     });
   }
@@ -96,15 +96,15 @@ export class UserRoleListComponent implements OnInit {
         const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.userRole_Id === this.userRole_Id);
         // for delete we use splice in order to remove single object from DataService
         this.myDatabase.dataChange.value.splice(foundIndex, 1);
-        this.reload();
         this.refreshTable();
+        window.location.reload();
       }
     });
   }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
-    window.location.reload();
+    this.reload();
   }
 
 
@@ -190,8 +190,8 @@ export class myDataSource extends DataSource<UserRoleData> {
       let propertyB: number | string = '';
 
       switch (this._sort.active) {
-        case 'employee_Id': [propertyA, propertyB] = [a.userRole_Id, b.userRole_Id]; break;
-        case 'employee_Name': [propertyA, propertyB] = [a.userRole_Name, b.userRole_Name]; break;
+        case 'userRole_Id': [propertyA, propertyB] = [a.userRole_Id, b.userRole_Id]; break;
+        case 'userRole_Name': [propertyA, propertyB] = [a.userRole_Name, b.userRole_Name]; break;
       }
 
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

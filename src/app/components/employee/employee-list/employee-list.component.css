@@ -23,5 +23,33 @@ td {
 }
 
 
+.mat-column-id_Number {
+  flex: 0 0 9%;
+}
+.mat-column-employee_Email {
+  flex: 0 0 15%;
+}
+
+.mat-column-doB {
+  flex: 0 0 7%;
+}
+
+.mat-column-employee_Name {
+  flex: 0 0 10%;
+}
+
+.mat-column-employee_Surname {
+  flex: 0 0 10%;
+}
+
+.mat-column-employeeTypeName {
+  flex: 0 0 10%;
+}
+
+.mat-column-phone_Number {
+  flex: 0 0 6%;
+}
+
+
 
 

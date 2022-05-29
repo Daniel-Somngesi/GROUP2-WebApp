@@ -86,12 +86,14 @@
   </mat-error>
 
   <label id="lbl" for="employeeType_ID">Type</label>
-  <select name="employeeType_ID" formControlName="eType" [(ngModel)]="data.employee_Type"  required>
-            <option *ngFor="let i of type" [ngValue]="i.employeeType_ID">
+  <select name="employeeType_ID" (blur)="getEmployeeTypeName()" formControlName="eType" [(ngModel)]="mySelect" [(ngModel)]="data.employee_Type"  required>
+            <option *ngFor="let i of type" [ngValue]="data.employeeType_Name">
               {{ i.employeeType_Name }}
             </option>
   </select>
+  <input class="form-control invisible" [(ngModel)]="data.employeeType_Name" [(ngModel)]="typeName" formControlName="emplTypeName" autocomplete="off">
 </td>
+
   </tr>
 </table>
 <br>

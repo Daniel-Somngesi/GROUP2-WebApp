@@ -33,13 +33,13 @@
         </button>
       </mat-header-cell>
 
-      <mat-cell *matCellDef="let userRole; let i=index;">
-        <button mat-icon-button color="accent" (click)="startEdit(userRole.userRole_Id, userRole.userRole_Name)">
+      <mat-cell *matCellDef="let medicalaidtype; let i=index;">
+        <button mat-icon-button color="accent" (click)="startEdit(medicalaidtype.medicalAidTypeId, medicalaidtype.medicalAidTypeName)">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
 
         <button mat-icon-button color="accent">
-          <mat-icon aria-label="Delete" (click)="deleteItem(userRole.userRole_Id, userRole.userRole_Name)">delete</mat-icon>
+          <mat-icon aria-label="Delete" (click)="deleteItem(medicalaidtype.medicalAidTypeId, medicalaidtype.medicalAidTypeName)">delete</mat-icon>
         </button>
       </mat-cell>
     </ng-container>

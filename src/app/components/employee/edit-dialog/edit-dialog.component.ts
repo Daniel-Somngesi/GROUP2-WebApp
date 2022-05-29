@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
@@ -14,13 +13,12 @@ export class EditDialogComponent implements OnInit {
   emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$";
   gender:any;
   type: any;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   Dob!: string;
   maxDate:any = new Date().toISOString().slice(0, 10);
   mySelect:any;
+  typeName: any;
 
-  constructor(public service: EmployeeService,private _snackBar: MatSnackBar,  private formbulider: FormBuilder, public dialog: MatDialogRef<EditDialogComponent>,
+  constructor(public service: EmployeeService, private formbulider: FormBuilder, public dialog: MatDialogRef<EditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
@@ -36,6 +34,7 @@ export class EditDialogComponent implements OnInit {
       city:['',[Validators.required, Validators.maxLength(50)]],
       doB:[this.Dob,[Validators.required]],
       id_Number:['',[Validators.required, Validators.pattern("^[0-9]{13}$")]],
+      emplTypeName:[''],
       postal_Code:['',[Validators.required, Validators.pattern("^[0-9]{4}$")]]
     })
     this.retrieveEmployeeTypes();
@@ -51,7 +50,6 @@ export class EditDialogComponent implements OnInit {
 
       stopEdit(): void {
         this.service.updateItem(this.data);
-        this.SavedSuccessful(0);
       }
 
       onItemChange(value:any){
@@ -71,27 +69,9 @@ export class EditDialogComponent implements OnInit {
       this.Dob = dob;
     }
 
-    SavedSuccessful(isUpdate:any) {
-      if (isUpdate == 0) {
-        this._snackBar.open('Record Updated Successfully!', 'Close', {
-          duration: 3000,
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-        });
-      }
-      else if (isUpdate == 1) {
-        this._snackBar.open('Record Saved Successfully!', 'Close', {
-          duration: 2000,
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-        });
-      }
-      else if (isUpdate == 2) {
-        this._snackBar.open('Record Deleted Successfully!', 'Close', {
-          duration: 2000,
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-        });
-      }
+    getEmployeeTypeName(){
+      this.service.getEmployeeTypeById(this.mySelect).subscribe(employeeType => {
+        this.typeName = employeeType.employeeType_Name;
+      });
     }
 }

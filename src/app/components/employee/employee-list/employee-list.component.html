@@ -3,7 +3,7 @@
 <div class="container mat-elevation-z8">
 
   <div class="form">
-    <mat-form-field floatPlaceholder="never" color="accent">
+    <mat-form-field floatPlaceholder="Search" color="accent">
       <input matInput #filter placeholder="Find employee..">
     </mat-form-field>
   </div>
@@ -33,9 +33,9 @@
       <mat-cell *matCellDef="let employee"> {{employee.gender}}</mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="employeeType_ID">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
-      <mat-cell *matCellDef="let employee"> {{employee.employeeType_ID}}</mat-cell>
+    <ng-container matColumnDef="employeeTypeName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Employee Type</mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{employee.employeeType_Name}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="address_Line1">
@@ -58,7 +58,7 @@
       <mat-cell *matCellDef="let employee"> {{employee.doB | date: 'dd-MM-yyyy'}}</mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="employee_Email">
+    <ng-container matColumnDef="employee_Email" >
       <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
       <mat-cell *matCellDef="let employee"> {{employee.employee_Email}}</mat-cell>
     </ng-container>

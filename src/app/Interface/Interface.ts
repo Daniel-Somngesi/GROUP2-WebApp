@@ -29,6 +29,7 @@ export interface EmployeeData {
   employee_Email:any;
   id_Number: string;
   postal_code: string;
+  employeeType_Name:string;
 }
 
 export interface EmployeeTypeData {
@@ -59,11 +60,16 @@ export interface DocumentToCreate {
   docPath: string;
 }
 
+export interface QuestionData {
+  question_Id:any;
+  question_Text:string;
+}
+
 export interface FeeTypeData {
   feeType_Id: number;
   feeType_Name: string;
   feeType_Description: string;
- 
+
 }
 
 export interface AllergyData {
@@ -71,7 +77,17 @@ export interface AllergyData {
   allergy_Name: string;
 }
 
-export interface QuestionData {
-  question_Id: any;
-  question_Text: string;
-} 
+export interface SurveyData {
+  survey_Id: number;
+  survey_Name: string;
+  startDate: Date;
+  endDate: Date;
+}
+
+export interface FeeData {
+  fee_Id:number;
+  fee_Name:string;
+  fee_Amount:string;
+  feeType_Id:number;
+  feeType_Name:string;
+}

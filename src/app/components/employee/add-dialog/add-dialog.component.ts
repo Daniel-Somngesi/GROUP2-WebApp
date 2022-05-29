@@ -3,8 +3,6 @@ import { EmployeeData } from './../../../Interface/Interface';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-
 
 @Component({
   selector: 'app-add.dialog',
@@ -20,13 +18,12 @@ export class AddDialogComponent {
   gender:any="Male";
   idNumber:any;
   maxDate:any = new Date().toISOString().slice(0, 10);
-  mySelect:any;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  mySelect!:number;
+  typeName: any;
 
   constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: EmployeeData,
-              public service: EmployeeService, private formbulider: FormBuilder,  private _snackBar: MatSnackBar) { }
+              public service: EmployeeService, private formbulider: FormBuilder) { }
 
 ngOnInit(): void {
   this.employeeForm = this.formbulider.group({
@@ -41,11 +38,11 @@ ngOnInit(): void {
     city:['',[Validators.required, Validators.maxLength(50)]],
     doB:['',[Validators.required]],
     id_Number:['',[Validators.required, Validators.pattern("^[0-9]{13}$")]],
+    emplTypeName:[''],
     postal_Code:['',[Validators.required, Validators.pattern("^[0-9]{4}$")]]
   })
   this.retrieveEmployeeTypes();
 }
-
 
 retrieveEmployeeTypes(): void {
   this.service.getAllTypes()
@@ -68,41 +65,25 @@ retrieveEmployeeTypes(): void {
     this.dialogRef.close();
   }
 
+  getEmployeeTypeName(){
+    this.service.getEmployeeTypeById(this.mySelect).subscribe(employeeType => {
+      this.typeName = employeeType.employeeType_Name;
+      console.log(this.typeName);
+    });
+  }
+
   public confirmAdd(): void {
     const _employee = this.employeeForm.value;
     _employee.employeeType_Id = this.mySelect;
     this.data.employeeType_ID = this.mySelect;
+    this.data.employeeType_Name = this.typeName;
     this.data.gender = this.gender;
     this.service.addItem(this.data);
-    this.SavedSuccessful(1);
   }
 
   onItemChange(value:any){
     this.gender = value;
  }
 
- SavedSuccessful(isUpdate:any) {
-  if (isUpdate == 0) {
-    this._snackBar.open('Record Updated Successfully!', 'Close', {
-      duration: 2000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
-  else if (isUpdate == 1) {
-    this._snackBar.open('Record Added Successfully!', 'Close', {
-      duration: 3000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
-  else if (isUpdate == 2) {
-    this._snackBar.open('Record Deleted Successfully!', 'Close', {
-      duration: 2000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
-  }
 }
 

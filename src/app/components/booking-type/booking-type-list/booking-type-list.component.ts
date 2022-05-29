@@ -23,12 +23,12 @@ import {map} from 'rxjs/operators';
 
 export class BookingTypeListComponent implements OnInit {
 
-  
+
   displayedColumns: string[] = ['bookingType_Name','bookingType_Description', 'actions'];
   myDatabase!: BookingTypeService;
   dataSource!: myDataSource;
   bookingType_ID!: any;
-  
+
   constructor(public service:BookingTypeService,
    public dialog: MatDialog,
    public http:HttpClient,
@@ -58,8 +58,8 @@ export class BookingTypeListComponent implements OnInit {
          // For add we're just pushing a new row inside DataService
          this.myDatabase.dataChange.value.push
          (this.service.getDialogData());
-         this.reload();
          this.refreshTable();
+         this.reload();
        }
      });
    }
@@ -73,15 +73,15 @@ export class BookingTypeListComponent implements OnInit {
      });
 
      dialogRef.afterClosed().subscribe(result => {
- 
+
        if (result === 1) {
          // When using an edit things are little different, firstly we find record inside DataService by id
          const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.bookingType_ID === this.bookingType_ID);
          // Then you update that record using data from dialogData (values you enetered)
          this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
          // And lastly refresh table
-         this.reload();
          this.refreshTable();
+         this.reload();
        }
      });
    }
@@ -98,14 +98,15 @@ export class BookingTypeListComponent implements OnInit {
          const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.bookingType_ID === this.bookingType_ID);
          // for delete we use splice in order to remove single object from DataService
          this.myDatabase.dataChange.value.splice(foundIndex, 1);
-         this.reload();
          this.refreshTable();
+         this.reload();
        }
      });
    }
 
    private refreshTable() {
      this.paginator._changePageSize(this.paginator.pageSize);
+     window.location.reload();
    }
 
 
@@ -204,5 +205,5 @@ export class BookingTypeListComponent implements OnInit {
 
 
    }
-  
+
   }

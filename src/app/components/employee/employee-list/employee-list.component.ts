@@ -21,12 +21,13 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 export class EmployeeListComponent implements OnInit {
 
 
-  displayedColumns: string[] = ['employee_Name','employee_Surname','id_Number','doB','employee_Email','employeeType_ID','gender','address_Line1','address_Line2','city','postal_code','phone_Number','actions'];
+  displayedColumns: string[] = ['employee_Name','employee_Surname','id_Number','doB','employee_Email', 'employeeTypeName','gender','address_Line1','address_Line2','city','postal_code','phone_Number','actions'];
    myDatabase!: EmployeeService;
    dataSource!: myDataSource;
   employee_Id!: number;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  TypeId:any;
 
   constructor(public service:EmployeeService,
     public dialog: MatDialog,
@@ -44,21 +45,21 @@ export class EmployeeListComponent implements OnInit {
     SavedSuccessful(isUpdate:any) {
       if (isUpdate == 0) {
         this._snackBar.open('Record Updated Successfully!', 'Close', {
-          duration: 4000,
+          duration: 8000,
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
         });
       }
       else if (isUpdate == 1) {
         this._snackBar.open('Record Saved Successfully!', 'Close', {
-          duration: 4000,
+          duration: 8000,
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
         });
       }
       else if (isUpdate == 2) {
         this._snackBar.open('Record Deleted Successfully!', 'Close', {
-          duration: 4000,
+          duration: 8000,
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
         });
@@ -67,6 +68,7 @@ export class EmployeeListComponent implements OnInit {
 
     reload() {
       this.loadData();
+
     }
 
     openAddDialog() {
@@ -79,11 +81,10 @@ export class EmployeeListComponent implements OnInit {
           // After dialog is closed we're doing frontend updates
           // For add we're just pushing a new row inside DataService
           this.myDatabase.dataChange.value.push(this.service.getDialogData());
-          this.reload();
           this.refreshTable();
+          this.reload();
           this.SavedSuccessful(1);
         }
-
       });
     }
 
@@ -107,8 +108,8 @@ export class EmployeeListComponent implements OnInit {
           // Then you update that record using data from dialogData (values you enetered)
           this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
           // And lastly refresh table
-          this.reload();
           this.refreshTable();
+          this.reload();
           this.SavedSuccessful(0);
         }
       });
@@ -129,8 +130,8 @@ export class EmployeeListComponent implements OnInit {
           const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.employee_Id === this.employee_Id);
           // for delete we use splice in order to remove single object from DataService
           this.myDatabase.dataChange.value.splice(foundIndex, 1);
-          this.reload();
           this.refreshTable();
+          this.reload();
           this.SavedSuccessful(2);
         }
       });
@@ -196,7 +197,7 @@ export class EmployeeListComponent implements OnInit {
           // Filter data
           this.filteredData = this._myDatabase.data.slice().filter((employee: EmployeeData) => {
             const searchStr = (employee.employee_Id + employee.employee_Name + employee.employee_Surname +
-              employee.phone_Number + employee.gender + employee.employeeType_ID + employee.address_Line1 + employee.address_Line2 +
+              employee.phone_Number + employee.gender + employee.employeeType_Name + employee.address_Line1 + employee.address_Line2 +
               employee.city + employee.doB + employee.employee_Email + employee.id_Number + employee.postal_code).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });

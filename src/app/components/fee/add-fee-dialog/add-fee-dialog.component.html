@@ -1,0 +1,36 @@
+<h1>Add Fee </h1>
+<form [formGroup]="feeForm">
+    <mat-form-field class="demo-full-width">
+      <input class="form-control" class="form-control" [(ngModel)]="data.fee_Name" formControlName="fee_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter Fee" matInput placeholder="Name" autocomplete="off" required>
+    </mat-form-field>
+
+    <mat-error>
+        <span *ngIf="!feeForm.get('fee_Name').value && feeForm.get('fee_Name').touched">Invalid format</span>
+      </mat-error>
+
+    <mat-form-field class="demo-full-width">
+        <input class="form-control" [(ngModel)]="data.fee_Amount" formControlName="fee_Amount"  matTooltip="Enter Fee Amount" matInput placeholder="Amount" autocomplete="off" required>
+      </mat-form-field>
+    <mat-error>
+        <span *ngIf="!feeForm.get('fee_Amount').value && feeForm.get('fee_Amount').touched">Invalid format</span>
+      </mat-error>
+
+
+
+      <input class="form-control invisible"  [(ngModel)]="data.feeType_Name" [(ngModel)]="feeName" formControlName="feeTypeName" autocomplete="off">
+
+  <label id="lbl" for="feeType_Id">Type: </label>
+  <select name="feeType_Id" (mouseleave)="getFeeTypeName()" [(ngModel)]="mySelect" formControlName="fType" required>
+            <option *ngFor="let i of type" [ngValue]="i.feeType_Id">
+              {{ i.feeType_Name }}
+            </option>
+  </select>
+
+
+
+<br>
+<div mat-dialog-actions>
+  <button mat-button mat-raised-button [disabled]="!feeForm.valid" color="accent" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+</div>
+</form>

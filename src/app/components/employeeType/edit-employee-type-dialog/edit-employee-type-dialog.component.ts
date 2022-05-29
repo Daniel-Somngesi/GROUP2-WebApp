@@ -26,7 +26,7 @@ export class EditEmployeeTypeDialogComponent implements OnInit {
     })
   }
 
-  
+
   stopEdit(): void {
     this.service.updateItem(this.data);
     this.SavedSuccessful(0);
