@@ -60,11 +60,11 @@ ngOnInit(): void {
     });
   }
 
-  startEdit(fee_Id: number, fee_Name: string, fee_Amount: number, feeType_Id:number ) {
+  startEdit(fee_Id: number, fee_Name: string, fee_Amount: number, feeType_Id:number, feeType_Name:string ) {
     this.fee_Id = fee_Id;
 
     const dialogRef = this.dialog.open(EditFeeDialogComponent, {
-      data: {fee_Id: fee_Id, fee_Name:fee_Name, fee_Amount:fee_Amount, feeType_Id: feeType_Id}
+      data: {fee_Id: fee_Id, fee_Name:fee_Name, fee_Amount:fee_Amount, feeType_Id: feeType_Id, feeType_Name:feeType_Name}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -188,7 +188,6 @@ export class myDataSource extends DataSource<FeeData> {
 
       switch (this._sort.active) {
         case 'fee_Id': [propertyA, propertyB] = [a.fee_Id, b.fee_Id]; break;
-        case 'feeType_Name': [propertyA, propertyB] = [a.fee_Name, b.fee_Name]; break;
         case 'fee_Amount': [propertyA, propertyB] = [a.fee_Amount, b.fee_Amount]; break;
         case 'feeType_Id': [propertyA, propertyB] = [a.feeType_Id, b.feeType_Id]; break;
         case 'feeType_Name': [propertyA, propertyB] = [a.feeType_Name, b.feeType_Name]; break;

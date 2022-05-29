@@ -105,7 +105,7 @@ deleteItem(feeType_Id: number, feeType_Name: string, feeType_Description: string
 
 private refreshTable() {
   this.paginator._changePageSize(this.paginator.pageSize);
-  this.reload();
+  window.location.reload();
 }
 
 public loadData() {
