@@ -102,7 +102,7 @@ export class AllergyListComponent implements OnInit {
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
-    this.reload();
+    window.location.reload();
   }
 
   public loadData() {

@@ -28,9 +28,9 @@ export class AddFeeDialogComponent implements OnInit {
     ngOnInit(): void {
       this.feeForm = this.formbulider.group({
         fee_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(50)]],
-        fee_Amount: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(100),]],
-        feeTypeName:[''],
-        fType:['',[Validators.required]],
+        fee_Amount: ['', [Validators.required, Validators.maxLength(100)]],
+        feeTypeName:['',[Validators.required]],
+        fType:[''],
       })
       this.retrieveEmployeeTypes();
     }
@@ -61,7 +61,7 @@ export class AddFeeDialogComponent implements OnInit {
       this.data.feeType_Id = this.mySelect;
       this.data.feeType_Name = this.feeName;
       this.service.addItem(this.data);
-      this.SavedSuccessful(1);
+
     }
 
     SavedSuccessful(isUpdate:any) {

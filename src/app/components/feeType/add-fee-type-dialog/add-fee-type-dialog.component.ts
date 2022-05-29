@@ -25,18 +25,19 @@ export class AddFeeTypeDialogComponent implements OnInit {
       this.feeTypeForm = this.formbulider.group({
         feeType_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(50)]],
         feeType_Description: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
-       
+
       })
     }
 
     onNoClick(): void {
       this.dialogRef.close();
     }
-  
+
     public confirmAdd(): void {
       const _feeType = this.feeTypeForm.value;
       this.service.addItem(this.data);
-  
+      this.SavedSuccessful(1);
+
     }
 
     SavedSuccessful(isUpdate:any) {
@@ -62,5 +63,5 @@ export class AddFeeTypeDialogComponent implements OnInit {
         });
       }
       }
-  
+
 }

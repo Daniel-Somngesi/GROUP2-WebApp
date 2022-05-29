@@ -56,8 +56,8 @@ export class UserRoleListComponent implements OnInit {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
         this.myDatabase.dataChange.value.push(this.service.getDialogData());
-        this.reload();
         this.refreshTable();
+        this.reload();
       }
 
     });
@@ -78,8 +78,8 @@ export class UserRoleListComponent implements OnInit {
         // Then you update that record using data from dialogData (values you enetered)
         this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
         // And lastly refresh table
-        this.reload();
         this.refreshTable();
+        this.reload();
       }
     });
   }
@@ -96,8 +96,8 @@ export class UserRoleListComponent implements OnInit {
         const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.userRole_Id === this.userRole_Id);
         // for delete we use splice in order to remove single object from DataService
         this.myDatabase.dataChange.value.splice(foundIndex, 1);
-        this.reload();
         this.refreshTable();
+        window.location.reload();
       }
     });
   }

@@ -58,8 +58,8 @@ export class BookingTypeListComponent implements OnInit {
          // For add we're just pushing a new row inside DataService
          this.myDatabase.dataChange.value.push
          (this.service.getDialogData());
-         this.reload();
          this.refreshTable();
+         this.reload();
        }
      });
    }
@@ -80,8 +80,8 @@ export class BookingTypeListComponent implements OnInit {
          // Then you update that record using data from dialogData (values you enetered)
          this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
          // And lastly refresh table
-         this.reload();
          this.refreshTable();
+         this.reload();
        }
      });
    }
@@ -98,15 +98,15 @@ export class BookingTypeListComponent implements OnInit {
          const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.bookingType_ID === this.bookingType_ID);
          // for delete we use splice in order to remove single object from DataService
          this.myDatabase.dataChange.value.splice(foundIndex, 1);
-         this.reload();
          this.refreshTable();
+         this.reload();
        }
      });
    }
 
    private refreshTable() {
      this.paginator._changePageSize(this.paginator.pageSize);
-     this.reload();
+     window.location.reload();
    }
 
 

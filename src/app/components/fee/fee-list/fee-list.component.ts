@@ -53,18 +53,18 @@ ngOnInit(): void {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
         this.myDatabase.dataChange.value.push(this.service.getDialogData());
-        this.reload();
         this.refreshTable();
+        this.reload();
       }
 
     });
   }
 
-  startEdit(fee_Id: number, fee_Name: string, fee_Amount: number, feeType_Id:number ) {
+  startEdit(fee_Id: number, fee_Name: string, fee_Amount: number, feeType_Id:number, feeType_Name:string ) {
     this.fee_Id = fee_Id;
 
     const dialogRef = this.dialog.open(EditFeeDialogComponent, {
-      data: {fee_Id: fee_Id, fee_Name:fee_Name, fee_Amount:fee_Amount, feeType_Id: feeType_Id}
+      data: {fee_Id: fee_Id, fee_Name:fee_Name, fee_Amount:fee_Amount, feeType_Id: feeType_Id, feeType_Name:feeType_Name}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -75,8 +75,8 @@ ngOnInit(): void {
         // Then you update that record using data from dialogData (values you enetered)
         this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
         // And lastly refresh table
-        this.reload();
         this.refreshTable();
+        this.reload();
       }
     });
 
@@ -94,15 +94,15 @@ deleteItem(fee_Id: number, fee_Name: string, fee_Amount: number, feeType_Id:numb
       const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.fee_Id === this.fee_Id);
       // for delete we use splice in order to remove single object from DataService
       this.myDatabase.dataChange.value.splice(foundIndex, 1);
-      this.reload();
       this.refreshTable();
+      this.reload();
     }
   });
 }
 
 private refreshTable() {
   this.paginator._changePageSize(this.paginator.pageSize);
-  this.reload();
+  window.location.reload();
 }
 
 public loadData() {
@@ -188,7 +188,6 @@ export class myDataSource extends DataSource<FeeData> {
 
       switch (this._sort.active) {
         case 'fee_Id': [propertyA, propertyB] = [a.fee_Id, b.fee_Id]; break;
-        case 'feeType_Name': [propertyA, propertyB] = [a.fee_Name, b.fee_Name]; break;
         case 'fee_Amount': [propertyA, propertyB] = [a.fee_Amount, b.fee_Amount]; break;
         case 'feeType_Id': [propertyA, propertyB] = [a.feeType_Id, b.feeType_Id]; break;
         case 'feeType_Name': [propertyA, propertyB] = [a.feeType_Name, b.feeType_Name]; break;

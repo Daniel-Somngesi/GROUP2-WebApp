@@ -25,7 +25,7 @@
 
     <ng-container matColumnDef="fee_Amount">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Fee Amount</mat-header-cell>
-        <mat-cell *matCellDef="let fee"> {{fee.fee_Amount}}</mat-cell>
+        <mat-cell *matCellDef="let fee">R {{fee.fee_Amount}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="fee_Type">
@@ -42,7 +42,7 @@
       </mat-header-cell>
 
       <mat-cell *matCellDef="let fee; let i=index;">
-        <button mat-icon-button color="accent" (click)="startEdit(fee.fee_Id, fee.fee_Name, fee.fee_Amount, fee.feeType_Id)">
+        <button mat-icon-button color="accent" (click)="startEdit(fee.fee_Id, fee.fee_Name, fee.fee_Amount, fee.feeType_Id, fee.feeType_Name)">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
 

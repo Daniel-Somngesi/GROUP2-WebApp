@@ -14,7 +14,7 @@ export class EditFeeTypeDialogComponent implements OnInit {
   feeTypeForm: any;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  
+
   constructor(public service: FeeTypeService,private _snackBar: MatSnackBar,
     private formbulider: FormBuilder, public dialog: MatDialogRef<EditFeeTypeDialogComponent>,
    @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -29,6 +29,7 @@ export class EditFeeTypeDialogComponent implements OnInit {
   stopEdit(): void {
     this.service.updateItem(this.data);
     this.SavedSuccessful(0);
+
   }
 
   onNoClick(): void {

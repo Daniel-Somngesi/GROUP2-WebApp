@@ -15,7 +15,7 @@ export class AddEmployeeTypeDialogComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   employeeType: any;
   employeeTypeForm: any;
- 
+
 
   constructor(public dialogRef: MatDialogRef<AddEmployeeTypeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EmployeeTypeData,
@@ -25,18 +25,18 @@ export class AddEmployeeTypeDialogComponent implements OnInit {
       this.employeeTypeForm = this.formbulider.group({
         employeeType_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(50)]],
         employeeType_Description: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
-       
+
       })
     }
 
     onNoClick(): void {
       this.dialogRef.close();
     }
-  
+
     public confirmAdd(): void {
       const _employeeType = this.employeeTypeForm.value;
       this.service.addItem(this.data);
-  
+      this.SavedSuccessful(1);
     }
 
     SavedSuccessful(isUpdate:any) {
@@ -62,6 +62,6 @@ export class AddEmployeeTypeDialogComponent implements OnInit {
         });
       }
       }
-  
+
 }
 
