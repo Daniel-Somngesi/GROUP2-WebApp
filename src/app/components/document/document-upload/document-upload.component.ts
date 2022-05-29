@@ -28,6 +28,7 @@ export class DocumentUploadComponent  {
     documents: DocumentData[] = [];
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+    descr: any;
 
     constructor(private http: HttpClient, private _snackBar: MatSnackBar) {}
 
@@ -39,7 +40,8 @@ export class DocumentUploadComponent  {
     onCreate = () => {
       this.document = {
         document_Name: this.name,
-        docPath: this.response
+        docPath: this.response,
+        description:this.descr
       }
       this.http.post('https://localhost:44341/api/Document/', this.document)
     .subscribe({

@@ -53,6 +53,7 @@ export interface DocumentData {
   document_Id: number;
   document_Name: string;
   docPath: string;
+  description:string;
 }
 
 export interface DocumentToCreate {
