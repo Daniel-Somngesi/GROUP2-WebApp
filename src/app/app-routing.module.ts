@@ -1,3 +1,4 @@
+import { SchedulingManagementComponent } from './components/slot-type/scheduling-management/scheduling-management.component';
 import { FeeListComponent } from './components/fee/fee-list/fee-list.component';
 import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
 import { EmployeeManagementComponent } from './components/employee/employee-management/employee-management.component';
@@ -18,8 +19,12 @@ import { AllergyListComponent } from './components/allergy/allergy-list/allergy-
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
 import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
 import {SurveymanagementComponent} from './components/survey/surveymanagement/surveymanagement.component';
+import { HomeComponent } from './components/home/home/home.component';
 
 const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
+  { path: '**', component: HomeComponent },
   {
     path: 'user-roles',
     component: UserRoleListComponent
@@ -101,7 +106,12 @@ const routes: Routes = [
   {
     path: 'survey-management',
     component: SurveymanagementComponent
+  },
+  {
+    path: 'scheduling-management',
+    component: SchedulingManagementComponent
   }
+  
 ];
 
 @NgModule({

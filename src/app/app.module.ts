@@ -90,6 +90,8 @@ import { AddFeeDialogComponent } from './components/fee/add-fee-dialog/add-fee-d
 import { EditFeeDialogComponent } from './components/fee/edit-fee-dialog/edit-fee-dialog.component';
 import { DeleteFeeDialogComponent } from './components/fee/delete-fee-dialog/delete-fee-dialog.component';
 import { SurveymanagementComponent } from './components/survey/surveymanagement/surveymanagement.component';
+import { HomeComponent } from './components/home/home/home.component';
+import { SchedulingManagementComponent } from './components/slot-type/scheduling-management/scheduling-management.component';
 
 
 @NgModule({
@@ -146,6 +148,8 @@ import { SurveymanagementComponent } from './components/survey/surveymanagement/
     EditFeeDialogComponent,
     DeleteFeeDialogComponent,
     SurveymanagementComponent,
+    HomeComponent,
+    SchedulingManagementComponent,
   ],
   imports: [
     MatSortModule,
