@@ -1,1 +1,30 @@
-<p>edit-survey-dialog works!</p>
+<h1>Update Survey Details</h1>
+
+<form [formGroup]="surveyForm">
+  <mat-form-field class="demo-full-width">
+    <input  class="form-control" [(ngModel)]="data.survey_Name" formControlName="survey_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter survey title" matInput placeholder="Title" autocomplete="off" required>
+  </mat-form-field>
+  <mat-error><span *ngIf="!surveyForm.get('survey_Name').value && surveyForm.get('survey_Name').touched">Invalid format</span>
+  </mat-error>
+  <p>Survey will run from:</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Start Date</mat-label>
+    <input matInput [matDatepicker]="picker1" formControlName="survey_StartDate" [min]="minDate" [(ngModel)]="start"  [(ngModel)]="data.startDate" required>
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+  <p>until:</p>
+  <mat-form-field appearance="fill">
+    <mat-label>End Date</mat-label>
+    <input matInput [matDatepicker]="picker2" formControlName="survey_EndDate" [min]="data.startDate" [(ngModel)]="end"  [(ngModel)]="data.endDate" required>
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+  </mat-form-field>
+<br>
+<div mat-dialog-actions>
+  <button mat-button mat-raised-button [disabled]="!surveyForm.valid" color="accent" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+</div>
+</form>

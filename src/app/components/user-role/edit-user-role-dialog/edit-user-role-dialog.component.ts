@@ -27,6 +27,8 @@ export class EditUserRoleDialogComponent implements OnInit {
   }
 
   stopEdit(): void {
+    var date = this.data.startDate;
+    this.data.startDate = this.data.startDate;
     this.service.updateItem(this.data);
     this.SavedSuccessful(0);
   }
