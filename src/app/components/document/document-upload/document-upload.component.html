@@ -28,7 +28,11 @@
 
 </div>
 
+
 <h3>{{ name }}</h3>
+<mat-form-field  class="demo-full-width">
+  <input class="form-control" class="form-control" [(ngModel)]="descr"   pattern="[a-zA-Z ]*"  matTooltip="Description" matInput placeholder="Description" autocomplete="off" required>
+</mat-form-field>
 <h4>{{ size }}</h4>
 
 <div mat-dialog-actions>
@@ -41,12 +45,14 @@
   <thead>
     <tr>
       <th scope="col">Name</th>
+      <th scope="col">Description</th>
       <th scope="col">Delete</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let doc of documents">
       <td>{{doc.document_Name}}</td>
+      <td>{{doc.description}}</td>
       <td><mat-icon aria-label="Delete" >delete</mat-icon></td>
     </tr>
   </tbody>
