@@ -22,7 +22,7 @@
 <mat-drawer-container class="container" autosize >
 <mat-drawer #drawer class="sidenav" mode="side">
   <h2>Menu</h2>
-    <button mat-button class="menu-button"  [routerLink]="['./home']">
+    <button mat-button class="menu-button"  [routerLink]="['/home']">
         <mat-icon>home</mat-icon>
         <span>Home</span>
     </button>
@@ -40,7 +40,7 @@
         <span>Booking</span>
     </button> <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button" [routerLink]="['/medical-aid-type']">
+    <button mat-button class="menu-button" [routerLink]="['/medical-aid-types']">
       <mat-icon>medical_information</mat-icon>
       <span>Medical Aid Type</span>
         </button> <mat-divider></mat-divider>
@@ -49,7 +49,7 @@
     <mat-icon>payments</mat-icon>
     <span>Fee</span>
     </button> <mat-divider></mat-divider>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" [routerLink]="['/consumables']" >
     <mat-icon>shopping_cart</mat-icon>
     <span>Consumables</span>
     </button> <mat-divider></mat-divider>
@@ -64,16 +64,17 @@
         <span>Survey</span>
         </button> <mat-divider></mat-divider>
 
-      <button mat-button class="menu-button">
+        <button mat-button class="menu-button" [routerLink]="['/document']">
+          <mat-icon>upload_file</mat-icon>
+          <span>Documents</span>
+      </button> <mat-divider></mat-divider>
+
+      <button mat-button class="menu-button" [routerLink]="['/scheduling-management']" >
         <mat-icon>calendar_month</mat-icon>
         <span>Scheduling</span>
       </button> <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button">
-        <mat-icon>badge</mat-icon>
-        <span>Administration</span>
-    </button> <mat-divider></mat-divider>
-    <button mat-button class="menu-button">
+     <button mat-button class="menu-button">
         <mat-icon>description</mat-icon>
         <span>Teacher</span>
       </button> <mat-divider></mat-divider>
@@ -94,11 +95,6 @@
         <mat-icon>chat</mat-icon>
         <span>Communication</span>
     </button> <mat-divider></mat-divider>
-
-    <button mat-button class="menu-button" [routerLink]="['/document']">
-      <mat-icon>upload_file</mat-icon>
-      <span>Documents</span>
-  </button> <mat-divider></mat-divider>
 
     <button mat-button class="menu-button">
         <mat-icon>bar_chart</mat-icon>
