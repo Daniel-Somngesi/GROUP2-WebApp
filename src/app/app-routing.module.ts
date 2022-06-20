@@ -20,11 +20,19 @@ import { QuestionListComponent } from './components/question/question-list/quest
 import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
 import {SurveymanagementComponent} from './components/survey/surveymanagement/surveymanagement.component';
 import { HomeComponent } from './components/home/home/home.component';
+import { AuthGuard } from './helpers';
+
+const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
+const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: '', component: HomeComponent },
- 
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'users', loadChildren: userModule, canActivate: [AuthGuard] },
+    { path: 'auth', loadChildren: authModule },
+
+    // otherwise redirect to home
+    { path: '**', redirectTo: '' },
+
   {
     path: 'user-roles',
     component: UserRoleListComponent
@@ -111,7 +119,7 @@ const routes: Routes = [
     path: 'scheduling-management',
     component: SchedulingManagementComponent
   }
-  
+
 ];
 
 @NgModule({
