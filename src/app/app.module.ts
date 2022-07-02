@@ -97,11 +97,17 @@ import { DeleteFeeDialogComponent } from './components/fee/delete-fee-dialog/del
 import { SurveymanagementComponent } from './components/survey/surveymanagement/surveymanagement.component';
 import { HomeComponent } from './components/home/home/home.component';
 import { SchedulingManagementComponent } from './components/slot-type/scheduling-management/scheduling-management.component';
-import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertComponent } from './components/alert/alert/alert.component';
 import { AddEditComponent } from './users/add-edit/add-edit.component';
 import { LayoutComponent } from './users/layout/layout/layout.component';
 import { ListComponent } from './users/list/list.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { EventCalenderComponent } from './components/event/event-calender/event-calender.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { UtilsModule } from '../utilis/module';
 
 @NgModule({
   declarations: [
@@ -163,8 +169,11 @@ import { ListComponent } from './users/list/list.component';
     AddEditComponent,
     LayoutComponent,
     ListComponent,
+    EventCalenderComponent
   ],
+
   imports: [
+    UtilsModule,
     MatSortModule,
     MatDialogModule,
     BrowserModule,
@@ -194,14 +203,18 @@ import { ListComponent } from './users/list/list.component';
     CommonModule,
     FormsModule,
     NgbModule,
-
-
+    NgbModalModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, DatePipe,{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, JwtHelperService,
     SlotTypeService, FeeTypeService, AllergyService, FeeService,EmployeeTypeService, SurveyService],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
 })
 export class AppModule { }

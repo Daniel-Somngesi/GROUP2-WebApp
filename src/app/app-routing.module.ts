@@ -1,3 +1,4 @@
+import { EventCalenderComponent } from './components/event/event-calender/event-calender.component';
 import { SchedulingManagementComponent } from './components/slot-type/scheduling-management/scheduling-management.component';
 import { FeeListComponent } from './components/fee/fee-list/fee-list.component';
 import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
@@ -26,8 +27,8 @@ const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModul
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-    { path: 'users', loadChildren: userModule, canActivate: [AuthGuard] },
+  { path: '', component: HomeComponent,  canActivate: [AuthGuard]},
+    { path: 'users', loadChildren: userModule, canActivate: [AuthGuard]},
     { path: 'auth', loadChildren: authModule },
 
     // otherwise redirect to home
@@ -38,6 +39,10 @@ const routes: Routes = [
     component: UserRoleListComponent
   },
   {
+    path: 'event',
+    component: EventCalenderComponent
+  },
+  {
     path: 'employees',
     component: EmployeeListComponent
   },
@@ -45,7 +50,6 @@ const routes: Routes = [
     path: 'employee-types',
     component: EmployeeTypeListComponent
   },
-
   {
     path: 'medical-aid-types',
     component: MedicalAidTypeListdComponent
