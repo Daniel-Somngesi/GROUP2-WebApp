@@ -4,6 +4,10 @@
 ```shell script
 npm install
 ng add @angular/material
+
+When getting an error on event calender:
+npm install --save angular-calendar date-fns
+ng add angular-calendar
 ```
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.4.

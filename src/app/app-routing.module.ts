@@ -1,3 +1,4 @@
+import { EventCalenderComponent } from './components/event/event-calender/event-calender.component';
 import { SchedulingManagementComponent } from './components/slot-type/scheduling-management/scheduling-management.component';
 import { FeeListComponent } from './components/fee/fee-list/fee-list.component';
 import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
@@ -20,14 +21,26 @@ import { QuestionListComponent } from './components/question/question-list/quest
 import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
 import {SurveymanagementComponent} from './components/survey/surveymanagement/surveymanagement.component';
 import { HomeComponent } from './components/home/home/home.component';
+import { AuthGuard } from './helpers';
+
+const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
+const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: '', component: HomeComponent },
- 
+  { path: '', component: HomeComponent,  },
+    { path: 'users', loadChildren: userModule, },
+    { path: 'auth', loadChildren: authModule },
+
+    // otherwise redirect to home
+
+
   {
     path: 'user-roles',
     component: UserRoleListComponent
+  },
+  {
+    path: 'event',
+    component: EventCalenderComponent
   },
   {
     path: 'employees',
@@ -37,7 +50,6 @@ const routes: Routes = [
     path: 'employee-types',
     component: EmployeeTypeListComponent
   },
-
   {
     path: 'medical-aid-types',
     component: MedicalAidTypeListdComponent
@@ -111,7 +123,7 @@ const routes: Routes = [
     path: 'scheduling-management',
     component: SchedulingManagementComponent
   }
-  
+
 ];
 
 @NgModule({

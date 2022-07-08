@@ -11,8 +11,13 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { EmployeeListComponent } from './components/employee/employee-list/employee-list.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { JwtInterceptor, ErrorInterceptor } from './helpers';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+
+// used to create fake backend
+import { fakeBackendProvider } from './helpers';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,7 +43,7 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EmployeeTypeListComponent } from './components/employeeType/employee-type-list/employee-type-list.component';
 import { AddDialogComponent } from './components/employee/add-dialog/add-dialog.component';
@@ -92,6 +97,20 @@ import { DeleteFeeDialogComponent } from './components/fee/delete-fee-dialog/del
 import { SurveymanagementComponent } from './components/survey/surveymanagement/surveymanagement.component';
 import { HomeComponent } from './components/home/home/home.component';
 import { SchedulingManagementComponent } from './components/slot-type/scheduling-management/scheduling-management.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AlertComponent } from './components/alert/alert/alert.component';
+import { AddEditComponent } from './users/add-edit/add-edit.component';
+import { LayoutComponent } from './users/layout/layout/layout.component';
+import { ListComponent } from './users/list/list.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { EventCalenderComponent } from './components/event/event-calender/event-calender.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { UtilsModule } from '../utilis/module';
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+
+
 
 
 @NgModule({
@@ -150,8 +169,18 @@ import { SchedulingManagementComponent } from './components/slot-type/scheduling
     SurveymanagementComponent,
     HomeComponent,
     SchedulingManagementComponent,
+    AlertComponent,
+    AddEditComponent,
+    LayoutComponent,
+    ListComponent,
+    EventCalenderComponent
   ],
+
   imports: [
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
+    UtilsModule,
     MatSortModule,
     MatDialogModule,
     BrowserModule,
@@ -180,11 +209,20 @@ import { SchedulingManagementComponent } from './components/slot-type/scheduling
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
-
+    NgbModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
-  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService,
+  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, DatePipe,{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, JwtHelperService,
     SlotTypeService, FeeTypeService, AllergyService, FeeService,EmployeeTypeService, SurveyService],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
 })
 export class AppModule { }
