@@ -90,8 +90,6 @@
   </mwl-calendar-day-view>
 </div>
 
-<!-- Everything you see below is just for the demo, you don't need to include it in your app -->
-
 <br /><br />
 
 <h1>Event Details</h1>
@@ -106,7 +104,8 @@
     <mat-form-field class="demo-full-width">
       <input  class="form-control" [formControlName]="'title'" pattern="[a-zA-Z ]*" [(ngModel)]="title"  matTooltip="Enter event title" matInput placeholder="Title" autocomplete="off" required>
     </mat-form-field>
-
+    <br/>
+    <mat-hint>From</mat-hint>
     <input
     class="form-control"
     [formControlName]="'start'"
@@ -123,6 +122,7 @@
     required
   />
   <br/>
+  <mat-hint>To</mat-hint>
   <input
     class="form-control"
     [formControlName]="'end'"
@@ -139,6 +139,9 @@
     placeholder="Not set"
   />
   <br/>
+  <div mat-dialog-actions>
+    <button mat-button mat-raised-button [disabled]="!eventForm.valid" color="accent" (click)="addNewEvent()"  [mat-dialog-close]="1" (click)="addEvent()">Save</button>
+  </div>
   </div>
   <div class="col-4">
   </div>
@@ -147,10 +150,7 @@
 <br/>
 
 <h3>
-  Edit events
-  <button class="btn btn-primary float-right" >
-    Add new
-  </button>
+  Events
   <div class="clearfix"></div>
 </h3>
 
@@ -196,6 +196,7 @@
             class="form-control"
             type="text"
             mwlFlatpickr
+            [min]="minDate"
             [(ngModel)]="event.start"
             (ngModelChange)="refresh.next()"
             [altInput]="true"
@@ -211,6 +212,7 @@
             class="form-control"
             type="text"
             mwlFlatpickr
+
             [(ngModel)]="event.end"
             (ngModelChange)="refresh.next()"
             [altInput]="true"

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventService } from './../../../services/event.service';
 import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef,} from '@angular/core';
@@ -94,7 +95,7 @@ export class EventCalenderComponent {
   start: any;
   end: any;
 
-  constructor(private modal: NgbModal, public service: EventService, private formbulider: FormBuilder, private http:HttpClient,  private _snackBar: MatSnackBar) {}
+  constructor(private modal: NgbModal, private router:Router, public service: EventService, private formbulider: FormBuilder, private http:HttpClient,  private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
 
@@ -115,7 +116,7 @@ export class EventCalenderComponent {
         title: res[i]['title'],
         repeating: res[i]['repeating'],
         start: new Date(res[i]['start']),
-        end: new Date(res[i]['end'])
+        end: new Date(res[i]['end']),
       }
       obj.push(event)
     }
@@ -136,6 +137,7 @@ export class EventCalenderComponent {
     this.newEvent.end = this.end;
     this.events.push(this.newEvent);
     this.service.createEvent(this.newEvent);
+
   }
 
   newEvent:any = {
@@ -188,11 +190,12 @@ export class EventCalenderComponent {
     this.events = [
       ...this.events,
     ];
-    this.refresh.next();
+
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event:any) => event !== eventToDelete);
+    this.service.deleteEvent(eventToDelete.id);
   }
 
   setView(view: CalendarView) {

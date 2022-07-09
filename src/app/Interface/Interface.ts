@@ -121,7 +121,7 @@ export interface ErrorResponse {
 }
 
 export interface iEvent {
-  eventId: number;
+  id: number;
   title: string;
   start: Date;
   end: Date;

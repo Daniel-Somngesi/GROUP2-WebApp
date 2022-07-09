@@ -20,8 +20,8 @@ export class EventService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAllEvents(): Observable<CalendarEvent[]> {
-    return this.httpClient.get<CalendarEvent[]>(apiURL)
+  getAllEvents(): Observable<iEvent[]> {
+    return this.httpClient.get<iEvent[]>(apiURL)
     .pipe(
       catchError(this.errorHandler)
     )
@@ -51,11 +51,12 @@ export class EventService {
     )
   }
 
-  deleteEvent(eventId:any){
-    return this.httpClient.delete<iEvent>(apiURL + '/' + eventId, this.httpOptions)
-    .pipe(
-      catchError(this.errorHandler)
-    )
+  deleteEvent(id:any){
+    this.httpClient.delete(`${apiURL}/${id}`).subscribe(data => {
+    },
+    (err: HttpErrorResponse) => {
+    alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+    })
   }
 
 
