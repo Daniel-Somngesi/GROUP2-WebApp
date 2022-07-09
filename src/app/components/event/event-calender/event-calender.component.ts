@@ -99,7 +99,7 @@ export class EventCalenderComponent {
     this.getCalendarEvents();
 
     this.eventForm = this.formbulider.group({
-      title: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+      title: ['', [Validators.required, this.noWhitespaceValidator, Validators.pattern('[a-zA-Z ]*')]],
       start: [null, [Validators.required]],
       end: [null, [Validators.required ]],
     })
