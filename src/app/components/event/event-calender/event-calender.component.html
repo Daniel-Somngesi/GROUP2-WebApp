@@ -94,7 +94,7 @@
 
 <h1>Event Details</h1>
 
-<div [formGroup]="eventForm">
+<form [formGroup]="eventForm">
 
 <br/>
 <div class="row">
@@ -102,8 +102,14 @@
   </div>
   <div class="col-4">
     <mat-form-field class="demo-full-width">
-      <input  class="form-control" [formControlName]="'title'" pattern="[a-zA-Z ]*" [(ngModel)]="title"  matTooltip="Enter event title" matInput placeholder="Title" autocomplete="off" required>
+      <input class="form-control" maxlength="50" formControlName="title" pattern="[a-zA-Z ]*" [(ngModel)]="title"  matTooltip="Enter event title" matInput placeholder="Title" autocomplete="off" required />
     </mat-form-field>
+    <div *ngIf="g.title.touched && g.title.invalid" class="alert alert-danger">
+      <div *ngIf="g.title.errors?.required">Title is required.</div>
+      <div *ngIf="g.title.errors?.maxlength">Exceeded maximum number of characters.</div>
+      <div *ngIf="g.title.errors?.pattern">Invalid characters.</div>
+      <small>Enter valid value.</small>
+    </div>
     <br/>
     <mat-hint>From</mat-hint>
     <input
@@ -146,7 +152,7 @@
   <div class="col-4">
   </div>
 </div>
-</div>
+</form>
 <br/>
 
 <h3>

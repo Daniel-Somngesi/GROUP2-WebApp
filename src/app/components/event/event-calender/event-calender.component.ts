@@ -1,16 +1,13 @@
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { EventService } from './../../../services/event.service';
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef,} from '@angular/core';
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
-import { Observable, Subject } from 'rxjs';
+import { Component, ViewChild, TemplateRef,} from '@angular/core';
+import { isSameDay, isSameMonth} from 'date-fns';
+import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
-import { iEvent } from 'src/app/Interface/Interface';
-import { catchError } from 'rxjs/operators';
-
 
 const colors: any = {
   red: {
@@ -56,7 +53,7 @@ export class EventCalenderComponent {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  eventForm: any;
+  public eventForm!: FormGroup;
   minDate:any = new Date().toISOString().slice(0, 10);
 
   view: CalendarView = CalendarView.Month;
@@ -89,7 +86,7 @@ export class EventCalenderComponent {
     },
   ];
 
-
+  message:string = 'meeeeee';
 
   activeDayIsOpen: boolean = true;
   start: any;
@@ -101,11 +98,21 @@ export class EventCalenderComponent {
 
     this.getCalendarEvents();
 
-    this.eventForm = new FormGroup({
-      title: new FormControl(['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(50)]]),
-      start: new FormControl([null, [Validators.required]]),
-      end: new FormControl([null, [Validators.required ]]),
+    this.eventForm = this.formbulider.group({
+      title: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+      start: [null, [Validators.required]],
+      end: [null, [Validators.required ]],
     })
+  }
+
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+  }
+
+  get g(){
+    return this.eventForm.controls;
   }
 
   loopThroughEvents(res:any){
@@ -137,7 +144,7 @@ export class EventCalenderComponent {
     this.newEvent.end = this.end;
     this.events.push(this.newEvent);
     this.service.createEvent(this.newEvent);
-
+    window.location.reload();
   }
 
   newEvent:any = {
