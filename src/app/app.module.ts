@@ -92,6 +92,10 @@ import { DeleteFeeDialogComponent } from './components/fee/delete-fee-dialog/del
 import { SurveymanagementComponent } from './components/survey/surveymanagement/surveymanagement.component';
 import { HomeComponent } from './components/home/home/home.component';
 import { SchedulingManagementComponent } from './components/slot-type/scheduling-management/scheduling-management.component';
+import { ListAllApplicationsComponent } from './components/applications/list-all-applications/list-all-applications.component';
+import { ViewApplicationDetailsComponent } from './components/applications/view-application-details/view-application-details.component';
+import { AppOverlayModule } from './shared/Overlay/Overlay.module';
+import { ProgressSpinnerModule } from './shared/loaders/progress-spinner/progress-spinner.module';
 
 
 @NgModule({
@@ -150,6 +154,8 @@ import { SchedulingManagementComponent } from './components/slot-type/scheduling
     SurveymanagementComponent,
     HomeComponent,
     SchedulingManagementComponent,
+    ListAllApplicationsComponent,
+    ViewApplicationDetailsComponent
   ],
   imports: [
     MatSortModule,
@@ -180,6 +186,8 @@ import { SchedulingManagementComponent } from './components/slot-type/scheduling
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
+    AppOverlayModule,
+    ProgressSpinnerModule
 
   ],
   providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService,

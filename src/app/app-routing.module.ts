@@ -20,6 +20,7 @@ import { QuestionListComponent } from './components/question/question-list/quest
 import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
 import {SurveymanagementComponent} from './components/survey/surveymanagement/surveymanagement.component';
 import { HomeComponent } from './components/home/home/home.component';
+import { ListAllApplicationsComponent } from './components/applications/list-all-applications/list-all-applications.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -110,8 +111,11 @@ const routes: Routes = [
   {
     path: 'scheduling-management',
     component: SchedulingManagementComponent
+  },
+  {
+    path: 'all-applications',
+    component: ListAllApplicationsComponent
   }
-  
 ];
 
 @NgModule({
