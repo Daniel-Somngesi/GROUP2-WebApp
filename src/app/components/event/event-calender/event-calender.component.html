@@ -127,7 +127,7 @@
     placeholder="Not set"
     required
   />
-  <br/>
+
   <mat-hint>To</mat-hint>
   <input
     class="form-control"
@@ -144,6 +144,7 @@
     altFormat="F j, Y H:i"
     placeholder="Not set"
   />
+  <br/>
   <br/>
   <div mat-dialog-actions>
     <button mat-button mat-raised-button [disabled]="!eventForm.valid" color="accent" (click)="addNewEvent()"  [mat-dialog-close]="1" (click)="addEvent()">Save</button>
