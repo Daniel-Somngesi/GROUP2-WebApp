@@ -1,29 +1,15 @@
 <div class="row text-center">
   <div class="col-md-4">
     <div class="btn-group">
-      <div
-        class="btn btn-primary"
-        mwlCalendarPreviousView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
-      >
+      <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()">
         Previous
       </div>
-      <div
-        class="btn btn-outline-secondary"
-        mwlCalendarToday
-        [(viewDate)]="viewDate"
-      >
+      <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
         Today
       </div>
-      <div
-        class="btn btn-primary"
-        mwlCalendarNextView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
-      >
+      <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()">
         Next
       </div>
     </div>
@@ -33,25 +19,13 @@
   </div>
   <div class="col-md-4">
     <div class="btn-group">
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Month)"
-        [class.active]="view === CalendarView.Month"
-      >
+      <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
         Month
       </div>
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Week)"
-        [class.active]="view === CalendarView.Week"
-      >
+      <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
         Week
       </div>
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Day)"
-        [class.active]="view === CalendarView.Day"
-      >
+      <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
         Day
       </div>
     </div>
@@ -59,34 +33,15 @@
 </div>
 <br />
 <div [ngSwitch]="view">
-  <mwl-calendar-month-view
-    *ngSwitchCase="CalendarView.Month"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
-    [activeDayIsOpen]="activeDayIsOpen"
-    (dayClicked)="dayClicked($event.day)"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
+  <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+    [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-month-view>
-  <mwl-calendar-week-view
-    *ngSwitchCase="CalendarView.Week"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
+  <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-week-view>
-  <mwl-calendar-day-view
-    *ngSwitchCase="CalendarView.Day"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
+  <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-day-view>
 </div>
 
@@ -96,65 +51,43 @@
 
 <form [formGroup]="eventForm">
 
-<br/>
-<div class="row">
-  <div class="col-4">
-  </div>
-  <div class="col-4">
-    <mat-form-field class="demo-full-width">
-      <input class="form-control" maxlength="50" formControlName="title" pattern="[a-zA-Z ]*" [(ngModel)]="title"  matTooltip="Enter event title" matInput placeholder="Title" autocomplete="off" required />
-    </mat-form-field>
-    <div *ngIf="g.title.touched && g.title.invalid" class="alert alert-danger">
-      <div *ngIf="g.title.errors?.required">Title is required.</div>
-      <div *ngIf="g.title.errors?.maxlength">Exceeded maximum number of characters.</div>
-      <div *ngIf="g.title.errors?.pattern">Invalid characters.</div>
-      <i style="font-size: small;">Enter valid value.</i>
+  <br />
+  <div class="row">
+    <div class="col-4">
     </div>
-    <br/>
-    <mat-hint>From</mat-hint>
-    <input
-    class="form-control"
-    [formControlName]="'start'"
-    type="text"
-    [(ngModel)]="start"
-    mwlFlatpickr
-    (ngModelChange)="refresh.next()"
-    [altInput]="true"
-    [convertModelValue]="true"
-    [enableTime]="true"
-    dateFormat="Y-m-dTH:i"
-    altFormat="F j, Y H:i"
-    placeholder="Not set"
-    required
-  />
+    <div class="col-4">
+      <mat-form-field class="demo-full-width">
+        <input class="form-control" maxlength="50" formControlName="title" pattern="[a-zA-Z ]*" [(ngModel)]="title"
+          matTooltip="Enter event title" matInput placeholder="Title" autocomplete="off" required />
+      </mat-form-field>
+      <div *ngIf="g.title.touched && g.title.invalid" class="alert alert-danger">
+        <div *ngIf="g.title.errors?.required">Title is required.</div>
+        <div *ngIf="g.title.errors?.maxlength">Exceeded maximum number of characters.</div>
+        <div *ngIf="g.title.errors?.pattern">Invalid characters.</div>
+        <i style="font-size: small;">Enter valid value.</i>
+      </div>
+      <br />
+      <mat-hint>From</mat-hint>
+      <input class="form-control" [formControlName]="'start'" type="text" [(ngModel)]="start" mwlFlatpickr
+        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+        dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" required />
 
-  <mat-hint>To</mat-hint>
-  <input
-    class="form-control"
-    [formControlName]="'end'"
-    type="text"
-    [(ngModel)]="end"
-    mwlFlatpickr
-    required
-    (ngModelChange)="refresh.next()"
-    [altInput]="true"
-    [convertModelValue]="true"
-    [enableTime]="true"
-    dateFormat="Y-m-dTH:i"
-    altFormat="F j, Y H:i"
-    placeholder="Not set"
-  />
-  <br/>
-  <br/>
-  <div mat-dialog-actions>
-    <button mat-button mat-raised-button [disabled]="!eventForm.valid" color="accent" (click)="addNewEvent()"  [mat-dialog-close]="1" (click)="addEvent()">Save</button>
+      <mat-hint>To</mat-hint>
+      <input class="form-control" [formControlName]="'end'" type="text" [(ngModel)]="end" mwlFlatpickr required
+        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+        dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+      <br />
+      <br />
+      <div mat-dialog-actions>
+        <button mat-button mat-raised-button [disabled]="!eventForm.valid" color="accent" (click)="addNewEvent()"
+          [mat-dialog-close]="1" (click)="addEvent()">Save</button>
+      </div>
+    </div>
+    <div class="col-4">
+    </div>
   </div>
-  </div>
-  <div class="col-4">
-  </div>
-</div>
 </form>
-<br/>
+<br />
 
 <h3>
   Events
@@ -177,57 +110,23 @@
     <tbody>
       <tr *ngFor="let event of events">
         <td>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="event.title"
-            (keyup)="refresh.next()"
-          />
+          <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" />
         </td>
         <td>
-          <input
-            type="color"
-            [(ngModel)]="event.color"
-            (change)="refresh.next()"
-          />
+          <input type="color" [(ngModel)]="event.color" (change)="refresh.next()" />
         </td>
         <td>
-          <input
-            type="color"
-            [(ngModel)]="event.color"
-            (change)="refresh.next()"
-          />
+          <input type="color" [(ngModel)]="event.color" (change)="refresh.next()" />
         </td>
         <td>
-          <input
-            class="form-control"
-            type="text"
-            mwlFlatpickr
-            [min]="minDate"
-            [(ngModel)]="event.start"
-            (ngModelChange)="refresh.next()"
-            [altInput]="true"
-            [convertModelValue]="true"
-            [enableTime]="true"
-            dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i"
-            placeholder="Not set"
-          />
+          <input class="form-control" type="text" mwlFlatpickr [min]="minDate" [(ngModel)]="event.start"
+            (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+            dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
         </td>
         <td>
-          <input
-            class="form-control"
-            type="text"
-            mwlFlatpickr
-
-            [(ngModel)]="event.end"
-            (ngModelChange)="refresh.next()"
-            [altInput]="true"
-            [convertModelValue]="true"
-            dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i"
-            placeholder="Not set"
-          />
+          <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" (ngModelChange)="refresh.next()"
+            [altInput]="true" [convertModelValue]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+            placeholder="Not set" />
         </td>
         <td>
           <button class="btn btn-danger" (click)="deleteEvent(event)">

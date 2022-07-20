@@ -1,44 +1,39 @@
 <h1>Documents</h1>
-<br/>
+<br />
 <p>Upload documents for parents, One document at a time.</p>
-<br/>
+<br />
 <div class="docUploadDiv">
 
-<input  accept=".pdf, .xlsx, .xls, .doc, .docx, .ppt, .pptx, .txt" requiredFileType="pdf" type="file" class="file-input"
-       (change)="onFileSelected($event)" #fileUpload>
+  <input accept=".pdf, .xlsx, .xls, .doc, .docx, .ppt, .pptx, .txt" requiredFileType="pdf" type="file"
+    class="file-input" (change)="onFileSelected($event)" #fileUpload>
 
-<div class="file-upload">
+  <div class="file-upload">
 
-   {{fileName || "No file attached yet."}}
+    {{fileName || "No file attached yet."}}
 
-    <button style="text-align: center;" mat-mini-fab color="primary" class="upload-btn"
-      (click)="fileUpload.click()" >
-        <mat-icon matTooltip="Choose file">attach_file</mat-icon>
+    <button style="text-align: center;" mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+      <mat-icon matTooltip="Choose file">attach_file</mat-icon>
     </button>
-</div>
-<div class="progress">
+  </div>
+  <div class="progress">
+    <mat-progress-bar class="progress-bar" mode="determinate" [value]="uploadProgress" *ngIf="uploadProgress">
+    </mat-progress-bar>
 
-  <mat-progress-bar class="progress-bar" mode="determinate"
-                    [value]="uploadProgress" *ngIf="uploadProgress">
+    <mat-icon class="cancel-upload" (click)="cancelUpload()" *ngIf="uploadProgress">delete_forever</mat-icon>
+  </div>
+  <h3>{{ name }}</h3>
+  <h4>{{ size }}</h4>
 
-  </mat-progress-bar>
-
-  <mat-icon class="cancel-upload" (click)="cancelUpload()"
-            *ngIf="uploadProgress">delete_forever</mat-icon>
-
-</div>
+  <mat-form-field class="demo-full-width">
+    <input class="form-control" [(ngModel)]="descr" pattern="[a-zA-Z ]*" matTooltip="Description"
+      matInput placeholder="Description" autocomplete="off" required>
+  </mat-form-field>
 
 
-<h3>{{ name }}</h3>
-<mat-form-field  class="demo-full-width">
-  <input class="form-control" class="form-control" [(ngModel)]="descr"   pattern="[a-zA-Z ]*"  matTooltip="Description" matInput placeholder="Description" autocomplete="off" required>
-</mat-form-field>
-<h4>{{ size }}</h4>
+  <div mat-dialog-actions>
+    <button mat-button mat-raised-button (click)="onCreate()" [disabled]="!fileName" color="accent">Upload</button>
 
-<div mat-dialog-actions>
-  <button mat-button mat-raised-button (click)="onCreate()" [disabled]="!fileName" color="accent">Upload</button>
-
-</div>
+  </div>
 </div>
 
 <table class="table table-striped">
@@ -53,11 +48,9 @@
     <tr *ngFor="let doc of documents">
       <td>{{doc.document_Name}}</td>
       <td>{{doc.description}}</td>
-      <td><mat-icon aria-label="Delete" >delete</mat-icon></td>
+      <td>
+        <mat-icon aria-label="Delete">delete</mat-icon>
+      </td>
     </tr>
   </tbody>
 </table>
-
-
-
-

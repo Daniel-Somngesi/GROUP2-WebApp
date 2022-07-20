@@ -36,7 +36,6 @@ mat-toolbar {
   margin: 0px;
   border-right: none;
   background-color: #008b8b !important;
-  border-radius: 0px;
   text-align: left;
   display: flex;
   bottom:auto;
