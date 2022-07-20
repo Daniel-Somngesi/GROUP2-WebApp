@@ -21,10 +21,13 @@ import { QuestionListComponent } from './components/question/question-list/quest
 import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
 import {SurveymanagementComponent} from './components/survey/surveymanagement/surveymanagement.component';
 import { HomeComponent } from './components/home/home/home.component';
+import { ListAllApplicationsComponent } from './components/applications/list-all-applications/list-all-applications.component';
+
 import { AuthGuard } from './helpers';
 
 const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard]},
@@ -122,6 +125,10 @@ const routes: Routes = [
   {
     path: 'scheduling-management',
     component: SchedulingManagementComponent
+  },
+  {
+    path: 'all-applications',
+    component: ListAllApplicationsComponent
   }
 
 ];

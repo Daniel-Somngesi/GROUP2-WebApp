@@ -1,0 +1,73 @@
+<div class="mat-elevation-z8 table-container">
+  <div class="table-top-controllers">
+    <span class="table-name"> All Applications |</span>
+    <button mat-button>Rejected</button>
+    <button mat-button>Accepted</button>
+  </div>
+
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+  </mat-form-field>
+
+  <mat-table [dataSource]="dataSource" matSort class="table" #mytable>
+
+    <ng-container matColumnDef="application_Date">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date Requested </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.application_Date}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="parentName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Parent </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.parentName}} {{element.parentSurname}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="childName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Child </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.childName}} {{element.childSurname}}  </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="childDateOfBirth">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Child date of birth </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.childDateOfBirth}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="childSpecialNeeds">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Special Needs  </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.childSpecialNeeds}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="applicationStatus">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Status </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.applicationStatus}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+
+      <mat-cell *matCellDef="let element">
+        <button mat-button [matMenuTriggerFor]="menu">More</button>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onViewApplicationDetails(element)">View Details</button>
+          <button mat-menu-item (click)="onAccept(element)" *ngIf="element.applicationStatus != 'Accepted'">Accept</button>
+          <button mat-menu-item (click)="onReject(element)" *ngIf="element.applicationStatus != 'Rejected'">Reject</button>
+        </mat-menu>
+
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    <tr class="mat-row no-data-row" *matNoDataRow>
+      <h2 class="mat-cell no-data-text">No data found</h2>
+    </tr>
+  </mat-table>
+
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

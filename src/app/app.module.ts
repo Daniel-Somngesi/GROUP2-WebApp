@@ -97,6 +97,11 @@ import { DeleteFeeDialogComponent } from './components/fee/delete-fee-dialog/del
 import { SurveymanagementComponent } from './components/survey/surveymanagement/surveymanagement.component';
 import { HomeComponent } from './components/home/home/home.component';
 import { SchedulingManagementComponent } from './components/slot-type/scheduling-management/scheduling-management.component';
+
+import { ListAllApplicationsComponent } from './components/applications/list-all-applications/list-all-applications.component';
+import { ViewApplicationDetailsComponent } from './components/applications/view-application-details/view-application-details.component';
+import { AppOverlayModule } from './shared/Overlay/Overlay.module';
+import { ProgressSpinnerModule } from './shared/loaders/progress-spinner/progress-spinner.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertComponent } from './components/alert/alert/alert.component';
 import { AddEditComponent } from './users/add-edit/add-edit.component';
@@ -109,6 +114,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { UtilsModule } from '../utilis/module';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+
 
 
 
@@ -169,11 +175,14 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     SurveymanagementComponent,
     HomeComponent,
     SchedulingManagementComponent,
+    ListAllApplicationsComponent,
+    ViewApplicationDetailsComponent
     AlertComponent,
     AddEditComponent,
     LayoutComponent,
     ListComponent,
     EventCalenderComponent
+
   ],
 
   imports: [
@@ -209,6 +218,8 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
+    AppOverlayModule,
+    ProgressSpinnerModule
     NgbModule,
     NgbModalModule,
     FlatpickrModule.forRoot(),
@@ -216,6 +227,7 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+
   ],
   providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, DatePipe,{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
