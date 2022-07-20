@@ -1,0 +1,56 @@
+<div class="container">
+  <mat-toolbar class="form-toolbar">
+    <div class="dialog-header-container">
+      <div class="dialog-header-title">Application Details</div>
+    </div>
+  </mat-toolbar>
+
+
+  <div class="body">
+
+    <div class="row">
+      <strong>Application Date: </strong>
+      <p>{{application.application_Date}}</p>
+    </div>
+
+
+    <div class="row">
+      <strong>Applicant Full Name: </strong>
+      <p>{{application.parentName}} {{application.parentSurname}}</p>
+    </div>
+
+    <div class="row">
+      <strong>Applicant Email Address: </strong>
+      <p>{{application.emailAddress}}</p>
+    </div>
+
+    <div class="row">
+      <strong>Applicant Contact Number: </strong>
+      <p>{{application.contactNumber}}</p>
+    </div>
+
+    <div class="row">
+      <strong>Applicant Relationship to Child: </strong>
+      <p>{{application.parentRelationship}}</p>
+    </div>
+    <div class="row">
+      <strong>Child Full Name: </strong>
+      <p>{{application.childName}} {{application.childSurname}}</p>
+    </div>
+
+    <div class="row">
+      <strong>Child Date of Birth: </strong>
+      <p>{{application.childDateOfBirth}}
+    </div>
+
+    <div class="row" *ngIf="application.childSpecialNeeds == 'Yes'">
+      <strong>Child Special Needs: </strong>
+      <p>{{application.childSpecialNeedsDescription}}
+    </div>
+
+  </div>
+</div>
+
+<div class="button-row">
+  <button mat-raised-button mat-dialog-close class="submit-button">Close</button>
+</div>
