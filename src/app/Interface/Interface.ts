@@ -92,3 +92,37 @@ export interface FeeData {
   feeType_Id:number;
   feeType_Name:string;
 }
+
+export interface TokenResponse {
+  UserID: any;
+  UserRole: string;
+  UserFirstName: string;
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface TaskResponse {
+  id: number;
+  name: string;
+  isCompleted: boolean;
+  ts: Date;
+}
+export interface RefreshTokenRequest {
+  userId: number;
+  refreshToken: string;
+}
+
+2
+3
+4
+export interface ErrorResponse {
+    error:string;
+    errorCode: string;
+}
+
+export interface iEvent {
+  id: number;
+  title: string;
+  start: Date;
+  end: Date;
+}

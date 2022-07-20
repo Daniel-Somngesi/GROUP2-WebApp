@@ -50,13 +50,12 @@ mat-toolbar[_ngcontent-hmo-c187] {
 }
 
 mat-divider {
-
   margin-bottom: 5px;
   background-color: rgba(255, 255, 255, 0.377);
 }
 
 .cntr {
-  margin: 20px;
+  margin: 15px;
 }
 
 h2 {
@@ -65,6 +64,7 @@ h2 {
 .header {
   text-align: center;
 }
+
 .bottom-left {
   position: absolute;
   bottom: 1050px;

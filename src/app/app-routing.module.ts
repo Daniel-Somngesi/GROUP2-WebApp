@@ -1,3 +1,4 @@
+import { EventCalenderComponent } from './components/event/event-calender/event-calender.component';
 import { SchedulingManagementComponent } from './components/slot-type/scheduling-management/scheduling-management.component';
 import { FeeListComponent } from './components/fee/fee-list/fee-list.component';
 import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
@@ -22,13 +23,27 @@ import {SurveymanagementComponent} from './components/survey/surveymanagement/su
 import { HomeComponent } from './components/home/home/home.component';
 import { ListAllApplicationsComponent } from './components/applications/list-all-applications/list-all-applications.component';
 
+import { AuthGuard } from './helpers';
+
+const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
+const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
+
+
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: '', component: HomeComponent },
- 
+  { path: '', component: HomeComponent, canActivate: [AuthGuard]},
+    { path: 'users', loadChildren: userModule, canActivate: [AuthGuard]},
+    { path: 'auth', loadChildren: authModule },
+
+    // otherwise redirect to home
+    { path: '**', redirectTo: '' },
+
   {
     path: 'user-roles',
     component: UserRoleListComponent
+  },
+  {
+    path: 'event',
+    component: EventCalenderComponent
   },
   {
     path: 'employees',
@@ -38,7 +53,6 @@ const routes: Routes = [
     path: 'employee-types',
     component: EmployeeTypeListComponent
   },
-
   {
     path: 'medical-aid-types',
     component: MedicalAidTypeListdComponent
@@ -116,6 +130,7 @@ const routes: Routes = [
     path: 'all-applications',
     component: ListAllApplicationsComponent
   }
+
 ];
 
 @NgModule({

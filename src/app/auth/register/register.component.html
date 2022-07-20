@@ -1,0 +1,179 @@
+<div  class="col-sm-6 offset-sm-3">
+  <div class="card">
+    <h4 class="card-header">Register</h4>
+    <div class="card-body">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
+            <div class="form-group">
+                <label for="UserFirstName">First Name</label>
+                <input type="text" formControlName="UserFirstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.UserFirstName.errors }" />
+                <div *ngIf="submitted && f.UserFirstName.errors" class="invalid-feedback">
+                    <div *ngIf="f.UserFirstName?.errors?.required">First Name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="UserLastName">Last Name</label>
+                <input type="text" formControlName="UserLastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.UserLastName.errors }" />
+                <div *ngIf="submitted && f.UserLastName.errors" class="invalid-feedback">
+                    <div *ngIf="f.UserLastName.errors?.required">Last Name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="UserEmail">Username</label>
+                <input type="email" formControlName="UserEmail"  placeholder="E-mail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.UserEmail.errors }" />
+                <div *ngIf="submitted && f.UserEmail.errors" class="invalid-feedback">
+                    <div *ngIf="f.UserEmail.errors?.required">Email is required</div>
+                    <div *ngIf="f.UserEmail.errors?.email">Invalid email</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="UserPhoneNumber">Phone Number</label>
+                <input type="text" formControlName="UserPhoneNumber" placeholder="+ (27)" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.UserPhoneNumber.errors }" />
+                <div *ngIf="submitted && f.UserPhoneNumber.errors" class="invalid-feedback">
+                    <div *ngIf="f.UserPhoneNumber.errors?.required">PhoneNumber is required</div>
+                    <div *ngIf="f.UserPhoneNumber.errors?.minlength">PhoneNumber must be at least 10 characters</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="UserPassword">Password</label>
+                <input type="password" formControlName="UserPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.UserPassword.errors }" />
+                <div *ngIf="submitted && f.UserPassword.errors" class="invalid-feedback">
+                    <div *ngIf="f.UserPassword.errors?.required">Password is required</div>
+                    <div *ngIf="f.UserPassword.errors?.minlength">Password must be at least 6 characters</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="UserPasswordConfirm">Password Confirm</label>
+                <input type="password" formControlName="UserPasswordConfirm" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.UserPasswordConfirm.errors }" />
+                <div *ngIf="submitted && f.UserPasswordConfirm.errors" class="invalid-feedback">
+                    <div *ngIf="f.UserPasswordConfirm.errors?.required">Password is required</div>
+                    <div *ngIf="f.UserPasswordConfirm.errors?.minlength">Password must be at least 6 characters</div>
+                    <div *ngIf="f.UserPasswordConfirm.errors.confirmedValidator">Password  and Confirm Password must be the same</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="UserDOB">Date of Birth</label>
+                <input  formControlName="UserDOB" class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                [ngClass]="{ 'is-invalid': submitted && f.UserPassword.errors }"
+                [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker"  />
+                <div class="input-group-append">
+                    <i class="fa fa-calendar" style="font-size:48px;color:blue" (click)="d.toggle()" type="button"></i>
+                  </div>
+                <div *ngIf="submitted && f.UserDOB.errors" class="invalid-feedback">
+                    <div *ngIf="f.UserDOB.errors?.required">Date of Birth is required</div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="UserAddressLine1">Address  Line 1</label>
+                <input type="text" formControlName="UserAddressLine1" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.UserAddressLine1.errors }" />
+                <div *ngIf="submitted && f.UserAddressLine1.errors" class="invalid-feedback">
+                    <div *ngIf="f.UserAddressLine1.errors?.required">Address is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="UserAddressLine2">Address  Line 2</label>
+                <input type="text" formControlName="UserAddressLine2" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label for="UserPostalCode">Postal Code</label>
+                <input type="text" formControlName="UserPostalCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.UserPostalCode.errors }" />
+                <div *ngIf="submitted && f.UserPassword.errors" class="invalid-feedback">
+                    <div *ngIf="f.UserPostalCode.errors?.required"> Postal Code is required</div>
+                    <div *ngIf="f.UserPostalCode.errors?.minlength">Postal Code must be at least 4 characters</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="userRole_Id">User Type</label>
+                <select name="UserRole" formControlName="userRole_Id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.userRole_Id.errors }"
+                class="btn btn-outline-primary"
+                  (change)="selectInput($event)">
+                  <option value="undefined">Select User Type</option>
+                  <option *ngFor="let usertype of listUserRoles" [value]="usertype.userRole_Id">
+                    {{usertype.userRole_Name}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.userRole_Id.errors" class="invalid-feedback">
+                    <div *ngIf="f.userRole_Id.errors?.required"> Select User Type</div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="CountryId">Country</label>
+                <select name="Country" formControlName="CountryId" class="form-control"
+                [(ngModel)]="SelCountryId" (change)="FillProvince();"
+                [ngClass]="{ 'is-invalid': submitted && f.CountryId.errors }"
+                class="btn btn-outline-primary"
+                  (change)="selectInput($event)">
+                  <option value="undefined">Select Country</option>
+                  <option *ngFor="let country of listCountries " [value]="country.countryID" rounded="true">
+                    {{country.countryName}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.CountryId.errors" class="invalid-feedback">
+                    <div *ngIf="f.CountryId.errors?.required"> Country is recquired</div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ProvinceId">Province</label>
+                <select name="UserRole" formControlName="ProvinceId" class="form-control"
+                [(ngModel)]="SelProvinceId" (change)="FillCity();"
+                [ngClass]="{ 'is-invalid': submitted && f.ProvinceId.errors }"
+                class="btn btn-outline-primary"
+                  (change)="selectInput($event)">
+                  <option value="undefined">Select Province</option>
+                  <option *ngFor="let province of listFilteredProvinces "  [value]="province.provinceID">
+                    {{province.provinceName}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.ProvinceId.errors" class="invalid-feedback">
+                    <div *ngIf="f.ProvinceId?.errors?.required"> Province is required</div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="CityId">City</label>
+                <select name="City" formControlName="CityId" class="form-control"
+                [(ngModel)]="SelCityId" (change)="FillSurburb();"
+                [ngClass]="{ 'is-invalid': submitted && f.CityId.errors }"
+                class="btn btn-outline-primary"
+                  (change)="selectInput($event)">
+                  <option value="undefined">Select City</option>
+                  <option *ngFor="let city of listFilteredCities" [value]="city.cityID">
+                    {{city.cityName}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.CityId.errors" class="invalid-feedback">
+                    <div *ngIf="f.CityId.errors?.required"> Select City</div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="SuburbId">Surburb</label>
+                <select name="Suburb" formControlName="SuburbId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.SuburbId.errors }"
+                class="btn btn-outline-primary"
+                  (change)="selectInput($event)">
+                  <option value="undefined">Select Surburb</option>
+                  <option *ngFor="let surburb of listFilteredSurburbs" [value]="surburb.surburbID">
+                    {{surburb.surburbName}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.SuburbId.errors" class="invalid-feedback">
+                    <div *ngIf="f.SuburbId.errors?.required"> Select Surburb</div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Register
+                </button>
+                <a routerLink="../login" class="btn btn-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+
