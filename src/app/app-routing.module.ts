@@ -35,7 +35,7 @@ const routes: Routes = [
     { path: 'auth', loadChildren: authModule },
 
     // otherwise redirect to home
-    { path: '**', redirectTo: '' },
+  {path:'**', redirectTo: ''},
 
   {
     path: 'user-roles',

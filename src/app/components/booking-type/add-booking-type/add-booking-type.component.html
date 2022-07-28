@@ -1,25 +1,35 @@
 <h1>Add Booking Type</h1>
 <form [formGroup]="bookingTypeForm">
-<table>
-  <tr>
-    <td><mat-form-field class="demo-full-width">
-      <input class="form-control" class="form-control" [(ngModel)]="data.bookingType_Name" formControlName="bookingType_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter booking type name" matInput placeholder="Booking Type Name" autocomplete="off" required>
-    </mat-form-field>
-    <mat-error>
-      <span *ngIf="!bookingTypeForm.get('bookingType_Name').value && bookingTypeForm.get('bookingType_Name').touched">Entered text is not in the correct format. Please try again.</span>
-    </mat-error>
+  <table>
+    <tr>
+      <td>
+        <mat-form-field class="demo-full-width">
+          <input class="form-control" class="form-control" [(ngModel)]="data.bookingType_Name"
+            formControlName="bookingType_Name" pattern="[a-zA-Z ]*" matTooltip="Enter booking type name" matInput
+            placeholder="Booking Type Name" autocomplete="off" required>
+        </mat-form-field>
+        <mat-error>
+          <span
+            *ngIf="!bookingTypeForm.get('bookingType_Name').value && bookingTypeForm.get('bookingType_Name').touched">Entered
+            text is not in the correct format. Please try again.</span>
+        </mat-error>
 
-    <mat-form-field class="demo-full-width">
-      <input class="form-control" formControlName="bookingType_Description" [(ngModel)]="data.bookingType_Description" pattern="[a-zA-Z ]*"  matTooltip="Enter booking type description" matInput placeholder="Booking Type Description" autocomplete="off" required>
-    </mat-form-field>
-    <mat-error>
-      <span *ngIf="!bookingTypeForm.get('bookingType_Description').value && bookingTypeForm.get('bookingType_Description').touched">Entered text is not in the correct format. Please try again.</span>
-    </mat-error>
-    </td>
+        <mat-form-field class="demo-full-width">
+          <input class="form-control" formControlName="bookingType_Description"
+            [(ngModel)]="data.bookingType_Description" pattern="[a-zA-Z ]*" matTooltip="Enter booking type description"
+            matInput placeholder="Booking Type Description" autocomplete="off" required>
+        </mat-form-field>
+        <mat-error>
+          <span
+            *ngIf="!bookingTypeForm.get('bookingType_Description').value && bookingTypeForm.get('bookingType_Description').touched">Entered
+            text is not in the correct format. Please try again.</span>
+        </mat-error>
+      </td>
   </table>
   <br>
   <div mat-dialog-actions>
-    <button mat-button mat-raised-button [disabled]="!bookingTypeForm.valid" color="accent" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+    <button mat-button mat-raised-button [disabled]="!bookingTypeForm.valid" color="accent" [mat-dialog-close]="1"
+      (click)="confirmAdd()">Save</button>
     <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
   </div>
-  </form>
+</form>

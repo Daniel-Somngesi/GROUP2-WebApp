@@ -176,7 +176,7 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     HomeComponent,
     SchedulingManagementComponent,
     ListAllApplicationsComponent,
-    ViewApplicationDetailsComponent
+    ViewApplicationDetailsComponent,
     AlertComponent,
     AddEditComponent,
     LayoutComponent,
@@ -219,7 +219,7 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     CommonModule,
     FormsModule,
     AppOverlayModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
     NgbModule,
     NgbModalModule,
     FlatpickrModule.forRoot(),

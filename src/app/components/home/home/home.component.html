@@ -1,1 +1,14 @@
-<h1 style="position:centre">Welcome!!!</h1>
+<div class="heading" [hidden] = "isShow">
+  <h3>Hi Admin!<span class="wave">👋</span></h3>
+  <small>Need help? Our <a href="#">user manual</a> will show you how to use and quickly navigate the system.</small>
+  <i (click) = toggleDisplay() style="font-size:20px; float:right; padding-right:10px;" class="fa-regular fa-circle-xmark"></i>
+</div>
+<div class="box">
+  <div><i style="color:#dbd514" class="fa-regular fa-rectangle-list"></i><br/>Applications</div>
+  <div><i style="color:#13cf0c" class="fa-solid fa-hands-holding-child"></i><br/>Children</div>
+  <div><i style="color:#14dbc7" class="fa-solid fa-calendar-days"></i><br/>Schedule</div>
+  <div><i style="color:#cf0ccf" class="fa-solid fa-utensils"></i><br/>Weekly Menu</div>
+  <div><i style="color:#c2590a" class="fa-regular fa-paste"></i><br/>Documents</div>
+  <div><i style="color:#31075e" class="fa-solid fa-square-poll-horizontal"></i><br/>Reporting</div>
+</div>
+

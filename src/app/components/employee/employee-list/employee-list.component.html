@@ -58,7 +58,7 @@
       <mat-cell *matCellDef="let employee"> {{employee.doB | date: 'dd-MM-yyyy'}}</mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="employee_Email" >
+    <ng-container matColumnDef="employee_Email">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
       <mat-cell *matCellDef="let employee"> {{employee.employee_Email}}</mat-cell>
     </ng-container>
@@ -91,7 +91,8 @@
         <button mat-icon-button color="accent">
           <mat-icon aria-label="Delete" (click)="deleteItem(employee.employee_Id, employee.employee_Name, employee.employee_Surname,
           employee.phone_Number, employee.gender, employee.employeeType_ID, employee.address_Line1, employee.address_Line2,
-          employee.city, employee.doB, employee.employee_Email, employee.id_Number, employee.postal_code)">delete</mat-icon>
+          employee.city, employee.doB, employee.employee_Email, employee.id_Number, employee.postal_code)">delete
+          </mat-icon>
         </button>
       </mat-cell>
     </ng-container>
@@ -105,11 +106,7 @@
     <h4>No employees..</h4>
   </div>
 
-  <mat-paginator #paginator
-                 [length]="dataSource.filteredData.length"
-                 [pageIndex]="0"
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 25, 100]">
+  <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 25, 100]">
   </mat-paginator>
 </div>
-

@@ -12,10 +12,10 @@
     ng update @angular/cli @angular/core
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
-          <ng-container matColumnDef="Consumable_Id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
-            <mat-cell *matCellDef="let consumable"> {{consumable.consumable_Id}}</mat-cell>
-          </ng-container>
+    <ng-container matColumnDef="Consumable_Id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+      <mat-cell *matCellDef="let consumable"> {{consumable.consumable_Id}}</mat-cell>
+    </ng-container>
 
 
     <ng-container matColumnDef="Name">
@@ -42,12 +42,15 @@
       </mat-header-cell>
 
       <mat-cell *matCellDef="let consumable; let i=index;">
-        <button mat-icon-button color="accent" (click)="startEdit(consumable.consumable_Id, consumable.name, consumable.description, consumable.quantity)">
+        <button mat-icon-button color="accent"
+          (click)="startEdit(consumable.consumable_Id, consumable.name, consumable.description, consumable.quantity)">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
 
         <button mat-icon-button color="accent">
-          <mat-icon aria-label="Delete" (click)="deleteItem(consumable.consumable_Id, consumable.name, consumable.description, consumable.quantity)">delete</mat-icon>
+          <mat-icon aria-label="Delete"
+            (click)="deleteItem(consumable.consumable_Id, consumable.name, consumable.description, consumable.quantity)">
+            delete</mat-icon>
         </button>
       </mat-cell>
     </ng-container>
@@ -61,10 +64,7 @@
     <h4>No consumbles..</h4>
   </div>
 
-  <mat-paginator #paginator
-                 [length]="dataSource.filteredData.length"
-                 [pageIndex]="0"
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 25, 100]">
+  <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 25, 100]">
   </mat-paginator>
 </div>

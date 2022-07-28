@@ -9,7 +9,7 @@
 
 <mat-toolbar>
   <button mat-icon-button (click)="drawer.toggle()">
-    <mat-icon >menu</mat-icon>
+    <mat-icon style="color:white;">menu</mat-icon>
   </button>
   <span class="header">Hatfield Montessori Pre-school</span>
   <span class="spacer"></span>
@@ -21,7 +21,7 @@
 
 <mat-drawer-container class="container" autosize >
 <mat-drawer #drawer class="sidenav" mode="side">
-  <h2>Menu</h2>
+  <h2 style="color:white">Menu</h2>
     <button mat-button class="menu-button"  [routerLink]="['/home']">
         <mat-icon>home</mat-icon>
         <span>Home</span>
@@ -29,59 +29,59 @@
     <mat-divider></mat-divider>
     <button mat-button class="menu-button" [routerLink]="['/all-applications']">
       <mat-icon>list</mat-icon>
-      <span>Applications</span>
+      <span> Applications</span>
     </button>
     <mat-divider></mat-divider>
     <button mat-button class="menu-button" [routerLink]="['/user-management']">
         <mat-icon>person</mat-icon>
-        <span>User</span>
+        <span> User</span>
     </button> <mat-divider></mat-divider>
     <button mat-button class="menu-button" [routerLink]="['/employee-management']">
       <mat-icon>work</mat-icon>
-      <span>Employee</span>
+      <span> Employee</span>
     </button> <mat-divider></mat-divider>
     <button mat-button class="menu-button" [routerLink]="['/booking-management']">
         <mat-icon>event_available</mat-icon>
-        <span>Booking</span>
+        <span> Booking</span>
     </button> <mat-divider></mat-divider>
 
     <button mat-button class="menu-button" [routerLink]="['/medical-aid-types']">
       <mat-icon>medical_information</mat-icon>
-      <span>Medical Aid Type</span>
+      <span> Medical Aid Type</span>
         </button> <mat-divider></mat-divider>
 
     <button mat-button class="menu-button" [routerLink]="['/fee-management']">
     <mat-icon>payments</mat-icon>
-    <span>Fee</span>
+    <span> Fee</span>
     </button> <mat-divider></mat-divider>
     <button mat-button class="menu-button" [routerLink]="['/consumables']" >
     <mat-icon>shopping_cart</mat-icon>
-    <span>Consumables</span>
+    <span> Consumables</span>
     </button> <mat-divider></mat-divider>
 
     <button mat-button class="menu-button" [routerLink]="['/allergy']">
       <mat-icon>medication_liquid</mat-icon>
-      <span>Allergy</span>
+      <span> Allergy</span>
       </button> <mat-divider></mat-divider>
 
       <button mat-button class="menu-button" [routerLink]="['/survey-management']">
         <mat-icon>quiz</mat-icon>
-        <span>Survey</span>
+        <span> Survey</span>
         </button> <mat-divider></mat-divider>
 
         <button mat-button class="menu-button" [routerLink]="['/document']">
           <mat-icon>upload_file</mat-icon>
-          <span>Documents</span>
+          <span> Documents</span>
       </button> <mat-divider></mat-divider>
 
       <button mat-button class="menu-button" [routerLink]="['/scheduling-management']" >
         <mat-icon>calendar_month</mat-icon>
-        <span>Scheduling</span>
+        <span> Scheduling</span>
       </button> <mat-divider></mat-divider>
 
      <button mat-button class="menu-button">
         <mat-icon>description</mat-icon>
-        <span>Teacher</span>
+        <span> Teacher</span>
       </button> <mat-divider></mat-divider>
         <button mat-button class="menu-button" [routerLink]="['./url']">
           <mat-icon> escalator_warning</mat-icon>
@@ -89,21 +89,21 @@
       </button> <mat-divider></mat-divider>
       <button mat-button class="menu-button">
           <mat-icon>face </mat-icon>
-          <span>Child</span>
+          <span> Child</span>
       </button>  <mat-divider></mat-divider>
 
     <button mat-button class="menu-button" >
         <mat-icon>sports_soccer</mat-icon>
-        <span>Sports & Recreation</span>
+        <span> Sports & Recreation</span>
     </button> <mat-divider></mat-divider>
     <button mat-button class="menu-button">
         <mat-icon>chat</mat-icon>
-        <span>Communication</span>
+        <span> Communication</span>
     </button> <mat-divider></mat-divider>
 
     <button mat-button class="menu-button">
         <mat-icon>bar_chart</mat-icon>
-        <span>Reports</span>
+        <span> Reports</span>
     </button> <mat-divider></mat-divider>
 </mat-drawer>
 

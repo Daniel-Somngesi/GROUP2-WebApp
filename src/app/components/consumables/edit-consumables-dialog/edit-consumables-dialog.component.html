@@ -1,26 +1,32 @@
 <h1>Update Consumable {{data.userRole_Id}}</h1>
 <form [formGroup]="consumablesForm">
 
-    <mat-form-field class="demo-full-width">
-      <input class="form-control" [(ngModel)]="data.name" formControlName="Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
-    </mat-form-field>
-    <mat-error>
-      <span *ngIf="!consumablesForm.get('Name').value && consumablesForm.get('Name').touched">Invalid format</span>
-    </mat-error>
-    <mat-form-field class="demo-full-width">
-      <input class="form-control" [(ngModel)]="data.description" formControlName="Description" pattern="[a-zA-Z ]*"  matTooltip="Enter description" matInput placeholder="Description" autocomplete="off" required>
-    </mat-form-field>
-    <mat-error>
-      <span *ngIf="!consumablesForm.get('Description').value && consumablesForm.get('Description').touched">Invalid format</span>
-    </mat-error>
-    <mat-form-field class="demo-full-width">
-      <input class="form-control" type="number" class="form-control" [(ngModel)]="data.quantity" formControlName="Quantity"  matTooltip="Enter quantity" matInput placeholder="Quantity" autocomplete="off" required>
-    </mat-form-field>
-    <mat-error>
-      <span *ngIf="!consumablesForm.get('Quantity').value && consumablesForm.get('Quantity').touched">Invalid format</span>
-    </mat-error>
-<div mat-dialog-actions>
-  <button mat-button [disabled]="!consumablesForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
-  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
-</div>
+  <mat-form-field class="demo-full-width">
+    <input class="form-control" [(ngModel)]="data.name" formControlName="Name" pattern="[a-zA-Z ]*"
+      matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
+  </mat-form-field>
+  <mat-error>
+    <span *ngIf="!consumablesForm.get('Name').value && consumablesForm.get('Name').touched">Invalid format</span>
+  </mat-error>
+  <mat-form-field class="demo-full-width">
+    <input class="form-control" [(ngModel)]="data.description" formControlName="Description" pattern="[a-zA-Z ]*"
+      matTooltip="Enter description" matInput placeholder="Description" autocomplete="off" required>
+  </mat-form-field>
+  <mat-error>
+    <span *ngIf="!consumablesForm.get('Description').value && consumablesForm.get('Description').touched">Invalid
+      format</span>
+  </mat-error>
+  <mat-form-field class="demo-full-width">
+    <input class="form-control" type="number" class="form-control" [(ngModel)]="data.quantity"
+      formControlName="Quantity" matTooltip="Enter quantity" matInput placeholder="Quantity" autocomplete="off"
+      required>
+  </mat-form-field>
+  <mat-error>
+    <span *ngIf="!consumablesForm.get('Quantity').value && consumablesForm.get('Quantity').touched">Invalid
+      format</span>
+  </mat-error>
+  <div mat-dialog-actions>
+    <button mat-button [disabled]="!consumablesForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+    <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+  </div>
 </form>
