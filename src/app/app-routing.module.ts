@@ -42,7 +42,7 @@ const routes: Routes = [
     loadChildren: authModule,
   },
     // otherwise redirect to home
-    {path:'**', redirectTo: '**'},
+    {path:'**', redirectTo: ''},
   {
     path: 'user-roles',
     component: UserRoleListComponent
