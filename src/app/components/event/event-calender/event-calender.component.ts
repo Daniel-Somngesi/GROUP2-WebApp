@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { EventService } from './../../../services/event.service';
 import { Component, ViewChild, TemplateRef,} from '@angular/core';
-import { isSameDay, isSameMonth} from 'date-fns';
+import { isSameDay, isSameMonth, subMonths} from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
@@ -54,7 +54,7 @@ export class EventCalenderComponent {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   public eventForm!: FormGroup;
-  minDate:any = new Date().toISOString().slice(0, 10);
+  minDate:any = subMonths(new Date(), 1);
 
   view: CalendarView = CalendarView.Month;
 

@@ -30,13 +30,19 @@ const userModule = () => import('../app/users/user/user.module').then(x => x.Use
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, },
-    { path: 'users', loadChildren: userModule,},
-    { path: 'auth', loadChildren: authModule },
-
+  { path: '',
+    component: HomeComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: 'users',
+    loadChildren: userModule,
+    canActivate: [AuthGuard]
+  },
+  { path: 'auth',
+    loadChildren: authModule,
+  },
     // otherwise redirect to home
-
-
+    {path:'**', redirectTo: '**'},
   {
     path: 'user-roles',
     component: UserRoleListComponent
@@ -47,7 +53,8 @@ const routes: Routes = [
   },
   {
     path: 'employees',
-    component: EmployeeListComponent
+    component: EmployeeListComponent,
+
   },
   {
     path: 'employee-types',
