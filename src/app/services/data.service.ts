@@ -23,23 +23,6 @@ export class DataService {
     }),
   };
 
-
-  getAllSurburbs(): Promise<any> {
-    return this.http.get(this.baseUrl + '/Surburb').toPromise();
-  }
-
-  getAllCities(): Promise<any> {
-    return this.http.get(this.baseUrl + '/City').toPromise();
-  }
-
-  getAllCountries(): Promise<any> {
-    return this.http.get(this.baseUrl + '/Country').toPromise();
-  }
-
-  getAllProvinces(): Promise<any> {
-    return this.http.get(this.baseUrl + '/Province').toPromise();
-  }
-
   getAllUserRoles(): Promise<any> {
     return this.http.get(this.baseUrl + '/userRole').toPromise();
   }

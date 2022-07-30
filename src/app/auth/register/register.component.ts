@@ -29,32 +29,8 @@ export class RegisterComponent implements OnInit {
         }
     }
     public listUserRoles: any;
-
-    public listSurburbs: any;
-
-    public listProvinces: any;
-
-    public listCountries: any;
-
-    public listCities: any;
-
-    public listFilteredSurburbs: any;
-
-    public listFilteredProvinces: any;
-
-
-    public listFilteredCities: any;
-
-    SelCountryId: string = '0';
-    SelProvinceId: string = '0';
-    SelCityId: string = '0';
-
     formSubmitted = false;
     theErrors: string[] = [];
-    timestamp: any;
-
-
-
 
     constructor(
         private formBuilder: FormBuilder,
@@ -67,9 +43,6 @@ export class RegisterComponent implements OnInit {
         public datepipe: DatePipe,
 
     ) {
-
-
-
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
             this.router.navigate(['/']);
@@ -81,63 +54,23 @@ export class RegisterComponent implements OnInit {
         console.log('register');
 
         this.data.getAllUserRoles().then((result) => { console.log(result); this.listUserRoles = result });
-        this.data.getAllCities().then((result) => { console.log(result); this.listCities = result });
-        this.data.getAllCountries().then((result) => { console.log(result); this.listCountries = result });
-        this.data.getAllSurburbs().then((result) => { console.log(result); this.listSurburbs = result });
-        this.data.getAllProvinces().then((result) => { console.log(result); this.listProvinces = result });
 
         //((result) => { console.log(result); this.listUserRoles = result;
 
         this.registerForm = this.formBuilder.group({
-            UserID: [''],
-            UserFirstName: ['', Validators.required],
-            UserLastName: ['', Validators.required],
-            UserEmail: ['', [Validators.required, Validators.email]],
-            UserPhoneNumber: ['', [Validators.required, Validators.minLength(10)]],
-            UserPassword: ['', [Validators.required, Validators.minLength(6)]],
+            User_ID: [''],
+            UserName: ['', [Validators.required, Validators.email]],
+            Password: ['', [Validators.required, Validators.minLength(6)]],
             UserPasswordConfirm: ['', Validators.required],
-            UserDOB: ['', Validators.required],
-            UserAddressLine1: ['', Validators.required],
-            UserAddressLine2: [''],
-            UserPostalCode: ['', [Validators.required, Validators.minLength(4)]],
             userRole_Id: ['', Validators.required],
-            SuburbId: ['', Validators.required],
-            CityId: ['', Validators.required],
-            ProvinceId: ['', Validators.required],
-            CountryId: ['', Validators.required],
-            timestamp: [''],
-            isVerified: [''],
-
 
         }, {
-            validator: ConfirmedValidator('UserPassword', 'UserPasswordConfirm')
+            validator: ConfirmedValidator('Password', 'UserPasswordConfirm')
         });
     }
 
     // convenience getter for easy access to form fields
     get f() { return this.registerForm.controls; }
-
-    FillCountry(){
-
-        this.listCountries;
-      }
-      FillProvince(){
-
-        console.log('Country Id', this.SelCountryId);
-
-        this.listFilteredProvinces = this.listProvinces.filter((item:any) => item.countryID == this.SelCountryId);
-
-        console.log('PROVINCE', this.listFilteredProvinces);
-
-      }
-      FillCity(){
-
-        this.listFilteredCities = this.listCities.filter((item:any)  => item.provinceID == this.SelProvinceId);
-      }
-      FillSurburb(){
-
-        this.listFilteredSurburbs = this.listSurburbs.filter((item:any)  => item.cityID == this.SelCityId);
-      }
 
 
     onSubmit(event:any) {
@@ -146,17 +79,12 @@ export class RegisterComponent implements OnInit {
         // reset alerts on submit
         this.alertService.clear();
 
-
         // stop here if form is invalid
         if (this.registerForm.invalid) {
             return;
         }
         console.log(this.registerForm.value);
-        this.timestamp = new Date();
-        let latest_date_time =this.datepipe.transform(this.timestamp, 'yyyy-MM-ddTHH:mm:ss');
 
-        this.registerForm.get('timestamp')?.setValue(latest_date_time)  ;
-        this.registerForm.get('isVerified')?.setValue(0)  ;
 
         this.loading = true;
         this.authenticationService.register(this.registerForm.value)

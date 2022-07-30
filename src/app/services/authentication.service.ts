@@ -119,47 +119,15 @@ register(user:any) {
 
     this.timestamp = user.timestamp + '.098Z';
 
-    if (user.UserDOB.month > 9) {
-      this.monthseperator = '-';
-    } else {
-      this.monthseperator = '-0';
-    }
-
-    if (user.UserDOB.day > 9) {
-      this.dayseperator = '-';
-    } else {
-      this.dayseperator = '-0';
-    }
-
-    this.dateofbirth =
-      user.UserDOB.year +
-      this.monthseperator +
-      user.UserDOB.month +
-      this.dayseperator +
-      user.UserDOB.day +
-      'T00:00:00.000Z';
-
  user = {
-  userID: 0,
-  userFirstName : user.UserFirstName,
-  userLastName: user.UserLastName,
-  userEmail: user.UserEmail,
-  userPhoneNumber: user.UserPhoneNumber,
-  userPassword: user.UserPassword,
-  userDOB: this.dateofbirth,
-  userAddressLine1: user.UserAddressLine1,
-  userAddressLine2: user.UserAddressLine2,
-  userPostalCode: user.UserPostalCode,
-  userRole: {
-    userRole_Id: user.userRole_Id
-  },
-  suburbID: user.SuburbId,
-  isVerified: true,
-  timestamp: this.timestamp
+  user_ID: 0,
+  userName: user.UserName,
+  Password: user.Password,
+  userRole_Id: user.userRole_Id
 };
 
 
-  return this.http.post(`${environment.apiUrl}/usercontroler`, user);
+  return this.http.post(`${environment.apiUrl}/user`, user);
 }
 
 getAll() {
