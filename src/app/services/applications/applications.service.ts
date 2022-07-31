@@ -7,7 +7,10 @@ import { environment } from 'src/environments/environment';
 })
 export class ApplicationsService {
 
-  endpointBase = environment.endpointBase;
+  endpointBase = environment.apiUrl;
+  headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  }
 
   constructor(private _httpClient: HttpClient) {
   }
@@ -16,21 +19,21 @@ export class ApplicationsService {
   getAll() {
     return this._httpClient.get(
       this.endpointBase.concat("Applications/All"),
-      { reportProgress: true, observe: 'events' }
+      { reportProgress: true, observe: 'events', headers:this.headers }
     );
   }
 
-  accept(applicationId:number){
+  accept(applicationId: number) {
     return this._httpClient.get(
-      this.endpointBase.concat("Applications/Accept/"+applicationId),
-      { reportProgress: true, observe: 'events' }
+      this.endpointBase.concat("Applications/Accept/" + applicationId),
+      { reportProgress: true, observe: 'events', headers: this.headers }
     );
   }
 
-  rejected(applicationId:number){
+  rejected(applicationId: number) {
     return this._httpClient.get(
-      this.endpointBase.concat("Applications/Reject/"+applicationId),
-      { reportProgress: true, observe: 'events' }
+      this.endpointBase.concat("Applications/Reject/" + applicationId),
+      { reportProgress: true, observe: 'events', headers: this.headers }
     );
   }
 
