@@ -142,3 +142,8 @@ export interface Application {
   parentRelationship: string;
   applicationStatus: string;
 }
+
+
+export interface CurrentUser {
+  UserName: string;
+}
