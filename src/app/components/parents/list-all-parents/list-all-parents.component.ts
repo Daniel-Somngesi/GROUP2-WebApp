@@ -5,8 +5,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { AttendanceLog } from 'src/app/helpers/types/attendance-log.types';
-import { AttendanceLogService } from 'src/app/services/attendance-log/attendance-log.service';
+import { Router } from '@angular/router';
+import { Parent } from 'src/app/helpers/types/parent.types';
+import { ParentService } from 'src/app/services/parent/parent.service';
+import { ViewParentChildDetailsComponent } from '../view-parent-child-details/view-parent-child-details.component';
 
 @Component({
   selector: 'app-list-all-parents',
@@ -17,10 +19,10 @@ export class ListAllParentsComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
 
-  displayedColumns: string[] = ['date', 'name'];
+  displayedColumns: string[] = ['title', 'name', 'surname', 'email', 'contactNumber', 'actions'];
 
-  logs: AttendanceLog[] = [];
-  log: AttendanceLog;
+  parents: Parent[] = [];
+  parent: Parent;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -28,7 +30,8 @@ export class ListAllParentsComponent implements OnInit {
   constructor(
     private _dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private _attendanceLogService:AttendanceLogService
+    private _parentService: ParentService,
+    private _router: Router
 
   ) {
   }
@@ -42,17 +45,21 @@ export class ListAllParentsComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  onViewDetails(parent: Parent) {
+    this._router.navigate(['parent-details', parent.email]);
+  }
+
   private _getDataFromServer() {
-    this._attendanceLogService.getAll()
+    this._parentService.getAll()
       .subscribe({
         next: (event) => {
           if (event.type === HttpEventType.Sent) {
             this.displayProgressSpinner = true;
           }
           if (event.type == HttpEventType.Response) {
-            const res = event.body as AttendanceLog[];
-            this.logs = res;
-            this.dataSource = new MatTableDataSource<AttendanceLog>(this.logs);
+            const res = event.body as Parent[];
+            this.parents = res;
+            this.dataSource = new MatTableDataSource<Parent>(this.parents);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.displayProgressSpinner = false;
@@ -60,9 +67,11 @@ export class ListAllParentsComponent implements OnInit {
         },
         error: (error) => {
           this.displayProgressSpinner = false;
+          this._openSnackBar(error.error.message, "Error", 3000);
         },
         complete: () => {
           this.displayProgressSpinner = false;
+
         }
       });
   }
