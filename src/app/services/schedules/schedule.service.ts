@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ApplicationsService {
+export class ScheduleService {
 
   endpointBase = environment.apiUrl;
   headers = {
@@ -15,24 +15,16 @@ export class ApplicationsService {
   constructor(private _httpClient: HttpClient) {
   }
 
-
   getAll() {
     return this._httpClient.get(
-      this.endpointBase.concat("Applications/All"),
-      { reportProgress: true, observe: 'events', headers:this.headers }
-    );
-  }
-
-  accept(applicationId: number) {
-    return this._httpClient.get(
-      this.endpointBase.concat("Applications/Accept/" + applicationId),
+      this.endpointBase.concat("Schedule/All"),
       { reportProgress: true, observe: 'events', headers: this.headers }
     );
   }
 
-  rejected(applicationId: number) {
-    return this._httpClient.get(
-      this.endpointBase.concat("Applications/Reject/" + applicationId),
+  create(payload:any) {
+    return this._httpClient.post(
+      this.endpointBase.concat("Schedule/Create"),payload,
       { reportProgress: true, observe: 'events', headers: this.headers }
     );
   }

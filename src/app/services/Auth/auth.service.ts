@@ -1,19 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
-import { User } from '../models/user';
-import { CurrentUser, TokenResponse } from '../Interface/Interface';
-import { JwtHelperService } from '@auth0/angular-jwt';
-
-import { UserRoleListComponent } from '../components/user-role/user-role-list/user-role-list.component';
+import { environment } from 'src/environments/environment';
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { CurrentUser } from '../../helpers/types/auth.types';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
+export class AuthService {
   endpointBase = environment.apiUrl;
 
   constructor(private http: HttpClient) {
@@ -27,7 +21,7 @@ export class AuthenticationService {
     return helper.decodeToken(token) as CurrentUser;
   }
 
-  login(payload) {
+  signIn(payload) {
     return this.http
       .post(this.endpointBase.concat("Account/LogIn"), payload, { reportProgress: true, observe: 'events' });
   }

@@ -40,9 +40,9 @@ export class AddEditComponent implements OnInit {
         });
 
         if (!this.isAddMode) {
-            this.authenticationService.getById(this.id)
-                .pipe(first())
-                .subscribe(x => this.form.patchValue(x));
+            // this.authenticationService.getById(this.id)
+            //     .pipe(first())
+            //     .subscribe(x => this.form.patchValue(x));
         }
     }
 
@@ -69,33 +69,32 @@ export class AddEditComponent implements OnInit {
     }
 
     private createUser() {
-        this.authenticationService.register(this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('User added successfully', { keepAfterRouteChange: true });
-                    this.router.navigate(['../'], { relativeTo: this.route });
-
-                },
-                error: error => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+        // this.authenticationService.register(this.form.value)
+        //     .pipe(first())
+        //     .subscribe({
+        //         next: () => {
+        //             this.alertService.success('User added successfully', { keepAfterRouteChange: true });
+        //             this.router.navigate(['../'], { relativeTo: this.route });
+        //         },
+        //         error: error => {
+        //             this.alertService.error(error);
+        //             this.loading = false;
+        //         }
+        //     });
     }
 
     private updateUser() {
-        this.authenticationService.update(this.id, this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Update successful', { keepAfterRouteChange: true });
-                    this.router.navigate(['../../'], { relativeTo: this.route });
-                },
-                error: error => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+        // this.authenticationService.update(this.id, this.form.value)
+        //     .pipe(first())
+        //     .subscribe({
+        //         next: () => {
+        //             this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        //             this.router.navigate(['../../'], { relativeTo: this.route });
+        //         },
+        //         error: error => {
+        //             this.alertService.error(error);
+        //             this.loading = false;
+        //         }
+        //     });
     }
 }
