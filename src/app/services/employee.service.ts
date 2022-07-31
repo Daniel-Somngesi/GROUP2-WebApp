@@ -3,10 +3,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { EmployeeData } from '../Interface/Interface';
+import { environment } from 'src/environments/environment';
 
 
-const baseUrl = 'https://localhost:44341/api/Employee';
-const _baseUrl = 'https://localhost:44341/api/EmployeeType';
+const baseUrl = environment.apiUrl +'Employee';
+const _baseUrl = environment.apiUrl +'EmployeeType';
 @Injectable()
 export class EmployeeService {
 
