@@ -8,11 +8,14 @@ import { environment } from 'src/environments/environment';
 export class AttendanceLogService {
 
   endpointBase = environment.apiUrl;
+  headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  }
   constructor(private _httpClient: HttpClient) { }
 
 
   getAll() {
     return this._httpClient
-      .get(this.endpointBase.concat("AttendanceLog/All"), { reportProgress: true, observe: 'events' });
+      .get(this.endpointBase.concat("AttendanceLog/All"), { reportProgress: true, observe: 'events', headers: this.headers });
   }
 }
