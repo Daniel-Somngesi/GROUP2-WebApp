@@ -19,124 +19,154 @@ import { FeeTypeListComponent } from './components/feeType/fee-type-list/fee-typ
 import { AllergyListComponent } from './components/allergy/allergy-list/allergy-list.component';
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
 import { FeeManagementComponent } from './components/feeType/fee-management/fee-management.component';
-import {SurveymanagementComponent} from './components/survey/surveymanagement/surveymanagement.component';
+import { SurveymanagementComponent } from './components/survey/surveymanagement/surveymanagement.component';
 import { HomeComponent } from './components/home/home/home.component';
 import { ListAllApplicationsComponent } from './components/applications/list-all-applications/list-all-applications.component';
 
-import { AuthGuard } from './helpers';
+import { ListAllAcademicYearsComponent } from './components/academic-years/list-all-academic-years/list-all-academic-years.component';
+import { ListAllAttendanceLogsComponent } from './components/attendance-log/list-all-attendance-logs/list-all-attendance-logs.component';
+import { AuthGuard } from './helpers/auth.guard';
 
 const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
 
 
 const routes: Routes = [
-  { path: '',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
-  },
-  { path: 'users',
-    loadChildren: userModule,
-    canActivate: [AuthGuard]
-  },
-  { path: 'auth',
-    loadChildren: authModule,
-  },
-    // otherwise redirect to home
-    {path:'**', redirectTo: ''},
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'users', loadChildren: userModule, canActivate: [AuthGuard] },
+  { path: 'auth', loadChildren: authModule },
+
+  // otherwise redirect to home
+
+
   {
     path: 'user-roles',
-    component: UserRoleListComponent
+    component: UserRoleListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'event',
-    component: EventCalenderComponent
+    component: EventCalenderComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'employees',
     component: EmployeeListComponent,
-
+    canActivate: [AuthGuard]
   },
   {
     path: 'employee-types',
-    component: EmployeeTypeListComponent
+    component: EmployeeTypeListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'medical-aid-types',
-    component: MedicalAidTypeListdComponent
+    component: MedicalAidTypeListdComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'consumables',
-    component: ConsumablesListComponent
+    component: ConsumablesListComponent,
+    canActivate: [AuthGuard]
   },
 
   {
     path: 'booking-management',
-    component: BookingManagementComponent
+    component: BookingManagementComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'booking-type-list',
-    component: BookingTypeListComponent
+    component: BookingTypeListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'add-booking-type',
-    component: BookingTypeListComponent
+    component: BookingTypeListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit-booking-type',
-    component: BookingTypeListComponent
+    component: BookingTypeListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'user-management',
-    component: UserManagementComponent
+    component: UserManagementComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'employee-management',
-    component: EmployeeManagementComponent
+    component: EmployeeManagementComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'slot-types',
-    component: SlotTypeListComponent
+    component: SlotTypeListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'document',
-    component: DocumentUploadComponent
+    component: DocumentUploadComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'fee-type',
-    component: FeeTypeListComponent
+    component: FeeTypeListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'allergy',
-    component: AllergyListComponent
+    component: AllergyListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'question',
-    component: QuestionListComponent
+    component: QuestionListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'survey',
-    component: SurveyListComponent
+    component: SurveyListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'fee-management',
-    component: FeeManagementComponent
+    component: FeeManagementComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'fee',
-    component: FeeListComponent
+    component: FeeListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'survey-management',
-    component: SurveymanagementComponent
+    component: SurveymanagementComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'scheduling-management',
-    component: SchedulingManagementComponent
+    component: SchedulingManagementComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'all-applications',
-    component: ListAllApplicationsComponent
-  }
+    component: ListAllApplicationsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'all-academic-calendars',
+    component: ListAllAcademicYearsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'attendance-log',
+    component: ListAllAttendanceLogsComponent,
+    canActivate: [AuthGuard]
+  },
+
+  { path: '**', redirectTo: '' },
 
 ];
 

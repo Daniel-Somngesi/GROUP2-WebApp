@@ -10,16 +10,16 @@ export class ListComponent implements OnInit {
     constructor(private authenticationService: AuthenticationService) {}
 
     ngOnInit() {
-        this.authenticationService.getAll()
-            .pipe(first())
-            .subscribe((users:any) => this.users = users);
+        // this.authenticationService.getAll()
+        //     .pipe(first())
+        //     .subscribe((users:any) => this.users = users);
     }
 
     deleteUser(id: string) {
-        const user = this.users.find((x:any) => x.id === id);
-        user.isDeleting = true;
-        this.authenticationService.delete(id)
-            .pipe(first())
-            .subscribe(() => this.users = this.users.filter((x:any) => x.id !== id));
+        // const user = this.users.find((x:any) => x.id === id);
+        // user.isDeleting = true;
+        // this.authenticationService.delete(id)
+        //     .pipe(first())
+        //     .subscribe(() => this.users = this.users.filter((x:any) => x.id !== id));
     }
 }

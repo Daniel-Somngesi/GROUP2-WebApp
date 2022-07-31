@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { TokenStorageService } from './services/token-storage.service';
 import { User } from './models';
+import { AuthService } from './services/Auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -15,15 +15,17 @@ export class AppComponent {
   isLoggedIn = false;
 
 
-  constructor(private tokenStorageService: TokenStorageService, private router: Router) { }
+  constructor(
+     private router: Router,
+     private _authService:AuthService
+     ) { }
 
   ngOnInit() {
-    this.isLoggedIn = this.tokenStorageService.isLoggedIn();
+    this.isLoggedIn = this._authService.isSignedIn();
   }
 
   logout(): void {
-    this.tokenStorageService.logout();
-    this.isLoggedIn = false;
+    this._authService.signOut();
     this.router.navigate(['login']);
     return;
   }
