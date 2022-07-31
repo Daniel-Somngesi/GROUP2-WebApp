@@ -13,11 +13,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { JwtInterceptor, ErrorInterceptor } from './helpers';
-import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
-// used to create fake backend
-import { fakeBackendProvider } from './helpers';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,7 +24,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -42,7 +40,7 @@ import { MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EmployeeTypeListComponent } from './components/employeeType/employee-type-list/employee-type-list.component';
@@ -114,10 +112,18 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { UtilsModule } from '../utilis/module';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { ListAllAcademicYearsComponent } from './components/academic-years/list-all-academic-years/list-all-academic-years.component';
+import { AddNewAcademicYearComponent } from './components/academic-years/add-new-academic-year/add-new-academic-year.component';
+import { ListAllAttendanceLogsComponent } from './components/attendance-log/list-all-attendance-logs/list-all-attendance-logs.component';
+import { ListAllParentsComponent } from './components/parents/list-all-parents/list-all-parents.component';
+import { environment } from 'src/environments/environment';
 
 
 
 
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 
 @NgModule({
   declarations: [
@@ -181,7 +187,11 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     AddEditComponent,
     LayoutComponent,
     ListComponent,
-    EventCalenderComponent
+    EventCalenderComponent,
+    ListAllAcademicYearsComponent,
+    AddNewAcademicYearComponent,
+    ListAllAttendanceLogsComponent,
+    ListAllParentsComponent
 
   ],
 
@@ -196,6 +206,7 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     MatListModule,
     AppRoutingModule,
     HttpClientModule,
+
     MatInputModule,
     MatCardModule,
     MatButtonModule,
@@ -222,6 +233,12 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     ProgressSpinnerModule,
     NgbModule,
     NgbModalModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: [environment.apiUrl.replace("/api/", "")],
+      }
+    }),
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -229,10 +246,7 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     }),
 
   ],
-  providers: [EmployeeService, UserRoleService, MedicalAidTypeService, ConsumablesService, DatePipe,{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, JwtHelperService,
-    SlotTypeService, FeeTypeService, AllergyService, FeeService,EmployeeTypeService, SurveyService],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
