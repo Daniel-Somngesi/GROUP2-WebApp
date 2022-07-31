@@ -7,22 +7,22 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Parent } from 'src/app/helpers/types/parent.types';
-import { ParentService } from 'src/app/services/parent/parent.service';
-import { ViewParentChildDetailsComponent } from '../view-parent-child-details/view-parent-child-details.component';
+import { Child } from 'src/app/Interface/child.types';
+import { ChildService } from 'src/app/services/child/child.service';
 
 @Component({
-  selector: 'app-list-all-parents',
-  templateUrl: './list-all-parents.component.html',
-  styleUrls: ['./list-all-parents.component.css']
+  selector: 'app-list-all-children',
+  templateUrl: './list-all-children.component.html',
+  styleUrls: ['./list-all-children.component.css']
 })
-export class ListAllParentsComponent implements OnInit {
+export class ListAllChildrenComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
 
-  displayedColumns: string[] = ['title', 'name', 'surname', 'email', 'contactNumber', 'actions'];
+  displayedColumns: string[] = ['gender', 'name', 'surname','dateOfBirth', 'actions'];
 
-  parents: Parent[] = [];
-  parent: Parent;
+  children: Child[] = [];
+  child: Child;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -30,7 +30,7 @@ export class ListAllParentsComponent implements OnInit {
   constructor(
     private _dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private _parentService: ParentService,
+    private _childService: ChildService,
     private _router: Router
 
   ) {
@@ -45,21 +45,21 @@ export class ListAllParentsComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onViewDetails(parent: Parent) {
-    this._router.navigate(['parent-details', parent.email]);
+  onViewDetails(child: Child) {
+    this._router.navigate(['parent-details', child.parentEmailAddress]);
   }
 
   private _getDataFromServer() {
-    this._parentService.getAll()
+    this._childService.getAll()
       .subscribe({
         next: (event) => {
           if (event.type === HttpEventType.Sent) {
             this.displayProgressSpinner = true;
           }
           if (event.type == HttpEventType.Response) {
-            const res = event.body as Parent[];
-            this.parents = res;
-            this.dataSource = new MatTableDataSource<Parent>(this.parents);
+            const res = event.body as Child[];
+            this.children = res;
+            this.dataSource = new MatTableDataSource<Child>(this.children);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.displayProgressSpinner = false;

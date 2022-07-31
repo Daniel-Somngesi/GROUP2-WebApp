@@ -117,6 +117,8 @@ import { AddNewAcademicYearComponent } from './components/academic-years/add-new
 import { ListAllAttendanceLogsComponent } from './components/attendance-log/list-all-attendance-logs/list-all-attendance-logs.component';
 import { ListAllParentsComponent } from './components/parents/list-all-parents/list-all-parents.component';
 import { environment } from 'src/environments/environment';
+import { ViewParentChildDetailsComponent } from './components/parents/view-parent-child-details/view-parent-child-details.component';
+import { ListAllChildrenComponent } from './components/children/list-all-children/list-all-children.component';
 
 
 
@@ -191,7 +193,9 @@ export function tokenGetter() {
     ListAllAcademicYearsComponent,
     AddNewAcademicYearComponent,
     ListAllAttendanceLogsComponent,
-    ListAllParentsComponent
+    ListAllParentsComponent,
+    ViewParentChildDetailsComponent,
+    ListAllChildrenComponent
 
   ],
 

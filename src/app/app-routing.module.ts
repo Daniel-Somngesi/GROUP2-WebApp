@@ -26,6 +26,9 @@ import { ListAllApplicationsComponent } from './components/applications/list-all
 import { ListAllAcademicYearsComponent } from './components/academic-years/list-all-academic-years/list-all-academic-years.component';
 import { ListAllAttendanceLogsComponent } from './components/attendance-log/list-all-attendance-logs/list-all-attendance-logs.component';
 import { AuthGuard } from './helpers/auth.guard';
+import { ListAllParentsComponent } from './components/parents/list-all-parents/list-all-parents.component';
+import { ViewParentChildDetailsComponent } from './components/parents/view-parent-child-details/view-parent-child-details.component';
+import { ListAllChildrenComponent } from './components/children/list-all-children/list-all-children.component';
 
 const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
@@ -163,6 +166,21 @@ const routes: Routes = [
   {
     path: 'attendance-log',
     component: ListAllAttendanceLogsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-parents',
+    component: ListAllParentsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-children',
+    component: ListAllChildrenComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'parent-details/:email',
+    component: ViewParentChildDetailsComponent,
     canActivate: [AuthGuard]
   },
 

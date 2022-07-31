@@ -1,6 +1,6 @@
 <div class="mat-elevation-z8 table-container">
   <div class="table-top-controllers">
-    <span class="table-name">Parents</span>
+    <span class="table-name">Children</span>
   </div>
 
   <mat-form-field>
@@ -10,9 +10,9 @@
 
   <mat-table [dataSource]="dataSource" matSort class="table" #mytable>
 
-    <ng-container matColumnDef="title">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+    <ng-container matColumnDef="gender">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Gender </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.gender}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -25,16 +25,10 @@
       <mat-cell *matCellDef="let element"> {{element.surname}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+    <ng-container matColumnDef="dateOfBirth">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date of Birth </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </mat-cell>
     </ng-container>
-
-    <ng-container matColumnDef="contactNumber">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Contact Number </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.contactNumber}} </mat-cell>
-    </ng-container>
-
 
 
     <ng-container matColumnDef="actions">
@@ -49,8 +43,6 @@
 
       </mat-cell>
     </ng-container>
-
-
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

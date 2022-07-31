@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AttendanceLogService {
+export class ParentService {
 
   endpointBase = environment.apiUrl;
   headers = {
@@ -16,6 +16,14 @@ export class AttendanceLogService {
 
   getAll() {
     return this._httpClient
-      .get(this.endpointBase.concat("AttendanceLog/All"), { reportProgress: true, observe: 'events', headers: this.headers });
+      .get(this.endpointBase.concat("Profile/All"),
+        { reportProgress: true, observe: 'events', headers: this.headers });
+  }
+
+  getByParentEmailAddress(email: string) {
+    return this._httpClient.get(
+      this.endpointBase.concat("Profile/ByParentEmail/" + email),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
   }
 }

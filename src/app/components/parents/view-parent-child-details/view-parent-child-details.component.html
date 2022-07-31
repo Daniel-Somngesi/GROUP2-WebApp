@@ -1,0 +1,124 @@
+<div class="wrapper">
+  <mat-card class="card-container" *ngIf="parent !=null">
+    <mat-card-title-group>
+      <mat-card-title>Parent Details</mat-card-title>
+    </mat-card-title-group>
+    <mat-card-content>
+      <mat-list role="list">
+        <mat-list-item role="list-item">
+          <div class="label">Title</div>
+          <div class="value">{{parent.title}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Name</div>
+          <div class="value">{{parent.name}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Surname</div>
+          <div class="value">{{parent.surname}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Contact Number</div>
+          <div class="value">{{parent.contactNumber}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Email Address</div>
+          <div class="value">{{parent.email}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Identity Number</div>
+          <div class="value">{{parent.passportOrSAIDNumber}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Relationship to Child</div>
+          <div class="value">{{parent.parentRelationship}}</div>
+        </mat-list-item>
+
+      </mat-list>
+
+
+      <mat-list role="list">
+        <mat-list-item role="list-item">
+          <div class="label">Address Line 1</div>
+          <div class="value">{{parent.addressLine1}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Address Line 2</div>
+          <div class="value">{{parent.addressLine2}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">City</div>
+          <div class="value">{{parent.city}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Postal Code</div>
+          <div class="value">{{parent.zipCode}}</div>
+        </mat-list-item>
+      </mat-list>
+
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="card-container" *ngIf="child !=null">
+    <mat-card-title-group>
+      <mat-card-title>Child Details</mat-card-title>
+    </mat-card-title-group>
+    <mat-card-content>
+      <mat-list role="list">
+        <mat-list-item role="list-item">
+          <div class="label">Name</div>
+          <div class="value">{{child.name}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Surname</div>
+          <div class="value">{{child.surname}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Date of birth</div>
+          <div class="value">{{child.dateOfBirth}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Identity Number</div>
+          <div class="value">{{child.passportOrSAIDNumber}}</div>
+        </mat-list-item>
+      </mat-list>
+
+      <mat-list role="list">
+        <mat-list-item role="list-item">
+          <div class="label">Address Line 1</div>
+          <div class="value">{{child.addressLine1}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Address Line 2</div>
+          <div class="value">{{child.addressLine2}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">City</div>
+          <div class="value">{{child.city}}</div>
+        </mat-list-item>
+
+        <mat-list-item role="list-item">
+          <div class="label">Postal Code</div>
+          <div class="value">{{child.postalCode}}</div>
+        </mat-list-item>
+      </mat-list>
+
+
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,13 +1,14 @@
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { EventService } from './../../../services/event.service';
-import { Component, ViewChild, TemplateRef,} from '@angular/core';
-import { isSameDay, isSameMonth} from 'date-fns';
+import { Component, ViewChild, TemplateRef, } from '@angular/core';
+import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
+import * as events from 'events';
 
 const colors: any = {
   red: {
@@ -54,7 +55,7 @@ export class EventCalenderComponent {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   public eventForm!: FormGroup;
-  minDate:any = new Date().toISOString().slice(0, 10);
+  minDate: any = new Date().toISOString().slice(0, 10);
 
   view: CalendarView = CalendarView.Month;
 
@@ -79,20 +80,20 @@ export class EventCalenderComponent {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent:any) => iEvent !== event);
+        this.events = this.events.filter((iEvent: any) => iEvent !== event);
         this.handleEvent('Deleted', event);
 
       },
     },
   ];
 
-  message:string = 'meeeeee';
+  message: string = 'meeeeee';
 
   activeDayIsOpen: boolean = true;
   start: any;
   end: any;
 
-  constructor(private modal: NgbModal, private router:Router, public service: EventService, private formbulider: FormBuilder, private http:HttpClient,  private _snackBar: MatSnackBar) {}
+  constructor(private modal: NgbModal, private router: Router, public service: EventService, private formbulider: FormBuilder, private http: HttpClient, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
 
@@ -101,7 +102,7 @@ export class EventCalenderComponent {
     this.eventForm = this.formbulider.group({
       title: ['', [Validators.required, this.noWhitespaceValidator, Validators.pattern('[a-zA-Z ]*')]],
       start: [null, [Validators.required]],
-      end: [null, [Validators.required ]],
+      end: [null, [Validators.required]],
     })
   }
 
@@ -111,11 +112,11 @@ export class EventCalenderComponent {
     return isValid ? null : { 'whitespace': true };
   }
 
-  get g(){
+  get g() {
     return this.eventForm.controls;
   }
 
-  loopThroughEvents(res:any){
+  loopThroughEvents(res: any) {
     var obj: Array<any> = [];
     for (var i = 0; i < res.length; i++) {
       var event: Object = {
@@ -133,26 +134,48 @@ export class EventCalenderComponent {
 
   getCalendarEvents() {
     return this.service.getAllEvents()
-      .subscribe( data => {
+      .subscribe(data => {
         this.loopThroughEvents(data);
       })
   }
 
   addNewEvent() {
-    this.newEvent.title = this.title;
-    this.newEvent.start = this.start;
-    this.newEvent.end = this.end;
-    this.events.push(this.newEvent);
-    this.service.createEvent(this.newEvent);
-    window.location.reload();
+    let newEvent: any = {
+      title: '',
+      start: new Date(),
+      end: new Date(),
+
+    }
+
+    newEvent.title = this.title;
+    newEvent.start = this.start;
+    newEvent.end = this.end;
+
+    this.events.push(newEvent);
+
+    let payload: any = {};
+    payload['Title'] = this.title;
+    payload['Start'] = this.start.toJSON();
+    payload['End'] = this.end.toJSON();
+
+    console.log(payload);
+
+    this.service.createEvent(payload).subscribe({
+      next: (event => {
+        if (event.type === HttpEventType.Sent) {
+        }
+
+        if (event.type === HttpEventType.Response) {
+          this.addEvent()
+          window.location.reload();
+        }
+      }),
+      error: (error => {
+
+      })
+    });
+
   }
-
-  newEvent:any = {
-    title: '',
-    start: new Date(),
-    end: new Date(),
-
-}
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -173,7 +196,7 @@ export class EventCalenderComponent {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent:any) => {
+    this.events = this.events.map((iEvent: any) => {
       if (iEvent === event) {
         return {
           ...event,
@@ -201,7 +224,8 @@ export class EventCalenderComponent {
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event:any) => event !== eventToDelete);
+    this.events = this.events.filter((event: any) => event !== eventToDelete);
+  console.log(eventToDelete);
     this.service.deleteEvent(eventToDelete.id);
   }
 
