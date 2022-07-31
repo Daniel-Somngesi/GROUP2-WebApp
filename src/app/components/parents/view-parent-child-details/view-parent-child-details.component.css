@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: #D3D3D3;
+}
+
+.card-container {
+  margin: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.list-item {
+  display: flex;
+  width: 100%;
+}
+
+.label {
+  width: 50%;
+}
+
+.value {
+  width: 50%;
+}

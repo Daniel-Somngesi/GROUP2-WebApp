@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +9,22 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   isShow = false;
 
-  constructor() { }
+  constructor(private _router: Router) { }
 
   ngOnInit(): void {
   }
 
   toggleDisplay() {
     this.isShow = !this.isShow;
+  }
+
+  onGoToSchedule() {
+    this._router.navigate(['event']);
+  }
+  onGoToApplications() {
+    this._router.navigate(['all-applications']);
+  }
+  ongoToChildren() {
+    this._router.navigate(['list-children']);
   }
 }
