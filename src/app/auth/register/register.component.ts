@@ -81,10 +81,10 @@ export class RegisterComponent implements OnInit {
     console.log('register');
 
     this.data.getAllUserRoles().then((result) => { console.log(result); this.listUserRoles = result });
-    this.data.getAllCities().then((result) => { console.log(result); this.listCities = result });
-    this.data.getAllCountries().then((result) => { console.log(result); this.listCountries = result });
-    this.data.getAllSurburbs().then((result) => { console.log(result); this.listSurburbs = result });
-    this.data.getAllProvinces().then((result) => { console.log(result); this.listProvinces = result });
+    // this.data.getAllCities().then((result) => { console.log(result); this.listCities = result });
+    // this.data.getAllCountries().then((result) => { console.log(result); this.listCountries = result });
+    // this.data.getAllSurburbs().then((result) => { console.log(result); this.listSurburbs = result });
+    // this.data.getAllProvinces().then((result) => { console.log(result); this.listProvinces = result });
 
     //((result) => { console.log(result); this.listUserRoles = result;
 
