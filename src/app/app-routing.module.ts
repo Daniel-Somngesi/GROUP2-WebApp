@@ -29,6 +29,7 @@ import { AuthGuard } from './helpers/auth.guard';
 import { ListAllParentsComponent } from './components/parents/list-all-parents/list-all-parents.component';
 import { ViewParentChildDetailsComponent } from './components/parents/view-parent-child-details/view-parent-child-details.component';
 import { ListAllChildrenComponent } from './components/children/list-all-children/list-all-children.component';
+import { ListAllUsersComponent } from './components/users/list-all-users/list-all-users.component';
 
 const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
@@ -45,6 +46,11 @@ const routes: Routes = [
   {
     path: 'user-roles',
     component: UserRoleListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-users',
+    component: ListAllUsersComponent,
     canActivate: [AuthGuard]
   },
   {

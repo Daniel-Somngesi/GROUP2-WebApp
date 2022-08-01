@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertService } from 'src/app/services/alert.service';
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { DataService } from 'src/app/services/data.service';
-import { UserRoleService } from 'src/app/services/user-role.service';
 
 import { DatePipe } from '@angular/common';
 import { ConfirmedValidator } from 'src/confirmed.validator';
+import { AuthService } from 'src/app/services/Auth/auth.service';
+import { HttpEventType } from '@angular/common/http';
+import { UserRole } from 'src/app/helpers/types/auth.types';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
@@ -18,6 +18,9 @@ export class RegisterComponent implements OnInit {
   loading = false;
   submitted = false;
   model: any;
+
+
+  public listUserRoles: UserRole[] = [];
 
   isNameSelected!: boolean;
   selectInput(event: any) {
@@ -28,116 +31,64 @@ export class RegisterComponent implements OnInit {
       this.isNameSelected = false;
     }
   }
-  public listUserRoles: any;
-
-  public listSurburbs: any;
-
-  public listProvinces: any;
-
-  public listCountries: any;
-
-  public listCities: any;
-
-  public listFilteredSurburbs: any;
-
-  public listFilteredProvinces: any;
-
-
-  public listFilteredCities: any;
-
-  SelCountryId: string = '0';
-  SelProvinceId: string = '0';
-  SelCityId: string = '0';
 
   formSubmitted = false;
   theErrors: string[] = [];
   timestamp: any;
 
-
-
-
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private authenticationService: AuthenticationService,
-    private userRoleService: UserRoleService,
     private alertService: AlertService,
-    private data: DataService,
     public datepipe: DatePipe,
+    private _authService: AuthService,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
+    private _snackBar:MatSnackBar
 
   ) {
-
-
-
-    // redirect to home if already logged in
-    if (this.authenticationService.currentUser != null) {
-      this.router.navigate(['/']);
-    }
   }
 
   ngOnInit() {
+    this._getUserRoles();
 
-    console.log('register');
+    this.buildForm();
+  }
 
-    this.data.getAllUserRoles().then((result) => { console.log(result); this.listUserRoles = result });
-    // this.data.getAllCities().then((result) => { console.log(result); this.listCities = result });
-    // this.data.getAllCountries().then((result) => { console.log(result); this.listCountries = result });
-    // this.data.getAllSurburbs().then((result) => { console.log(result); this.listSurburbs = result });
-    // this.data.getAllProvinces().then((result) => { console.log(result); this.listProvinces = result });
+  private _getUserRoles() {
+    this._authService.getAllRoles()
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Sent) {
+          }
+          if (event.type == HttpEventType.Response) {
+            const res = event.body as UserRole[];
+            this.listUserRoles = res;
+            this.buildForm();
 
-    //((result) => { console.log(result); this.listUserRoles = result;
+          }
+        },
+        error: (error) => {
+        },
+        complete: () => {
+        }
+      });
+  }
 
+  private buildForm() {
     this.registerForm = this.formBuilder.group({
-      UserID: [''],
-      UserFirstName: ['', Validators.required],
-      UserLastName: ['', Validators.required],
-      UserEmail: ['', [Validators.required, Validators.email]],
-      UserPhoneNumber: ['', [Validators.required, Validators.minLength(10)]],
+      UserName: ['', [Validators.required, Validators.email]],
       UserPassword: ['', [Validators.required, Validators.minLength(6)]],
       UserPasswordConfirm: ['', Validators.required],
-      UserDOB: ['', Validators.required],
-      UserAddressLine1: ['', Validators.required],
-      UserAddressLine2: [''],
-      UserPostalCode: ['', [Validators.required, Validators.minLength(4)]],
-      userRole_Id: ['', Validators.required],
-      SuburbId: ['', Validators.required],
-      CityId: ['', Validators.required],
-      ProvinceId: ['', Validators.required],
-      CountryId: ['', Validators.required],
-      timestamp: [''],
-      isVerified: [''],
-
-
+      UserRole_Id: ['', Validators.required],
     }, {
       validator: ConfirmedValidator('UserPassword', 'UserPasswordConfirm')
     });
   }
 
+
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
-  FillCountry() {
-
-    this.listCountries;
-  }
-  FillProvince() {
-
-    console.log('Country Id', this.SelCountryId);
-
-    this.listFilteredProvinces = this.listProvinces.filter((item: any) => item.countryID == this.SelCountryId);
-
-    console.log('PROVINCE', this.listFilteredProvinces);
-
-  }
-  FillCity() {
-
-    this.listFilteredCities = this.listCities.filter((item: any) => item.provinceID == this.SelProvinceId);
-  }
-  FillSurburb() {
-
-    this.listFilteredSurburbs = this.listSurburbs.filter((item: any) => item.cityID == this.SelCityId);
-  }
 
 
   onSubmit(event: any) {
@@ -151,24 +102,34 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    console.log(this.registerForm.value);
     this.timestamp = new Date();
-    let latest_date_time = this.datepipe.transform(this.timestamp, 'yyyy-MM-ddTHH:mm:ss');
 
-    this.registerForm.get('timestamp')?.setValue(latest_date_time);
-    this.registerForm.get('isVerified')?.setValue(0);
 
     this.loading = true;
-    // this.authenticationService.register(this.registerForm.value)
-    //   .pipe(first())
-    //   .subscribe(
-    //     data => {
-    //       this.alertService.success('Registration successful', true);
-    //       this.router.navigate(['auth/login'], { relativeTo: this.route });
-    //     },
-    //     error => {
-    //       this.alertService.error(error);
-    //       this.loading = false;
-    //     });
+    let payload: any = {};
+    payload['UserName'] = this.f.UserName.value;
+    payload['UserPassword'] = this.f.UserPassword.value;
+    payload['userRole_Id'] = this.f.UserRole_Id.value;
+
+    this._authService.register(payload)
+      .subscribe(event => {
+        if (event.type === HttpEventType.Sent) {
+        }
+        if (event.type === HttpEventType.Response) {
+          localStorage.setItem('token', event.body['token']);
+          const returnUrl = this._activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+          this._router.navigateByUrl(returnUrl);
+        }
+      },
+        error => {
+          this.loading = false;
+          this.openSnackBar(error.error.message,"Error")
+        });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
   }
 }

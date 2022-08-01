@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { EMPTY, Observable, throwError } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
-
-import { TokenResponse } from '../Interface/Interface';
-import { ErrorResponse } from '../Interface/Interface';
+import { Router, CanActivate, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/Auth/auth.service';
 
 @Injectable({

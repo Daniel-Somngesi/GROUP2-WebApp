@@ -30,7 +30,7 @@ ngOnInit(): void {
     employee_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
     employee_Surname: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
     employee_Email: ['', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]],
-    phone_Number: ['',[Validators.required, Validators.pattern("^[0-9]{10}$")]],
+    phone_Number: ['',[Validators.required, Validators.pattern("^((\\+27-?)|0)?[0-9]{9}$")]],
     gender: [this.gender],
     eType:['',[Validators.required]],
     address_Line1:['',[Validators.required, Validators.maxLength(50)]],

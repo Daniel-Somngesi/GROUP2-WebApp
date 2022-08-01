@@ -9,6 +9,10 @@ import { CurrentUser } from '../../helpers/types/auth.types';
 })
 export class AuthService {
   endpointBase = environment.apiUrl;
+  headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  }
+
 
   constructor(private http: HttpClient) {
   }
@@ -21,9 +25,21 @@ export class AuthService {
     return helper.decodeToken(token) as CurrentUser;
   }
 
+  getAllRoles() {
+    return this.http.get(
+      this.endpointBase.concat("UserRole"),
+      { reportProgress: true, observe: 'events' }
+    );
+  }
+
   signIn(payload) {
     return this.http
       .post(this.endpointBase.concat("Account/LogIn"), payload, { reportProgress: true, observe: 'events' });
+  }
+
+  register(payload) {
+    return this.http
+      .post(this.endpointBase.concat("Account/Register"), payload, { reportProgress: true, observe: 'events' });
   }
 
 

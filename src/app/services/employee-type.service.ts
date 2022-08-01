@@ -3,11 +3,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 
-const baseUrl = 'https://localhost:44341/api/EmployeeType';
+const baseUrl = environment.apiUrl + 'EmployeeType';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EmployeeTypeService {
 
   dataChange: BehaviorSubject<EmployeeTypeData[]> = new BehaviorSubject<EmployeeTypeData[]>([]);
@@ -30,9 +33,9 @@ export class EmployeeTypeService {
     this.httpClient.get<EmployeeTypeData[]>(baseUrl).subscribe(data => {
       this.dataChange.next(data);
     },
-    (error: HttpErrorResponse) => {
-      console.log (error.name + ' ' + error.message);
-    });
+      (error: HttpErrorResponse) => {
+        console.log(error.name + ' ' + error.message);
+      });
   }
 
   // ADD, POST METHOD
@@ -40,18 +43,18 @@ export class EmployeeTypeService {
     this.httpClient.post(baseUrl, employeeType).subscribe(data => {
       this.dialogData = employeeType;
 
-      },
+    },
       (err: HttpErrorResponse) => {
-      alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-    });
-   }
+        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+      });
+  }
 
 
 
 
   deleteItem(id: number): void {
     this.httpClient.delete(`${baseUrl}/${id}`).subscribe(data => {
-      },
+    },
       (err: HttpErrorResponse) => {
         alert('Error occurred. Details: ' + err.name + ' ' + err.message);
       }
@@ -61,10 +64,10 @@ export class EmployeeTypeService {
 
   updateItem(employeeType: any): void {
     this.dialogData = employeeType;
-   this.httpClient.put(`${baseUrl}/${employeeType.employeeType_ID}`, employeeType).subscribe(data => {
-   },
-   (err: HttpErrorResponse) => {
-     alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-   });
- }
+    this.httpClient.put(`${baseUrl}/${employeeType.employeeType_ID}`, employeeType).subscribe(data => {
+    },
+      (err: HttpErrorResponse) => {
+        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+      });
+  }
 }

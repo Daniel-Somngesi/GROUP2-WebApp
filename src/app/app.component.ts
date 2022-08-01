@@ -16,17 +16,19 @@ export class AppComponent {
 
 
   constructor(
-     private router: Router,
-     private _authService:AuthService
-     ) { }
+    private router: Router,
+    private _authService: AuthService
+  ) {
+    this.isLoggedIn = this._authService.isSignedIn();
+  }
 
   ngOnInit() {
-    this.isLoggedIn = this._authService.isSignedIn();
+
   }
 
   logout(): void {
     this._authService.signOut();
-    this.router.navigate(['login']);
+    this.router.navigate(['']);
     return;
   }
 }

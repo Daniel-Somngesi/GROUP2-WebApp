@@ -1,62 +1,69 @@
-<div  class="col-sm-6 offset-sm-3">
-  <div class="card">
-    <h4 class="card-header">Register</h4>
-    <div class="card-body">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
+<div class="row">
+  <div class="col-6" id="img" style="text-align:center;margin-top:50px"><img src="/assets/logo.png" width="360"
+      height="340" alt="Hatfield Montessori Logo"></div>
+  <div class="col-6">
 
 
-            <div class="form-group">
-                <label for="UserName">Username</label>
-                <input type="email" formControlName="UserName"  placeholder="E-mail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.UserName.errors }" />
-                <div *ngIf="submitted && f.UserName.errors" class="invalid-feedback">
-                    <div *ngIf="f.UserEmail.errors?.required">Email is required</div>
-                    <div *ngIf="f.UserEmail.errors?.email">Invalid email</div>
-                </div>
-            </div>
+    <form [formGroup]="registerForm">
+      <h2>Register</h2>
 
-            <div class="form-group">
-                <label for="Password">Password</label>
-                <input type="password" formControlName="Password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
-                <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
-                    <div *ngIf="f.Password.errors?.required">Password is required</div>
-                    <div *ngIf="f.Password.errors?.minlength">Password must be at least 6 characters</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="UserPasswordConfirm">Password Confirm</label>
-                <input type="password" formControlName="UserPasswordConfirm" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.UserPasswordConfirm.errors }" />
-                <div *ngIf="submitted && f.UserPasswordConfirm.errors" class="invalid-feedback">
-                    <div *ngIf="f.UserPasswordConfirm.errors?.required">Password is required</div>
-                    <div *ngIf="f.UserPasswordConfirm.errors?.minlength">Password must be at least 6 characters</div>
-                    <div *ngIf="f.UserPasswordConfirm.errors.confirmedValidator">Password  and Confirm Password must be the same</div>
-                </div>
-            </div>
+      <div class="form-group">
+        <label for="UserName">Username</label>
+        <input type="email" formControlName="UserName" placeholder="E-mail" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.UserName.errors }" />
+        <div *ngIf="submitted && f.UserName.errors" class="invalid-feedback">
+          <div *ngIf="f.UserName.errors?.required">Email is required</div>
+          <div *ngIf="f.UserName.errors?.email">Invalid email</div>
+        </div>
+      </div>
 
-            <div class="form-group">
-                <label for="userRole_Id">User Type</label>
-                <select name="UserRole" formControlName="userRole_Id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.userRole_Id.errors }"
-                class="btn btn-outline-primary"
-                  (change)="selectInput($event)">
-                  <option value="undefined">Select User Type</option>
-                  <option *ngFor="let usertype of listUserRoles" [value]="usertype.userRole_Id">
-                    {{usertype.userRole_Name}}
-                  </option>
-                </select>
-                <div *ngIf="submitted && f.userRole_Id.errors" class="invalid-feedback">
-                    <div *ngIf="f.userRole_Id.errors?.required"> Select User Type</div>
+      <div class="form-group">
+        <label for="UserPassword">Password</label>
+        <input type="password" formControlName="UserPassword" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.UserPassword.errors }" />
+        <div *ngIf="submitted && f.UserPassword.errors" class="invalid-feedback">
+          <div *ngIf="f.UserPassword.errors?.required">Password is required</div>
+          <div *ngIf="f.UserPassword.errors?.minlength">Password must be at least 6 characters</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="UserPasswordConfirm">Password Confirm</label>
+        <input type="password" formControlName="UserPasswordConfirm" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.UserPasswordConfirm.errors }" />
+        <div *ngIf="submitted && f.UserPasswordConfirm.errors" class="invalid-feedback">
+          <div *ngIf="f.UserPasswordConfirm.errors?.required">Password is required</div>
+          <div *ngIf="f.UserPasswordConfirm.errors?.minlength">Password must be at least 6 characters</div>
+          <div *ngIf="f.UserPasswordConfirm.errors.confirmedValidator">Password and Confirm Password must be the same
+          </div>
+        </div>
+      </div>
 
-                </div>
-            </div>
+      <div class="form-group">
+        <label for="UserRole_Id">User Type</label>
+        <select name="UserRole" formControlName="UserRole_Id" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.UserRole_Id.errors }" class="btn btn-outline-primary"
+          (change)="selectInput($event)">
+          <option value="undefined">Select User Type</option>
+          <option *ngFor="let usertype of listUserRoles" [value]="usertype.userRole_Id">
+            {{usertype.userRole_Name}}
+          </option>
+        </select>
+        <div *ngIf="submitted && f.UserRole_Id.errors" class="invalid-feedback">
+          <div *ngIf="f.UserRole_Id.errors?.required"> Select User Type</div>
+        </div>
+      </div>
 
-            <div class="form-group">
-                <button [disabled]="loading" class="btn btn-primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Register
-                </button>
-                <a routerLink="../login" class="btn btn-link">Back</a>
-            </div>
-        </form>
-    </div>
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary" (click)="onSubmit($event)">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Register
+        </button>
+        <a routerLink="../login" class="btn btn-link">Back</a>
+      </div>
+    </form>
+
+
   </div>
-</div>
 
+
+</div>
