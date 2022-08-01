@@ -6,9 +6,11 @@ import { EmployeeData } from '../Interface/Interface';
 import { environment } from 'src/environments/environment';
 
 
-const baseUrl = environment.apiUrl +'Employee';
-const _baseUrl = environment.apiUrl +'EmployeeType';
-@Injectable()
+const baseUrl = environment.apiUrl + 'Employee';
+const _baseUrl = environment.apiUrl + 'EmployeeType';
+@Injectable({
+  providedIn: 'root'
+})
 export class EmployeeService {
 
   dataChange: BehaviorSubject<EmployeeData[]> = new BehaviorSubject<EmployeeData[]>([]);
@@ -27,7 +29,7 @@ export class EmployeeService {
     return this.dialogData;
   }
 
-  getEmployeeTypeById(id:any): Observable<any> {
+  getEmployeeTypeById(id: any): Observable<any> {
     return this.httpClient.get(`${_baseUrl}/${id}`);
   }
 
@@ -35,9 +37,9 @@ export class EmployeeService {
     this.httpClient.get<EmployeeData[]>(baseUrl).subscribe(data => {
       this.dataChange.next(data);
     },
-    (error: HttpErrorResponse) => {
-      console.log (error.name + ' ' + error.message);
-    });
+      (error: HttpErrorResponse) => {
+        console.log(error.name + ' ' + error.message);
+      });
   }
 
   // ADD, POST METHOD
@@ -45,23 +47,23 @@ export class EmployeeService {
     this.httpClient.post(baseUrl, employee).subscribe(data => {
       this.dialogData = employee;
       this.getAllEmployees();
-      },
+    },
       (err: HttpErrorResponse) => {
-      alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-    });
-   }
+        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+      });
+  }
 
   deleteItem(id: number): void {
     this.httpClient.delete(`${baseUrl}/${id}`).subscribe(data => {
       this.getAllEmployees()
-      },
+    },
       (err: HttpErrorResponse) => {
         alert('Error occurred. Details: ' + err.name + ' ' + err.message);
       }
     );
   }
 
-  getAllTypes():Observable<any> {
+  getAllTypes(): Observable<any> {
     return this.httpClient.get(_baseUrl);
   }
 
@@ -69,12 +71,12 @@ export class EmployeeService {
 
   updateItem(employee: any): void {
     this.dialogData = employee;
-   this.httpClient.put(`${baseUrl}/${employee.employee_Id}`, employee).subscribe(data => {
-    this.getAllEmployees()
-   },
-   (err: HttpErrorResponse) => {
-     alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-   });
- }
+    this.httpClient.put(`${baseUrl}/${employee.employee_Id}`, employee).subscribe(data => {
+      this.getAllEmployees()
+    },
+      (err: HttpErrorResponse) => {
+        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+      });
+  }
 
 }
