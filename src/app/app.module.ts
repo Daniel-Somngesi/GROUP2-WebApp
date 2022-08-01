@@ -119,6 +119,7 @@ import { ListAllParentsComponent } from './components/parents/list-all-parents/l
 import { environment } from 'src/environments/environment';
 import { ViewParentChildDetailsComponent } from './components/parents/view-parent-child-details/view-parent-child-details.component';
 import { ListAllChildrenComponent } from './components/children/list-all-children/list-all-children.component';
+import { ListAllUsersComponent } from './components/users/list-all-users/list-all-users.component';
 
 
 
@@ -195,7 +196,8 @@ export function tokenGetter() {
     ListAllAttendanceLogsComponent,
     ListAllParentsComponent,
     ViewParentChildDetailsComponent,
-    ListAllChildrenComponent
+    ListAllChildrenComponent,
+    ListAllUsersComponent
 
   ],
 
