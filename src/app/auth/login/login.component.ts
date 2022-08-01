@@ -7,6 +7,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { HttpEventType } from '@angular/common/http';
 import { AuthService } from 'src/app/services/Auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _snackBar: MatSnackBar
   ) {
 
   }
@@ -39,7 +41,6 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
-    console.log('test')
     this.submitted = true;
 
     // stop here if form is invalid
@@ -48,19 +49,6 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    // this.authenticationService.login(this.f.username.value, this.f.password.value)
-    //   .pipe(first())
-    //   .subscribe(
-    //     data => {
-    //       localStorage.setItem('token', event.body['token']);
-    //       const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    //       this.router.navigateByUrl(returnUrl);
-    //     },
-    //     error => {
-    //       this.alertService.error(error);
-
-    //       this.loading = false;
-    //     });
 
     let payload: any = {};
     payload['Username'] = this.f.username.value;
@@ -76,10 +64,16 @@ export class LoginComponent implements OnInit {
         }
       },
         error => {
-          this.alertService.error(error);
+          this.openSnackBar(error.error.message, "Error");
 
           this.loading = false;
         });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
   }
 
 }
