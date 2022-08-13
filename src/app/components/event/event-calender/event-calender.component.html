@@ -47,16 +47,13 @@
 
 <br /><br />
 
-<h1>Event Details</h1>
+<div class="new-entry-container row">
+  <div class="new-entry col-4">
+    <h1>New Event</h1>
 
-<form [formGroup]="eventForm">
+    <form [formGroup]="eventForm">
 
-  <br />
-  <div class="row">
-    <div class="col-4">
-    </div>
-    <div class="col-4">
-      <mat-form-field class="demo-full-width">
+      <mat-form-field class="input-full-width">
         <input class="form-control" maxlength="50" formControlName="title" pattern="[a-zA-Z ]*" [(ngModel)]="title"
           matTooltip="Enter event title" matInput placeholder="Title" autocomplete="off" required />
       </mat-form-field>
@@ -66,7 +63,9 @@
         <div *ngIf="g.title.errors?.pattern">Invalid characters.</div>
         <i style="font-size: small;">Enter valid value.</i>
       </div>
+
       <br />
+
       <mat-hint>From</mat-hint>
       <input class="form-control" [formControlName]="'start'" type="text" [(ngModel)]="start" mwlFlatpickr
         (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
@@ -76,21 +75,47 @@
       <input class="form-control" [formControlName]="'end'" type="text" [(ngModel)]="end" mwlFlatpickr required
         (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
         dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+
       <br />
       <br />
       <div mat-dialog-actions>
         <button mat-button mat-raised-button [disabled]="!eventForm.valid" color="accent" (click)="addNewEvent()"
-          [mat-dialog-close]="1">Save</button>
+          [mat-dialog-close]="1">Add event</button>
       </div>
-    </div>
-    <div class="col-4">
-    </div>
+
+    </form>
   </div>
-</form>
+
+  <div class="new-entry col-4">
+    <h1>New Slot</h1>
+
+    <form [formGroup]="slotForm">
+
+      <mat-hint>From</mat-hint>
+      <input class="form-control" [formControlName]="'start'" type="text" [(ngModel)]="start" mwlFlatpickr
+        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+        dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" required />
+
+      <mat-hint>To</mat-hint>
+      <input class="form-control" [formControlName]="'end'" type="text" [(ngModel)]="end" mwlFlatpickr required
+        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+        dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+
+      <br />
+      <br />
+      <div mat-dialog-actions>
+        <button mat-button mat-raised-button [disabled]="!slotForm.valid" color="accent" (click)="onCreateSlot()"
+          [mat-dialog-close]="1">Create slot</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
 <br />
 
 <h3>
-  Events
+  Slots, Events, and Bookings
   <div class="clearfix"></div>
 </h3>
 
@@ -98,9 +123,9 @@
   <table class="table table-bordered">
     <thead>
       <tr>
+        <th>Type</th>
         <th>Title</th>
-        <th>Primary color</th>
-        <th>Secondary color</th>
+
         <th>Starts at</th>
         <th>Ends at</th>
         <th>Remove</th>
@@ -108,28 +133,26 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let event of events">
+      <tr *ngFor="let entry of scheduleEntries">
         <td>
-          <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" />
+          <input type="text" class="form-control" [(ngModel)]="entry.type" disabled="disabled" />
+        </td>
+
+        <td>
+          <input type="text" class="form-control" [disabled]="entry.type == 'Slot'" [(ngModel)]="entry.title" (keyup)="refresh.next()" />
         </td>
         <td>
-          <input type="color" [(ngModel)]="event.color" (change)="refresh.next()" />
-        </td>
-        <td>
-          <input type="color" [(ngModel)]="event.color" (change)="refresh.next()" />
-        </td>
-        <td>
-          <input class="form-control" type="text" mwlFlatpickr [min]="minDate" [(ngModel)]="event.start"
+          <input class="form-control" type="text" mwlFlatpickr [min]="minDate" [(ngModel)]="entry.start"
             (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
             dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
         </td>
         <td>
-          <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" (ngModelChange)="refresh.next()"
+          <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="entry.end" (ngModelChange)="refresh.next()"
             [altInput]="true" [convertModelValue]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
             placeholder="Not set" />
         </td>
         <td>
-          <button class="btn btn-danger" (click)="deleteEvent(event)">
+          <button class="btn btn-danger" (click)="deleteEvent(entry)">
             Delete
           </button>
         </td>

@@ -1,0 +1,30 @@
+<div class="loader-container">
+  <mat-progress-bar *ngIf="showLoadingEndicator" mode="indeterminate"></mat-progress-bar>
+</div>
+<mat-dialog-content>
+  <div class="container">
+    <mat-toolbar class="header">
+      <span class="fill-remaining-space"></span>
+      <span class="title">Generate Class Attendance Report</span>
+      <span class="fill-remaining-space"></span>
+    </mat-toolbar>
+
+    <form [formGroup]="generateReportForm" class="form" *ngIf="generateReportForm !=null">
+      <div class="field-container-inline">
+        <mat-form-field class="field-inline">
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="Date" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="Date.touched && Date.invalid">
+            <div *ngIf="Date.errors.required">Date is required</div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button cdkFocusInitial (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>

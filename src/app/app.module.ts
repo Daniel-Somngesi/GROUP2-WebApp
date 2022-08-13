@@ -120,6 +120,11 @@ import { environment } from 'src/environments/environment';
 import { ViewParentChildDetailsComponent } from './components/parents/view-parent-child-details/view-parent-child-details.component';
 import { ListAllChildrenComponent } from './components/children/list-all-children/list-all-children.component';
 import { ListAllUsersComponent } from './components/users/list-all-users/list-all-users.component';
+import { ReportsDashboardComponent } from './components/reports/reports-dashboard/reports-dashboard.component';
+import { GenerateChildAttendanceReportDialogComponent } from './components/reports/child-attendance-reporting/generate-child-attendance-report-dialog/generate-child-attendance-report-dialog.component';
+import { ViewClassAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-class-attendance-report/view-class-attendance-report.component';
+import { ViewApplicationsReportComponent } from './components/reports/applications-reporting/view-applications-report/view-applications-report.component';
+import { GenerateApplicationsReportComponent } from './components/reports/applications-reporting/generate-applications-report/generate-applications-report.component';
 
 
 
@@ -197,7 +202,12 @@ export function tokenGetter() {
     ListAllParentsComponent,
     ViewParentChildDetailsComponent,
     ListAllChildrenComponent,
-    ListAllUsersComponent
+    ListAllUsersComponent,
+    ReportsDashboardComponent,
+    GenerateChildAttendanceReportDialogComponent,
+    ViewClassAttendanceReportComponent,
+    ViewApplicationsReportComponent,
+    GenerateApplicationsReportComponent
 
   ],
 

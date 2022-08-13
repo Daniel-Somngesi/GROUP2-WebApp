@@ -30,6 +30,9 @@ import { ListAllParentsComponent } from './components/parents/list-all-parents/l
 import { ViewParentChildDetailsComponent } from './components/parents/view-parent-child-details/view-parent-child-details.component';
 import { ListAllChildrenComponent } from './components/children/list-all-children/list-all-children.component';
 import { ListAllUsersComponent } from './components/users/list-all-users/list-all-users.component';
+import { ReportsDashboardComponent } from './components/reports/reports-dashboard/reports-dashboard.component';
+import { ViewClassAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-class-attendance-report/view-class-attendance-report.component';
+import { ViewApplicationsReportComponent } from './components/reports/applications-reporting/view-applications-report/view-applications-report.component';
 
 const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
@@ -54,7 +57,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'event',
+    path: 'event/:academic-year',
     component: EventCalenderComponent,
     canActivate: [AuthGuard]
   },
@@ -187,6 +190,21 @@ const routes: Routes = [
   {
     path: 'parent-details/:email',
     component: ViewParentChildDetailsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'reports-dashboard',
+    component: ReportsDashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'class-attendance-report',
+    component: ViewClassAttendanceReportComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'applications-report',
+    component: ViewApplicationsReportComponent,
     canActivate: [AuthGuard]
   },
 
