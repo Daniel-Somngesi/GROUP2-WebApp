@@ -1,0 +1,74 @@
+<div class="heading">
+  <button class="control-button" mat-button (click)="downloadAsPDF()">Export Report to PDF</button>
+</div>
+<div class="content" id="content" #content>
+  <div class="header-row">
+    <div class="date-section">
+      Date Generated: {{dateGenerated}}
+    </div>
+    <div class="logo-section">
+      <img src="assets/logo.png" alt="logo">
+    </div>
+    <div class="company-info-section">
+      <h6>Company Name: Hatfield Montessori Preschool</h6>
+      <h6>Company Contact: 012 362 0269</h6>
+      <h6>Company Email: info@hatfieldmontessori.co.za</h6>
+      <h6>Company Address: Hatfield Scout Hall 1307 South Street Hatfield 0083</h6>
+    </div>
+  </div>
+  <div class="divider-row"></div>
+
+  <div class="body-section" *ngIf="reportOverview != null">
+    <div class="report-title">
+      <strong class="report-title-text">Class Attendance Report</strong>
+    </div>
+    <div class="report-description">
+      <strong>Class Attendance Report Description</strong>
+      <h6 clas="report-description-text">This report is going to show the list of children who came to school and
+        attended class on a particular date.
+      </h6>
+
+      <strong>Date: {{reportOverview.date}}</strong>
+
+    </div>
+
+    <div class="report-table">
+      <table class="table">
+        <tr class="table-header-row">
+          <th class="table-header-item">Name</th>
+          <th class="table-header-item">Surname</th>
+          <th class="table-header-item">Time In</th>
+          <th class="table-header-item">Time Out</th>
+        </tr>
+        <tr *ngFor="let attendance of attendances">
+          <td>{{attendance.childName}}</td>
+          <td>{{attendance.childSurname}}</td>
+          <td>{{attendance.timeIn}}</td>
+          <td>{{attendance.timeOut}}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Total Children</td>
+          <td></td>
+          <td></td>
+          <td>{{reportOverview.totalAttendance}} / {{reportOverview.totalStudents}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="end-section">
+      <strong>***END OF REPORT***</strong>
+    </div>
+
+  </div>
+
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">
