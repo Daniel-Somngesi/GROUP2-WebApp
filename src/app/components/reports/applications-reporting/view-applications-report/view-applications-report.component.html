@@ -1,0 +1,72 @@
+<div class="heading">
+  <button class="control-button" mat-button (click)="downloadAsPDF()">Export Report to PDF</button>
+</div>
+<div class="content" id="content" #content>
+  <div class="header-row">
+    <div class="date-section">
+      Date Generated: {{dateGenerated}}
+    </div>
+    <div class="logo-section">
+      <img src="assets/logo.png" alt="logo">
+    </div>
+    <div class="company-info-section">
+      <h6>Company Name: Hatfield Montessori Preschool</h6>
+      <h6>Company Contact: 012 362 0269</h6>
+      <h6>Company Email: info@hatfieldmontessori.co.za</h6>
+      <h6>Company Address: Hatfield Scout Hall 1307 South Street Hatfield 0083</h6>
+    </div>
+  </div>
+  <div class="divider-row"></div>
+
+  <div class="body-section" *ngIf="reportOverview != null">
+    <div class="report-title">
+      <strong class="report-title-text">Applications Report</strong>
+    </div>
+    <div class="report-description">
+      <strong>Applications Description</strong>
+      <h6 clas="report-description-text">This reports shows depicts all the applications received. It is adjustable
+        based on
+        Date range, Status, and Special Needs.
+      </h6>
+
+      <strong>From Date: {{reportOverview.fromDate}}</strong>
+      <strong>To Date: {{reportOverview.toDate}}</strong>
+
+    </div>
+
+    <div class="report-table">
+      <table class="table">
+        <tr class="table-header-row">
+          <th class="table-header-item">Date</th>
+          <th class="table-header-item">Special Needs</th>
+          <th class="table-header-item">Special Needs Description</th>
+          <th class="table-header-item">Status</th>
+
+        </tr>
+        <tr *ngFor="let entry of entries">
+          <td>{{entry.date}}</td>
+          <td>{{entry.specialNeeds}}</td>
+          <td>{{entry.specialNeedsDescription}}</td>
+          <td>{{entry.status}}</td>
+
+        </tr>
+        <tr>
+          <td>Total Applications</td>
+          <td></td>
+          <td></td>
+          <td>{{reportOverview.totalApplications}} </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="end-section">
+      <strong>***END OF REPORT***</strong>
+    </div>
+
+  </div>
+
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

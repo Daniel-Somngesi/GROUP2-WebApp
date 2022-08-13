@@ -1,0 +1,40 @@
+<div class="loader-container">
+  <mat-progress-bar *ngIf="showLoadingEndicator" mode="indeterminate"></mat-progress-bar>
+</div>
+<mat-dialog-content>
+  <div class="container">
+    <mat-toolbar class="header">
+      <span class="fill-remaining-space"></span>
+      <span class="title">Generate Applications Report</span>
+      <span class="fill-remaining-space"></span>
+    </mat-toolbar>
+
+    <form [formGroup]="generateReportForm" class="form" *ngIf="generateReportForm !=null">
+      <div class="field-container-inline">
+        <mat-form-field class="field-inline">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="FromDate" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="FromDate.touched && FromDate.invalid">
+            <div *ngIf="FromDate.errors.required">Start date is required</div>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="field-inline">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="pickerB" formControlName="ToDate" required>
+          <mat-datepicker-toggle matSuffix [for]="pickerB"></mat-datepicker-toggle>
+          <mat-datepicker #pickerB></mat-datepicker>
+          <mat-error *ngIf="ToDate.touched && ToDate.invalid">
+            <div *ngIf="ToDate.errors.required">End date is required</div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button cdkFocusInitial (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>

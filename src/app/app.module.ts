@@ -120,6 +120,8 @@ import { environment } from 'src/environments/environment';
 import { ViewParentChildDetailsComponent } from './components/parents/view-parent-child-details/view-parent-child-details.component';
 import { ListAllChildrenComponent } from './components/children/list-all-children/list-all-children.component';
 import { ListAllUsersComponent } from './components/users/list-all-users/list-all-users.component';
+import { ViewApplicationsReportComponent } from './components/reports/applications-reporting/view-applications-report/view-applications-report.component';
+import { GenerateApplicationsReportComponent } from './components/reports/applications-reporting/generate-applications-report/generate-applications-report.component';
 
 
 
@@ -198,6 +200,8 @@ export function tokenGetter() {
     ViewParentChildDetailsComponent,
     ListAllChildrenComponent,
     ListAllUsersComponent
+    ViewApplicationsReportComponent,
+    GenerateApplicationsReportComponent
 
   ],
 

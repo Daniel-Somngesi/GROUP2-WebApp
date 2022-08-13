@@ -1,0 +1,44 @@
+.box {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px 3em;
+  height: 80vh;
+  overflow: auto;
+}
+
+.box-item {
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+
+  border: 3px solid black;
+  height: 100%;
+  text-align: center;
+  border-radius: 30px;
+  padding: 50px 0;
+  background-color: #045d5d;
+  color: white;
+  font-family: "Rubik", sans-serif;
+  box-shadow: 3px 5px #888888;
+}
+
+i {
+  font-size: 100px;
+  padding-bottom: 10px;
+}
+
+.heading {
+  background-color: #0d202b;
+  color: white;
+  text-align: center;
+  border: 0.5px solid black;
+  margin-bottom: 8px;
+  top: 0;
+  padding-bottom: 22px;
+  border-radius: 10px;
+}
+
+i:hover {
+  cursor: pointer;
+  color: red;
+}
