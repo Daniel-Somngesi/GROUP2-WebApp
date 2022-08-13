@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { EventService } from './../../../services/event.service';
 import { Component, ViewChild, TemplateRef, } from '@angular/core';
@@ -8,42 +8,19 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
-import * as events from 'events';
+import { ScheduleService } from 'src/app/services/schedules/schedule.service';
+import { iEvent } from 'src/app/Interface/Interface';
 
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
 
 @Component({
   selector: 'app-event-calender',
-  //changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [
-    `
-      h3 {
-        margin: 0 0 10px;
-      }
-      pre {
-        background-color: #f5f5f5;
-        padding: 15px;
-      }
-    `,
-  ],
+  styleUrls: ['./event-calender.component.css'],
   templateUrl: './event-calender.component.html',
 })
 export class EventCalenderComponent {
-
+  academicYear: string = "";
   events!: CalendarEvent[];
+  scheduleEntries: iEvent[] = [];
   refresh: Subject<any> = new Subject();
 
   @ViewChild('picker') picker: any;
@@ -56,6 +33,8 @@ export class EventCalenderComponent {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   public eventForm!: FormGroup;
   minDate: any = new Date().toISOString().slice(0, 10);
+
+  public slotForm!: FormGroup;
 
   view: CalendarView = CalendarView.Month;
 
@@ -87,23 +66,44 @@ export class EventCalenderComponent {
     },
   ];
 
-  message: string = 'meeeeee';
-
   activeDayIsOpen: boolean = true;
   start: any;
   end: any;
 
-  constructor(private modal: NgbModal, private router: Router, public service: EventService, private formbulider: FormBuilder, private http: HttpClient, private _snackBar: MatSnackBar) { }
+  constructor(
+    private modal: NgbModal,
+    public _eventService: EventService,
+    private _scheduleService: ScheduleService,
+    private formbulider: FormBuilder,
+    private _activatedRoute: ActivatedRoute
+  ) {
+    this._activatedRoute.params.subscribe(params => {
+
+      this.academicYear = params['academic-year'];
+    });
+  }
 
   ngOnInit(): void {
 
-    this.getCalendarEvents();
+    this._getCalenderEntries();
 
+    this._buildEventForm();
+    this._buildSlotForm();
+  }
+
+  private _buildEventForm() {
     this.eventForm = this.formbulider.group({
       title: ['', [Validators.required, this.noWhitespaceValidator, Validators.pattern('[a-zA-Z ]*')]],
       start: [null, [Validators.required]],
       end: [null, [Validators.required]],
-    })
+    });
+  }
+
+  private _buildSlotForm() {
+    this.slotForm = this.formbulider.group({
+      start: [null, [Validators.required]],
+      end: [null, [Validators.required]],
+    });
   }
 
   public noWhitespaceValidator(control: FormControl) {
@@ -114,6 +114,30 @@ export class EventCalenderComponent {
 
   get g() {
     return this.eventForm.controls;
+  }
+
+  _getCalenderEntries() {
+    return this._scheduleService.getAllEntriesByYear(this.academicYear)
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Sent) {
+            // this.displayProgressSpinner = true;
+          }
+          if (event.type == HttpEventType.Response) {
+            let res = event.body as iEvent[];
+            this.scheduleEntries = res;
+            this.loopThroughEvents(this.scheduleEntries);
+
+          }
+        },
+        error: (error) => {
+          // this.displayProgressSpinner = false;
+        },
+        complete: () => {
+          // this.displayProgressSpinner = false;
+        }
+      });
+
   }
 
   loopThroughEvents(res: any) {
@@ -130,13 +154,6 @@ export class EventCalenderComponent {
     }
     this.events = obj;
     this.refresh.next();
-  }
-
-  getCalendarEvents() {
-    return this.service.getAllEvents()
-      .subscribe(data => {
-        this.loopThroughEvents(data);
-      })
   }
 
   addNewEvent() {
@@ -158,9 +175,43 @@ export class EventCalenderComponent {
     payload['Start'] = this.start.toJSON();
     payload['End'] = this.end.toJSON();
 
-    console.log(payload);
+    this._eventService.createEvent(payload).subscribe({
+      next: (event => {
+        if (event.type === HttpEventType.Sent) {
+        }
 
-    this.service.createEvent(payload).subscribe({
+        if (event.type === HttpEventType.Response) {
+          this.addEvent()
+          window.location.reload();
+        }
+      }),
+      error: (error => {
+
+      })
+    });
+
+  }
+
+  onCreateSlot() {
+    let newEvent: any = {
+      title: '',
+      start: new Date(),
+      end: new Date(),
+
+    }
+
+    newEvent.title = this.title;
+    newEvent.start = this.start;
+    newEvent.end = this.end;
+
+    this.events.push(newEvent);
+
+    let payload: any = {};
+    payload['Title'] = 'Open Slot'; //This gets populated on the back end
+    payload['Start'] = this.start.toJSON();
+    payload['End'] = this.end.toJSON();
+
+    this._eventService.createSlot(payload).subscribe({
       next: (event => {
         if (event.type === HttpEventType.Sent) {
         }
@@ -209,12 +260,10 @@ export class EventCalenderComponent {
     this.handleEvent('Dropped or resized', event);
   }
 
-
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
-
 
   addEvent(): void {
     this.events = [
@@ -223,10 +272,19 @@ export class EventCalenderComponent {
 
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event: any) => event !== eventToDelete);
-  console.log(eventToDelete);
-    this.service.deleteEvent(eventToDelete.id);
+  deleteEvent(entryToDelete: any) {
+
+    let calenderEvent = entryToDelete as CalendarEvent;
+    let scheduleEntry = entryToDelete as iEvent;
+    this.events = this.events.filter((event: any) => event !== calenderEvent);
+
+    //Call the correct entry point to delete a schedule entry
+    if (scheduleEntry.type.toLowerCase() == 'Slot'.toLowerCase()) {
+
+    }
+    if (scheduleEntry.type.toLowerCase() == 'Event'.toLowerCase()) {
+      this._eventService.deleteEvent(scheduleEntry.id);
+    }
   }
 
   setView(view: CalendarView) {

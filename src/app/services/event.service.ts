@@ -21,27 +21,18 @@ export class EventService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAllEvents(): Observable<iEvent[]> {
-    return this.httpClient.get<iEvent[]>(apiURL)
-      .pipe(
-        catchError(this.errorHandler)
-      )
-  }
-
-  // createEvent(event: iEvent): void {
-  //   console.log(event);
-  //   this.httpClient.post(apiURL, event).subscribe(data => {
-  //   },
-  //     (err: HttpErrorResponse) => {
-  //       alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-  //     })
-
-  // }
 
   createEvent(payload) {
     return this.httpClient
-      .post(apiURL.concat("/New"), payload, { reportProgress: true, observe: 'events' });
+      .post(apiURL.concat("/AddEvent"), payload, { reportProgress: true, observe: 'events' });
   }
+
+
+  createSlot(payload) {
+    return this.httpClient
+      .post(apiURL.concat("/AddSlot"), payload, { reportProgress: true, observe: 'events' });
+  }
+
 
 
   findEvent(eventId: number): Observable<any> {

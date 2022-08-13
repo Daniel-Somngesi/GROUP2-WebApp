@@ -21,15 +21,15 @@ export interface EmployeeData {
   employee_Surname: string;
   phone_Number: any;
   gender: string;
-  employeeType_ID?:any;
+  employeeType_ID?: any;
   address_Line1: string;
   address_Line2: string;
   city: string;
   doB: string;
-  employee_Email:any;
+  employee_Email: any;
   id_Number: string;
   postal_code: string;
-  employeeType_Name:string;
+  employeeType_Name: string;
 }
 
 export interface EmployeeTypeData {
@@ -39,9 +39,9 @@ export interface EmployeeTypeData {
 }
 
 export interface BookingTypeData {
-  bookingType_ID?:any;
-  bookingType_Name:string;
-  bookingType_Description?:string;
+  bookingType_ID?: any;
+  bookingType_Name: string;
+  bookingType_Description?: string;
 }
 export interface SlotTypeData {
   slotType_Id: number;
@@ -53,7 +53,7 @@ export interface DocumentData {
   document_Id: number;
   document_Name: string;
   docPath: string;
-  description:string;
+  description: string;
 }
 
 export interface DocumentToCreate {
@@ -62,8 +62,8 @@ export interface DocumentToCreate {
 }
 
 export interface QuestionData {
-  question_Id:any;
-  question_Text:string;
+  question_Id: any;
+  question_Text: string;
 }
 
 export interface FeeTypeData {
@@ -86,11 +86,11 @@ export interface SurveyData {
 }
 
 export interface FeeData {
-  fee_Id:number;
-  fee_Name:string;
-  fee_Amount:string;
-  feeType_Id:number;
-  feeType_Name:string;
+  fee_Id: number;
+  fee_Name: string;
+  fee_Amount: string;
+  feeType_Id: number;
+  feeType_Name: string;
 }
 
 export interface TokenResponse {
@@ -116,8 +116,8 @@ export interface RefreshTokenRequest {
 3
 4
 export interface ErrorResponse {
-    error:string;
-    errorCode: string;
+  error: string;
+  errorCode: string;
 }
 
 export interface iEvent {
@@ -125,6 +125,7 @@ export interface iEvent {
   title: string;
   start: Date;
   end: Date;
+  type: string;
 }
 
 export interface Application {

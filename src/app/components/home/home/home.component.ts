@@ -27,4 +27,8 @@ export class HomeComponent implements OnInit {
   ongoToChildren() {
     this._router.navigate(['list-children']);
   }
+
+  onGoToReportsDashboard() {
+    this._router.navigate(['reports-dashboard']);
+  }
 }
