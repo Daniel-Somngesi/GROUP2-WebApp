@@ -3,8 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BookingTypeData } from '../Interface/Interface';
+import { environment } from 'src/environments/environment';
 
-const baseUrl = 'https://localhost:44341/api/bookingType';
+const baseUrl = environment.apiUrl + 'bookingType';
 
 @Injectable({
   providedIn: 'root'
@@ -33,9 +34,9 @@ export class BookingTypeService {
     this.httpClient.get<BookingTypeData[]>(baseUrl).subscribe(data => {
       this.dataChange.next(data);
     },
-    (error: HttpErrorResponse) => {
-      console.log (error.name + ' ' + error.message);
-    });
+      (error: HttpErrorResponse) => {
+        console.log(error.name + ' ' + error.message);
+      });
   }
 
   // ADD, POST METHOD
@@ -43,38 +44,38 @@ export class BookingTypeService {
     this.httpClient.post(baseUrl, bookingType).subscribe(data => {
       this.dialogData = bookingType;
       this.getAllBookingTypes();
-      },
+    },
       (err: HttpErrorResponse) => {
-      alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-    });
-   }
+        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+      });
+  }
 
 
- // DELETE METHOD
+  // DELETE METHOD
   deleteItem(id: number): void {
     this.httpClient.delete(`${baseUrl}/${id}`).subscribe(data => {
       this.getAllBookingTypes();
-      },
+    },
       (err: HttpErrorResponse) => {
         alert('Error occurred. Details: ' + err.name + ' ' + err.message);
       }
     );
   }
 
-  getAllTypes():Observable<any> {
+  getAllTypes(): Observable<any> {
     return this.httpClient.get(baseUrl);
   }
 
 
   updateItem(bookingType: any): void {
     this.dialogData = bookingType;
-   this.httpClient.put(`${baseUrl}/${bookingType.bookingType_ID}`, bookingType).subscribe(data => {
-    this.getAllBookingTypes();
-   },
-   (err: HttpErrorResponse) => {
-     alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-   });
+    this.httpClient.put(`${baseUrl}/${bookingType.bookingType_ID}`, bookingType).subscribe(data => {
+      this.getAllBookingTypes();
+    },
+      (err: HttpErrorResponse) => {
+        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
+      });
 
- }
+  }
 
 }

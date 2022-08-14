@@ -5,38 +5,36 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { AttendanceLog } from 'src/app/helpers/types/attendance-log.types';
-import { Application } from 'src/app/Interface/Interface';
-import { ApplicationsService } from 'src/app/services/applications/applications.service';
-import { AttendanceLogService } from 'src/app/services/attendance-log/attendance-log.service';
+import { Booking } from 'src/app/Interface/booking.types';
+import { BookingService } from 'src/app/services/booking/booking.service';
 
 @Component({
-  selector: 'app-list-all-attendance-logs',
-  templateUrl: './list-all-attendance-logs.component.html',
-  styleUrls: ['./list-all-attendance-logs.component.css']
+  selector: 'app-list-bookings',
+  templateUrl: './list-bookings.component.html',
+  styleUrls: ['./list-bookings.component.css']
 })
-export class ListAllAttendanceLogsComponent implements OnInit {
+export class ListBookingsComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
 
-  displayedColumns: string[] = ['name', 'date', 'timIn', 'timeOut'];
+  displayedColumns: string[] = ['bookingDateTime', 'name', 'bookingType', 'parentFullName', 'slotDay', 'slotStartTime', 'slotEndTime'];
 
-  logs: AttendanceLog[] = [];
-  log: AttendanceLog;
+  bookings: Booking[] = [];
+  booking: Booking;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private _dialog: MatDialog,
+    private _bookingService: BookingService,
     private _snackBar: MatSnackBar,
-    private _attendanceLogService: AttendanceLogService
 
   ) {
   }
 
   ngOnInit(): void {
-    this._getDataFromServer();
+    this._getBookingsFromServer();
   }
 
   applyFilter(event: Event) {
@@ -44,17 +42,17 @@ export class ListAllAttendanceLogsComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  private _getDataFromServer() {
-    this._attendanceLogService.getAll()
+  private _getBookingsFromServer() {
+    this._bookingService.getAll()
       .subscribe({
         next: (event) => {
           if (event.type === HttpEventType.Sent) {
             this.displayProgressSpinner = true;
           }
           if (event.type == HttpEventType.Response) {
-            const res = event.body as AttendanceLog[];
-            this.logs = res;
-            this.dataSource = new MatTableDataSource<AttendanceLog>(this.logs);
+            const res = event.body as Booking[];
+            this.bookings = res;
+            this.dataSource = new MatTableDataSource<Booking>(this.bookings);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.displayProgressSpinner = false;
@@ -69,13 +67,31 @@ export class ListAllAttendanceLogsComponent implements OnInit {
       });
   }
 
-  private _openSnackBar(message: string, action: string, _duration: number) {
-    this._snackBar.open(message, action, {
-      duration: _duration,
-    });
+  onDeleteBooking(booking: Booking) {
+
+    this._bookingService.delete(booking.id)
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Sent) {
+          }
+          if (event.type == HttpEventType.Response) {
+            this.openSnackBar("Booking Cancelled", "Success");
+            this._getBookingsFromServer();
+          }
+        },
+        error: (error) => {
+          this.openSnackBar(error.error.message, "Error!");
+        },
+        complete: () => {
+        }
+      });
   }
 
-
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
 }
 
 

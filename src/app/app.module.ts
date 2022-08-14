@@ -127,6 +127,9 @@ import { ViewApplicationsReportComponent } from './components/reports/applicatio
 import { GenerateApplicationsReportComponent } from './components/reports/applications-reporting/generate-applications-report/generate-applications-report.component';
 import { GenerateBookingsReportComponent } from './components/reports/bookings-reporting/generate-bookings-report/generate-bookings-report.component';
 import { ViewBookingsReportComponent } from './components/reports/bookings-reporting/view-bookings-report/view-bookings-report.component';
+import { ListBookingsComponent } from './components/bookings/list-bookings/list-bookings.component';
+import { ListSlotsComponent } from './components/slots/list-slots/list-slots.component';
+import { UpdateSlotComponent } from './components/slots/update-slot/update-slot.component';
 
 
 
@@ -211,7 +214,10 @@ export function tokenGetter() {
     ViewApplicationsReportComponent,
     GenerateApplicationsReportComponent,
     GenerateBookingsReportComponent,
-    ViewBookingsReportComponent
+    ViewBookingsReportComponent,
+    ListBookingsComponent,
+    ListSlotsComponent,
+    UpdateSlotComponent
 
   ],
 

@@ -8,7 +8,7 @@
   </div>
 
   <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
-    ng update @angular/cli @angular/core
+
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
@@ -17,12 +17,12 @@
 
     <ng-container matColumnDef="bookingType_Name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Booking Type Name</mat-header-cell>
-      <mat-cell *matCellDef="let bookingType"> {{bookingType.bookingType_Name}}</mat-cell>
+      <mat-cell *matCellDef="let bookingType"> {{bookingType.name}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="bookingType_Description">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Booking Type Description</mat-header-cell>
-      <mat-cell *matCellDef="let bookingType"> {{bookingType.bookingType_Description}}</mat-cell>
+      <mat-cell *matCellDef="let bookingType"> {{bookingType.description}}</mat-cell>
     </ng-container>
 
     <!-- actions -->
@@ -35,13 +35,13 @@
 
       <mat-cell *matCellDef="let bookingType; let i=index;">
         <button mat-icon-button color="accent"
-          (click)="startEdit(bookingType.bookingType_ID, bookingType.bookingType_Name, bookingType.bookingType_Description)">
+          (click)="startEdit(bookingType.id, bookingType.name, bookingType.description)">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
 
         <button mat-icon-button color="accent">
           <mat-icon aria-label="Delete"
-            (click)="deleteItem(bookingType.bookingType_ID, bookingType.bookingType_Name, bookingType.bookingType_Description)">
+            (click)="deleteItem(bookingType.id, bookingType.name, bookingType.description)">
             delete</mat-icon>
         </button>
       </mat-cell>

@@ -282,19 +282,20 @@ export class EventCalenderComponent {
     this.events = this.events.filter((event: any) => event !== calenderEvent);
 
     //Call the correct entry point to delete a schedule entry
-    if (scheduleEntry.type.toLowerCase() == 'Slot'.toLowerCase()) {
+    if (scheduleEntry.type.toLowerCase() != 'Slot'.toLowerCase()) {
 
-      if (scheduleEntry.title == 'Taken Slot') {
+      if (scheduleEntry.title != 'Open Slot') {
         this._openSnackBar("Cannot delete a slot that's taken", 'Error', 3000)
       }
       else {
         this._slotService.deleteSlot(scheduleEntry.id);
+        window.location.reload();
       }
     }
     if (scheduleEntry.type.toLowerCase() == 'Event'.toLowerCase()) {
       this._eventService.deleteEvent(scheduleEntry.id);
+      window.location.reload();
     }
-    window.location.reload();
   }
 
   setView(view: CalendarView) {

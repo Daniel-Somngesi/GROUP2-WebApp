@@ -1,5 +1,3 @@
-import { Booking } from "./booking.types";
-
 export interface Slot {
   scheduleId: number,
   date: string,
@@ -11,4 +9,5 @@ export interface SlotTime {
   fromTime: string,
   toTime: string,
   name: string,
+  date:string
 }

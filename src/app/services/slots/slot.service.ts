@@ -22,6 +22,13 @@ export class SlotService {
     );
   }
 
+  getAll() {
+    return this._httpClient.get(
+      this.endpointBase.concat("Slot/All"),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
+
   deleteSlot(id: any) {
     this._httpClient.delete(this.endpointBase.concat("Slot/" + id),
       { reportProgress: true, observe: 'events', headers: this.headers })

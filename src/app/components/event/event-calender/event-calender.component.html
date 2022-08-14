@@ -139,7 +139,7 @@
         </td>
 
         <td>
-          <input type="text" class="form-control" [disabled]="entry.type == 'Slot'" [(ngModel)]="entry.title" (keyup)="refresh.next()" />
+          <input type="text" class="form-control" disabled="disabled" [(ngModel)]="entry.title" (keyup)="refresh.next()" />
         </td>
         <td>
           <input class="form-control" type="text" mwlFlatpickr [min]="minDate" [(ngModel)]="entry.start"

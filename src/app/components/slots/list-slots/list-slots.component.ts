@@ -5,38 +5,35 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { AttendanceLog } from 'src/app/helpers/types/attendance-log.types';
-import { Application } from 'src/app/Interface/Interface';
-import { ApplicationsService } from 'src/app/services/applications/applications.service';
-import { AttendanceLogService } from 'src/app/services/attendance-log/attendance-log.service';
+import { SlotTime } from 'src/app/Interface/slot.types';
+import { SlotService } from 'src/app/services/slots/slot.service';
 
 @Component({
-  selector: 'app-list-all-attendance-logs',
-  templateUrl: './list-all-attendance-logs.component.html',
-  styleUrls: ['./list-all-attendance-logs.component.css']
+  selector: 'app-list-slots',
+  templateUrl: './list-slots.component.html',
+  styleUrls: ['./list-slots.component.css']
 })
-export class ListAllAttendanceLogsComponent implements OnInit {
+export class ListSlotsComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
 
-  displayedColumns: string[] = ['name', 'date', 'timIn', 'timeOut'];
+  displayedColumns: string[] = ['name', 'slotDay', 'slotStartTime', 'slotEndTime', 'actions'];
 
-  logs: AttendanceLog[] = [];
-  log: AttendanceLog;
+  slots: SlotTime[] = [];
+  slot: SlotTime;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private _dialog: MatDialog,
+    private _slotService: SlotService,
     private _snackBar: MatSnackBar,
-    private _attendanceLogService: AttendanceLogService
-
   ) {
   }
 
   ngOnInit(): void {
-    this._getDataFromServer();
+    this._getSlotsFromServer();
   }
 
   applyFilter(event: Event) {
@@ -44,17 +41,17 @@ export class ListAllAttendanceLogsComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  private _getDataFromServer() {
-    this._attendanceLogService.getAll()
+  private _getSlotsFromServer() {
+    this._slotService.getAll()
       .subscribe({
         next: (event) => {
           if (event.type === HttpEventType.Sent) {
             this.displayProgressSpinner = true;
           }
           if (event.type == HttpEventType.Response) {
-            const res = event.body as AttendanceLog[];
-            this.logs = res;
-            this.dataSource = new MatTableDataSource<AttendanceLog>(this.logs);
+            const res = event.body as SlotTime[];
+            this.slots = res;
+            this.dataSource = new MatTableDataSource<SlotTime>(this.slots);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.displayProgressSpinner = false;
@@ -69,13 +66,19 @@ export class ListAllAttendanceLogsComponent implements OnInit {
       });
   }
 
-  private _openSnackBar(message: string, action: string, _duration: number) {
-    this._snackBar.open(message, action, {
-      duration: _duration,
-    });
+  onDelete(slot: SlotTime) {
+    if (slot.name == 'Taken Slot') {
+      this.openSnackBar("Cannot delete a slot that's taken", 'Error')
+    }
+    else {
+      this._slotService.deleteSlot(slot.slotId);
+      window.location.reload();
+    }
   }
 
-
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
 }
-
-

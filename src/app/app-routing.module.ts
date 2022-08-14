@@ -34,6 +34,8 @@ import { ReportsDashboardComponent } from './components/reports/reports-dashboar
 import { ViewClassAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-class-attendance-report/view-class-attendance-report.component';
 import { ViewApplicationsReportComponent } from './components/reports/applications-reporting/view-applications-report/view-applications-report.component';
 import { ViewBookingsReportComponent } from './components/reports/bookings-reporting/view-bookings-report/view-bookings-report.component';
+import { ListBookingsComponent } from './components/bookings/list-bookings/list-bookings.component';
+import { ListSlotsComponent } from './components/slots/list-slots/list-slots.component';
 
 const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
@@ -159,8 +161,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'scheduling-management',
-    component: SchedulingManagementComponent,
+    path: 'list-slots',
+    component: ListSlotsComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -211,6 +213,12 @@ const routes: Routes = [
   {
     path: 'bookings-report',
     component: ViewBookingsReportComponent,
+    canActivate: [AuthGuard]
+  },
+
+  {
+    path: 'list-bookings',
+    component: ListBookingsComponent,
     canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' },

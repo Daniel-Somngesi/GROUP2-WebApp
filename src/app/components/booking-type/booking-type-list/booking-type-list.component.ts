@@ -76,7 +76,7 @@ export class BookingTypeListComponent implements OnInit {
 
        if (result === 1) {
          // When using an edit things are little different, firstly we find record inside DataService by id
-         const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.bookingType_ID === this.bookingType_ID);
+         const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.id === this.bookingType_ID);
          // Then you update that record using data from dialogData (values you enetered)
          this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
          // And lastly refresh table
@@ -95,7 +95,7 @@ export class BookingTypeListComponent implements OnInit {
 
      dialogRef.afterClosed().subscribe(result => {
        if (result === 1) {
-         const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.bookingType_ID === this.bookingType_ID);
+         const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.id === this.bookingType_ID);
          // for delete we use splice in order to remove single object from DataService
          this.myDatabase.dataChange.value.splice(foundIndex, 1);
          this.refreshTable();
@@ -112,6 +112,7 @@ export class BookingTypeListComponent implements OnInit {
 
    public loadData() {
      this.myDatabase = new BookingTypeService(this.http);
+     console.log(this.myDatabase);
      this.dataSource = new myDataSource(this.myDatabase, this.paginator, this.sort);
      fromEvent(this.filter.nativeElement, 'keyup')
        // s.debounceTime(150)
@@ -162,10 +163,10 @@ export class BookingTypeListComponent implements OnInit {
 
      return merge(...displayDataChanges).pipe(map(() => {
          // Filter data
-         this.filteredData = this._myDatabase.data.slice().filter((bookingType: BookingTypeData) => {
-           const searchStr = (bookingType.bookingType_ID + bookingType.bookingType_Name ).toLowerCase();
-           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-         });
+        //  this.filteredData = this._myDatabase.data.slice().filter((bookingType: BookingTypeData) => {
+        //    const searchStr = (bookingType.id + bookingType.name ).toLowerCase();
+        //    return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+        //  });
 
          // Sort filtered data + bookingType.bookingType_Description
          const sortedData = this.sortData(this.filteredData.slice());
@@ -192,8 +193,8 @@ export class BookingTypeListComponent implements OnInit {
        let propertyB: number | string = '';
 
        switch (this._sort.active) {
-         case 'bookingType_ID': [propertyA, propertyB] = [a.bookingType_ID, b.bookingType_ID]; break;
-         case 'bookingType_Name': [propertyA, propertyB] = [a.bookingType_Name, b.bookingType_Name]; break;
+         case 'bookingType_ID': [propertyA, propertyB] = [a.id, b.id]; break;
+         case 'bookingType_Name': [propertyA, propertyB] = [a.name, b.name]; break;
         //  \\case 'bookingType_Description': [propertyA , propertyB] = [a.bookingType_Description, b.bookingType_Description]; break;
        }
 

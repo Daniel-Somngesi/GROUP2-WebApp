@@ -4,7 +4,7 @@
     <tr>
       <td>
         <mat-form-field class="demo-full-width">
-          <input class="form-control" class="form-control" [(ngModel)]="data.bookingType_Name"
+          <input class="form-control" class="form-control" [(ngModel)]="data.name"
             formControlName="bookingType_Name" pattern="[a-zA-Z ]*" matTooltip="Enter booking type name" matInput
             placeholder="Booking Type Name" autocomplete="off" required>
         </mat-form-field>
@@ -16,7 +16,7 @@
 
         <mat-form-field class="demo-full-width">
           <input class="form-control" formControlName="bookingType_Description"
-            [(ngModel)]="data.bookingType_Description" pattern="[a-zA-Z ]*" matTooltip="Enter booking type description"
+            [(ngModel)]="data.description" pattern="[a-zA-Z ]*" matTooltip="Enter booking type description"
             matInput placeholder="Booking Type Description" autocomplete="off" required>
         </mat-form-field>
         <mat-error>

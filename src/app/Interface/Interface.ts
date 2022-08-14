@@ -39,9 +39,9 @@ export interface EmployeeTypeData {
 }
 
 export interface BookingTypeData {
-  bookingType_ID?: any;
-  bookingType_Name: string;
-  bookingType_Description?: string;
+  id: number;
+  name: string;
+  description: string;
 }
 export interface SlotTypeData {
   slotType_Id: number;

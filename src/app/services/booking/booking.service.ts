@@ -32,6 +32,13 @@ export class BookingService {
     );
   }
 
+  getAll() {
+    return this.http.get(
+      this.endpointBase.concat("Booking/All"),
+      { reportProgress: true, observe: 'events', headers:this.headers }
+    );
+  }
+
   delete(bookingId:number) {
     return this.http.delete(
       this.endpointBase.concat("Booking/"+bookingId),
