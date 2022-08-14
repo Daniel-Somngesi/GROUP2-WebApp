@@ -1,10 +1,11 @@
 .heading {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  padding: 1rem;
+  justify-content: space-between;
+  /* align-items: center; */
 
-  background-color: #0d202b;
+  background-color: #696969;
   color: white;
 
   border: 0.5px solid black;
@@ -104,4 +105,40 @@ td {
   justify-content: center;
   margin-top: 5rem;
   margin-bottom: 5rem;
+}
+
+
+.form-section {
+  flex: 1;
+}
+.list-section {
+  flex: 1;
+}
+.field-container-inline {
+  display: flex;
+  width: 100%;
+}
+.field-inline {
+  flex: 1;
+  margin: 10px;
+  padding: 5px;
+  flex: 1;
+}
+
+.field-container {
+  display: flex;
+}
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.fieldfield {
+  margin: 10px;
+  padding: 5px;
+  width: 100%;
+  display: flex;
+  flex: 1;
+}
+.button-row button {
+  margin-left: 5px;
 }

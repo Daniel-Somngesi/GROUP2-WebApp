@@ -31,7 +31,7 @@ export class GenerateApplicationsReportComponent implements OnInit {
   onSubmit() {
     if (this.generateReportForm.valid) {
 
-      if (this.ToDate.value <= this.FromDate.value) {
+      if (this.ToDate.value < this.FromDate.value) {
         this.openSnackBar("End start should be greater than from date", "Error");
       }
       else {

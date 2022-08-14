@@ -1,13 +1,17 @@
 import { HttpEventType } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { SchoolReportOverview, SchoolClassAttendance, ApplicationReportOverview, ApplicationReportEntry } from 'src/app/Interface/reports.types';
+import { ApplicationReportOverview, ApplicationReportEntry } from 'src/app/Interface/reports.types';
 import { ReportingService } from 'src/app/services/reporting/reporting.service';
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import domtoimage from 'dom-to-image';
 import { isToday } from 'date-fns';
+import { IdNameValuePair } from 'src/app/Interface/shared.types';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ApplicationStatusService } from 'src/app/services/application-statuses/application-status.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-view-applications-report',
@@ -31,14 +35,21 @@ export class ViewApplicationsReportComponent implements OnInit {
 
   reportOverview: ApplicationReportOverview;
   entries: ApplicationReportEntry[];
+  applicationStatuses: IdNameValuePair[] = [];
+
+  filterForm: FormGroup;
+
+
 
   constructor(
     private _reportingService: ReportingService,
-    private _router: Router
+    private _router: Router,
+    private _applicationStatus: ApplicationStatusService,
+    private _formBuilder: FormBuilder,
+    private _snackBar: MatSnackBar
+
 
   ) {
-
-
     this.fromDate = localStorage.getItem('applications-report-from-date');
     this.toDate = localStorage.getItem('applications-report-to-date');
   }
@@ -47,6 +58,8 @@ export class ViewApplicationsReportComponent implements OnInit {
 
     if (this.fromDate != null && this.toDate != null) {
       this._getApplicationFromServer();
+      this._getApplicationStatusFromServer();
+
     }
     else {
       //Go back to reports dashboard if date not in local storage
@@ -70,9 +83,27 @@ export class ViewApplicationsReportComponent implements OnInit {
           if (event.type == HttpEventType.Response) {
             this.reportOverview = event.body as ApplicationReportOverview;
             this.entries = this.reportOverview.applications as ApplicationReportEntry[];
+          }
+        },
+        error: (error) => {
+          this.displayProgressSpinner = false;
+        },
+        complete: () => {
+          this.displayProgressSpinner = false;
+        }
+      });
+  }
 
-            console.log(this.reportOverview);
-
+  private _getApplicationStatusFromServer() {
+    this._applicationStatus.getAll()
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Sent) {
+            this.displayProgressSpinner = true;
+          }
+          if (event.type == HttpEventType.Response) {
+            this.applicationStatuses = event.body as IdNameValuePair[];
+            this._buildFilterForm();
           }
         },
         error: (error) => {
@@ -132,5 +163,65 @@ export class ViewApplicationsReportComponent implements OnInit {
       });
 
   }
+
+  onFilterSubmittion(specialNeeds, statusid) {
+
+    if (this.filterForm.valid) {
+      let payload: any = {};
+
+      if (this.FilterToDate.value < this.FilterFromDate.value) {
+        this.openSnackBar("End start should be greater than from date", "Error");
+      }
+      else {
+        payload['SpecialNeeds'] = specialNeeds;
+        payload['Status'] = statusid;
+        payload['FromDate'] = this.FilterFromDate.value;
+        payload['ToDate'] = this.FilterToDate.value;
+        console.log(payload);
+
+        this._reportingService.getApplicationsByFilter(payload)
+        .subscribe({
+          next: (event) => {
+            if (event.type === HttpEventType.Sent) {
+              this.displayProgressSpinner = true;
+            }
+            if (event.type == HttpEventType.Response) {
+              this.reportOverview = event.body as ApplicationReportOverview;
+              console.log(this.reportOverview);
+              this.entries = this.reportOverview.applications as ApplicationReportEntry[];
+            }
+          },
+          error: (error) => {
+            this.displayProgressSpinner = false;
+          },
+          complete: () => {
+            this.displayProgressSpinner = false;
+          }
+        });
+      }
+
+
+    }
+    else {
+      this.openSnackBar("Provide all required fields", "Error")
+    }
+
+  }
+
+  private _buildFilterForm() {
+    this.filterForm = this._formBuilder.group({
+      FilterFromDate: ['', [Validators.required]],
+      FilterToDate: ['', [Validators.required]],
+    });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+  get FilterFromDate() { return this.filterForm.get('FilterFromDate'); }
+  get FilterToDate() { return this.filterForm.get('FilterToDate'); }
 
 }

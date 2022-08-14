@@ -1,5 +1,55 @@
 <div class="heading">
-  <button class="control-button" mat-button (click)="downloadAsPDF()">Export Report to PDF</button>
+  <div class="filter-controls">
+    <h6>Filter Controls</h6>
+    <form [formGroup]="filterForm" class="form" *ngIf="filterForm !=null">
+      <div class="field-container-inline">
+        <mat-form-field class="field-inline">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="FilterFromDate" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="FilterFromDate.touched && FilterFromDate.invalid">
+            <div *ngIf="FilterFromDate.errors.required">Start date is required</div>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="field-inline">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="pickerB" formControlName="FilterToDate" required>
+          <mat-datepicker-toggle matSuffix [for]="pickerB"></mat-datepicker-toggle>
+          <mat-datepicker #pickerB></mat-datepicker>
+          <mat-error *ngIf="FilterToDate.touched && FilterToDate.invalid">
+            <div *ngIf="FilterToDate.errors.required">End date is required</div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="field-container-inline">
+        <mat-form-field class="field-inline">
+          <mat-label>Status</mat-label>
+          <mat-select #statusControl>
+            <mat-option value=""> --Select option--</mat-option>
+            <mat-option [value]="status.name" *ngFor="let status of applicationStatuses"> {{status.name}} </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="field-inline">
+          <mat-label>Special Needs</mat-label>
+          <mat-select #specialNeedsControl>
+            <mat-option value=""> --Select option--</mat-option>
+            <mat-option value="Yes"> Yes </mat-option>
+            <mat-option value="No"> No </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="submit-buttons-container">
+        <button mat-raised-button (click)="onFilterSubmittion(specialNeedsControl.value,statusControl.value )"
+          class="submit-button">Filter</button>
+      </div>
+    </form>
+  </div>
+  <button class="control-button" mat-raised-button (click)="downloadAsPDF()">Export Report to PDF</button>
 </div>
 <div class="content" id="content" #content>
   <div class="header-row">
@@ -57,6 +107,9 @@
           <td>{{reportOverview.totalApplications}} </td>
         </tr>
       </table>
+      <div class="no-data" *ngIf="entries.length == 0">
+        No applications found for date  {{reportOverview.fromDate}} - {{reportOverview.toDate}}.
+      </div>
     </div>
 
     <div class="end-section">
