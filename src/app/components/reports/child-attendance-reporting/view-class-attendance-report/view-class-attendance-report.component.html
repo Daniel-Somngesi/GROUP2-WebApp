@@ -59,6 +59,10 @@
           <td>{{reportOverview.totalAttendance}} / {{reportOverview.totalStudents}}</td>
         </tr>
       </table>
+
+      <div class="no-data" *ngIf="attendances.length == 0">
+        No attandances found for date  {{reportOverview.date}}.
+      </div>
     </div>
 
     <div class="end-section">
