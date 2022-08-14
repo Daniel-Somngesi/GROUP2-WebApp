@@ -281,8 +281,8 @@ export class EventCalenderComponent {
     let scheduleEntry = entryToDelete as iEvent;
     this.events = this.events.filter((event: any) => event !== calenderEvent);
 
-    //Call the correct entry point to delete a schedule entry
-    if (scheduleEntry.type.toLowerCase() != 'Slot'.toLowerCase()) {
+    //Handle for slot
+    if (scheduleEntry.type.toLowerCase() == 'Slot'.toLowerCase()) {
 
       if (scheduleEntry.title != 'Open Slot') {
         this._openSnackBar("Cannot delete a slot that's taken", 'Error', 3000)
@@ -292,6 +292,11 @@ export class EventCalenderComponent {
         window.location.reload();
       }
     }
+    //Handle for Booking
+    if (scheduleEntry.type.toLowerCase() == 'Booking'.toLowerCase()) {
+      this._openSnackBar("Cannot delete a slot that's taken", 'Error', 3000)
+    }
+     //Handle for slot
     if (scheduleEntry.type.toLowerCase() == 'Event'.toLowerCase()) {
       this._eventService.deleteEvent(scheduleEntry.id);
       window.location.reload();
