@@ -1,3 +1,6 @@
+import { Booking } from "./booking.types"
+import { Slot } from "./slot.types"
+
 export interface SchoolReportOverview {
   date: string,
   totalStudents: number,
@@ -26,4 +29,11 @@ export interface ApplicationReportEntry {
   specialNeedsDescription: string,
   status: string,
   age: string,
+}
+
+export interface BookingReportOverview{
+  fromDate: string,
+  toDate: string,
+  slots:Array<Slot>,
+  bookings:Array<Booking>,
 }

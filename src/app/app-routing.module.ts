@@ -33,6 +33,7 @@ import { ListAllUsersComponent } from './components/users/list-all-users/list-al
 import { ReportsDashboardComponent } from './components/reports/reports-dashboard/reports-dashboard.component';
 import { ViewClassAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-class-attendance-report/view-class-attendance-report.component';
 import { ViewApplicationsReportComponent } from './components/reports/applications-reporting/view-applications-report/view-applications-report.component';
+import { ViewBookingsReportComponent } from './components/reports/bookings-reporting/view-bookings-report/view-bookings-report.component';
 
 const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
@@ -57,7 +58,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'event/:academic-year',
+    path: 'schedule/:academic-year',
     component: EventCalenderComponent,
     canActivate: [AuthGuard]
   },
@@ -207,7 +208,11 @@ const routes: Routes = [
     component: ViewApplicationsReportComponent,
     canActivate: [AuthGuard]
   },
-
+  {
+    path: 'bookings-report',
+    component: ViewBookingsReportComponent,
+    canActivate: [AuthGuard]
+  },
   { path: '**', redirectTo: '' },
 
 ];

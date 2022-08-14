@@ -10,6 +10,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { ScheduleService } from 'src/app/services/schedules/schedule.service';
 import { iEvent } from 'src/app/Interface/Interface';
+import { SlotService } from 'src/app/services/slots/slot.service';
 
 
 @Component({
@@ -74,8 +75,10 @@ export class EventCalenderComponent {
     private modal: NgbModal,
     public _eventService: EventService,
     private _scheduleService: ScheduleService,
+    private _slotService: SlotService,
     private formbulider: FormBuilder,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _snackBar: MatSnackBar
   ) {
     this._activatedRoute.params.subscribe(params => {
 
@@ -281,10 +284,17 @@ export class EventCalenderComponent {
     //Call the correct entry point to delete a schedule entry
     if (scheduleEntry.type.toLowerCase() == 'Slot'.toLowerCase()) {
 
+      if (scheduleEntry.title == 'Taken Slot') {
+        this._openSnackBar("Cannot delete a slot that's taken", 'Error', 3000)
+      }
+      else {
+        this._slotService.deleteSlot(scheduleEntry.id);
+      }
     }
     if (scheduleEntry.type.toLowerCase() == 'Event'.toLowerCase()) {
       this._eventService.deleteEvent(scheduleEntry.id);
     }
+    window.location.reload();
   }
 
   setView(view: CalendarView) {
@@ -293,5 +303,11 @@ export class EventCalenderComponent {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  private _openSnackBar(message: string, action: string, _duration: number) {
+    this._snackBar.open(message, action, {
+      duration: _duration,
+    });
   }
 }
