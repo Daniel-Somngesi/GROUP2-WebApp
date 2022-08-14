@@ -29,4 +29,18 @@ export class ReportingService {
     );
   }
 
+  getApplicationsByFilter(payload) {
+    return this._httpClient.post(
+      this.endpointBase.concat("Reporting/Applications/ByFilter"), payload,
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
+
+  getBookings(payload) {
+    return this._httpClient.post(
+      this.endpointBase.concat("Reporting/Bookings"), payload,
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
+
 }

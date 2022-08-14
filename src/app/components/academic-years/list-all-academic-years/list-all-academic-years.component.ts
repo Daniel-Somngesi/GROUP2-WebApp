@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Schedule } from 'src/app/helpers/types/schedule.types';
 import { ApplicationsService } from 'src/app/services/applications/applications.service';
 import { ScheduleService } from 'src/app/services/schedules/schedule.service';
@@ -19,7 +20,7 @@ export class ListAllAcademicYearsComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
 
-  displayedColumns: string[] = ['academicYear', 'startDate', 'endDate'];
+  displayedColumns: string[] = ['academicYear', 'startDate', 'endDate','eventsCount','slotsCount', 'actions'];
 
   schedules: Schedule[] = [];
   schedule: Schedule;
@@ -31,7 +32,8 @@ export class ListAllAcademicYearsComponent implements OnInit {
     private _dialog: MatDialog,
     private _scheduleService: ScheduleService,
     private _snackBar: MatSnackBar,
-    private _matDialog: MatDialog
+    private _matDialog: MatDialog,
+    private _router: Router
 
   ) {
   }
@@ -89,10 +91,8 @@ export class ListAllAcademicYearsComponent implements OnInit {
   }
 
 
-  private _openSnackBar(message: string, action: string, _duration: number) {
-    this._snackBar.open(message, action, {
-      duration: _duration,
-    });
+  onNavigateToSchedule(schedule: Schedule) {
+    this._router.navigate(['schedule', schedule.academicYear])
   }
 }
 

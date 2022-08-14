@@ -125,6 +125,8 @@ import { GenerateChildAttendanceReportDialogComponent } from './components/repor
 import { ViewClassAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-class-attendance-report/view-class-attendance-report.component';
 import { ViewApplicationsReportComponent } from './components/reports/applications-reporting/view-applications-report/view-applications-report.component';
 import { GenerateApplicationsReportComponent } from './components/reports/applications-reporting/generate-applications-report/generate-applications-report.component';
+import { GenerateBookingsReportComponent } from './components/reports/bookings-reporting/generate-bookings-report/generate-bookings-report.component';
+import { ViewBookingsReportComponent } from './components/reports/bookings-reporting/view-bookings-report/view-bookings-report.component';
 
 
 
@@ -207,7 +209,9 @@ export function tokenGetter() {
     GenerateChildAttendanceReportDialogComponent,
     ViewClassAttendanceReportComponent,
     ViewApplicationsReportComponent,
-    GenerateApplicationsReportComponent
+    GenerateApplicationsReportComponent,
+    GenerateBookingsReportComponent,
+    ViewBookingsReportComponent
 
   ],
 

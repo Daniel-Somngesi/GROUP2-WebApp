@@ -1,0 +1,100 @@
+<div class="heading">
+  <button class="control-button" mat-button (click)="downloadAsPDF()">Export Report to PDF</button>
+</div>
+<div class="content" id="content" #content>
+  <div class="header-row">
+    <div class="date-section">
+      Date Generated: {{dateGenerated}}
+    </div>
+    <div class="logo-section">
+      <img src="assets/logo.png" alt="logo">
+    </div>
+    <div class="company-info-section">
+      <h6>Company Name: Hatfield Montessori Preschool</h6>
+      <h6>Company Contact: 012 362 0269</h6>
+      <h6>Company Email: info@hatfieldmontessori.co.za</h6>
+      <h6>Company Address: Hatfield Scout Hall 1307 South Street Hatfield 0083</h6>
+    </div>
+  </div>
+  <div class="divider-row"></div>
+
+  <div class="body-section" *ngIf="reportOverview != null">
+    <div class="report-title">
+      <strong class="report-title-text">Bookings Report</strong>
+    </div>
+    <div class="report-description">
+      <strong>Booking Description</strong>
+      <h6 clas="report-description-text">This report shows all parents bookings as well as slots both open and taken
+      </h6>
+
+      <strong>From Date: {{reportOverview.fromDate}}</strong>
+      <strong>To Date: {{reportOverview.toDate}}</strong>
+
+    </div>
+
+    <div class="report-table">
+      <h2>Slots</h2>
+      <table class="table">
+        <tr class="table-header-row">
+          <th class="table-header-item">Date</th>
+          <th class="table-header-item">Slot info</th>
+        </tr>
+        <tr *ngFor="let slot of slots">
+          <td>
+            {{slot.date}}
+          </td>
+          <td>
+            <table>
+              <tr *ngFor="let time of slot.slots">
+                <td>{{time.fromTime}}</td>
+                <td>{{time.toTime}}</td>
+                <td>{{time.name}}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+      </table>
+
+      <div class="no-data" *ngIf="slots.length == 0">
+        No slots found for date  {{reportOverview.fromDate}} - {{reportOverview.toDate}}.
+      </div>
+    </div>
+
+    <div class="report-table">
+      <h2>Bookings</h2>
+      <table class="table">
+        <tr class="table-header-row">
+          <th class="table-header-item">Date</th>
+          <th class="table-header-item">Parent</th>
+          <th class="table-header-item">Type</th>
+          <th class="table-header-item">Day</th>
+          <th class="table-header-item">Start Time</th>
+          <th class="table-header-item">End Time</th>
+        </tr>
+        <tr *ngFor="let booking of bookings">
+          <td>{{booking.bookingDateTime}}</td>
+          <td>{{booking.parentFullName}}</td>
+          <td>{{booking.bookingType}}</td>
+          <td>{{booking.slotDay}}</td>
+          <td>{{booking.slotStartTime}}</td>
+          <td>{{booking.slotEndTime}}</td>
+        </tr>
+      </table>
+
+      <div class="no-data" *ngIf="bookings.length == 0">
+        No slots found for date  {{reportOverview.fromDate}} - {{reportOverview.toDate}}.
+      </div>
+    </div>
+
+    <div class="end-section">
+      <strong>***END OF REPORT***</strong>
+    </div>
+
+  </div>
+
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

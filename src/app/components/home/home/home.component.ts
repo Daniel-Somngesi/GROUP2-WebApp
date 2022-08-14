@@ -19,7 +19,9 @@ export class HomeComponent implements OnInit {
   }
 
   onGoToSchedule() {
-    this._router.navigate(['event']);
+    let currentDate = new Date();
+    let currentYear = currentDate.getFullYear();
+    this._router.navigate(['schedule', currentYear]);
   }
   onGoToApplications() {
     this._router.navigate(['all-applications']);

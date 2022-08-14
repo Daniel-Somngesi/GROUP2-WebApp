@@ -3,21 +3,21 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { GenerateApplicationsReportComponent } from '../../applications-reporting/generate-applications-report/generate-applications-report.component';
 
 @Component({
-  selector: 'app-generate-applications-report',
-  templateUrl: './generate-applications-report.component.html',
-  styleUrls: ['./generate-applications-report.component.css']
+  selector: 'app-generate-bookings-report',
+  templateUrl: './generate-bookings-report.component.html',
+  styleUrls: ['./generate-bookings-report.component.css']
 })
-export class GenerateApplicationsReportComponent implements OnInit {
+export class GenerateBookingsReportComponent implements OnInit {
   showLoadingEndicator = false;
-
 
   generateReportForm: FormGroup;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) dataFomCallingComponent: any,
-    public dialogRef: MatDialogRef<GenerateApplicationsReportComponent>,
+    public dialogRef: MatDialogRef<GenerateBookingsReportComponent>,
     private _snackBar: MatSnackBar,
     private _formBuilder: FormBuilder,
     private _router: Router
@@ -35,14 +35,12 @@ export class GenerateApplicationsReportComponent implements OnInit {
         this.openSnackBar("End start should be greater than from date", "Error");
       }
       else {
-        localStorage.setItem('applications-report-from-date', this.FromDate.value);
-        localStorage.setItem('applications-report-to-date', this.ToDate.value);
+        localStorage.setItem('bookings-report-from-date', this.FromDate.value);
+        localStorage.setItem('bookings-report-to-date', this.ToDate.value);
         this.closeDialog();
-        this._router.navigate(['applications-report']);
+        this._router.navigate(['bookings-report']);
       }
-
     }
-
   }
 
 

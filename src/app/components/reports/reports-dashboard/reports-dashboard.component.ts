@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GenerateApplicationsReportComponent } from '../applications-reporting/generate-applications-report/generate-applications-report.component';
+import { GenerateBookingsReportComponent } from '../bookings-reporting/generate-bookings-report/generate-bookings-report.component';
 import { GenerateChildAttendanceReportDialogComponent } from '../child-attendance-reporting/generate-child-attendance-report-dialog/generate-child-attendance-report-dialog.component';
 
 @Component({
@@ -44,6 +45,20 @@ export class ReportsDashboardComponent implements OnInit {
 
     });
 
+  }
+
+  OnGenerateBookingReport(){
+    let dialog = this._matDialog.open(GenerateBookingsReportComponent, {
+      width: "50%",
+      height: "auto",
+      data: {
+
+      }
+    });
+
+    dialog.afterClosed().subscribe(result => {
+
+    });
   }
 
 }
