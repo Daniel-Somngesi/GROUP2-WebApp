@@ -1,9 +1,10 @@
-import { ConsumablesData } from './../../../Interface/Interface';
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { ConsumablesService } from 'src/app/services/consumables.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpEventType } from '@angular/common/http';
+import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
+import { ConsumablesService } from 'src/app/services/consumables/consumables.service';
 
 @Component({
   selector: 'app-add-consumables-dialog',
@@ -11,55 +12,73 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./add-consumables-dialog.component.css']
 })
 export class AddConsumablesDialogComponent implements OnInit {
+  displayProgressSpinner = false;
 
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  userRole: any;
-  consumablesForm: any;
-
-  constructor(public dialogRef: MatDialogRef<AddConsumablesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ConsumablesData,
-    public service: ConsumablesService, private formbulider: FormBuilder,  private _snackBar: MatSnackBar) { }
+  form: FormGroup;
+  constructor(
+    private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<AddConsumablesDialogComponent>,
+    private _snackBar: MatSnackBar,
+    private _matSnackBar: MatSnackBar,
+    private _consumablesService: ConsumablesService) { }
 
   ngOnInit(): void {
-    this.consumablesForm = this.formbulider.group({
-      Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(50)]],
-      Description: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
-      Quantity: ['', [Validators.required]],
-    })
+    this._buildForm(this._formBuilder);
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  onSubmit() {
+    if (this.form.invalid) {
+      this.openSnackBar("Provide all required input", "Error");
+    }
+    else {
+      this._consumablesService.createConsumable(this.form.value)
+        .subscribe({
+          next: (event) => {
+            if (event.type === HttpEventType.Sent) {
+              this.displayProgressSpinner = true;
+            }
+            if (event.type == HttpEventType.Response) {
+              this.displayProgressSpinner = false;
+
+              this.openSnackBar("Add", "Success");
+              this.closeDialog();
+            }
+          },
+          error: (error) => {
+            this.displayProgressSpinner = false;
+            this._openErrorMessageSnackBar(error.error.message);
+          },
+          complete: () => {
+            this.displayProgressSpinner = false;
+          }
+        });
+    }
   }
 
-  public confirmAdd(): void {
-    this.service.addItem(this.data);
-
+  closeDialog() {
+    this.dialogRef.close({ event: 'Cancel' });
   }
 
-  SavedSuccessful(isUpdate:any) {
-    if (isUpdate == 0) {
-      this._snackBar.open('Record Updated Successfully!', 'Close', {
-        duration: 2000,
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
-      });
-    }
-    else if (isUpdate == 1) {
-      this._snackBar.open('Record Added Successfully!', 'Close', {
-        duration: 3000,
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
-      });
-    }
-    else if (isUpdate == 2) {
-      this._snackBar.open('Record Deleted Successfully!', 'Close', {
-        duration: 2000,
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
-      });
-    }
-    }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+  private _openErrorMessageSnackBar(errorMessage: string) {
+    const snackBar = this._matSnackBar.openFromComponent(CustomErrorSnackBarComponent, {
+      data: {
+        preClose: () => { snackBar.dismiss() },
+        parent: errorMessage
+      }
+    });
+  }
+
+  private _buildForm(formFb: FormBuilder) {
+    this.form = formFb.group({
+      Name: ['', [Validators.required]]
+    });
+  }
+  get Name() { return this.form.get('Name'); }
 
 }

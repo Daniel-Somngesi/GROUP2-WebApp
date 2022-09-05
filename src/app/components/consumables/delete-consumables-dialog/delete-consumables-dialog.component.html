@@ -1,12 +1,30 @@
 <div class="container">
-  <h3 mat-dialog-title>Delete consumable?</h3>
-  <div mat-dialog-content>
-    <p>Name: {{data.name}} </p>
-    <p></p>
-    <p>Description: {{data.description}} </p>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="1" color="accent" (click)="confirmDelete()">Yes</button>
-    <button mat-button (click)="onNoClick()" tabindex="-1">No</button>
-  </div>
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Delete Consumable</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <form [formGroup]="form" (submit)="onSubmit()" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Name</mat-label>
+        <input type="text" matInput formControlName="Name" required>
+        <mat-error *ngIf="Name.touched && Name.invalid">
+          <div *ngIf="Name.errors.required">please provide name.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <div class="button-row">
+      <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+      <button mat-raised-button type="submit" color="primary">Delete</button>
+    </div>
+
+  </form>
+
 </div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">
