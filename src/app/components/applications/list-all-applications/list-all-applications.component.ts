@@ -5,9 +5,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { CurrentUser } from 'src/app/helpers/types/auth.types';
 import { Application } from 'src/app/Interface/Interface';
 import { ApplicationsService } from 'src/app/services/applications/applications.service';
+import { AuthService } from 'src/app/services/Auth/auth.service';
 import { ViewApplicationDetailsComponent } from '../view-application-details/view-application-details.component';
+
+
 
 @Component({
   selector: 'app-list-all-applications',
@@ -30,12 +35,40 @@ export class ListAllApplicationsComponent implements OnInit {
     private _dialog: MatDialog,
     private _applicationsService: ApplicationsService,
     private _snackBar: MatSnackBar,
-
+    private _authService: AuthService,
+    private _router: Router
   ) {
+    this._setUser();
+    this._restrictAcessToAdmins();
   }
 
   ngOnInit(): void {
     this._getApplicationFromServer();
+  }
+
+  user: CurrentUser;
+  private _setUser() {
+    if (this._authService.currentUser != null) {
+      this.user = this._authService.currentUser;
+    }
+    else {
+      this._authService.signOut();
+    }
+  }
+  private _restrictAcessToAdmins() {
+    if (this.isTeacher) {
+      this.openSnackBar("Only Admins can perform this operation", "Info");
+      this._router.navigate(['']);
+    }
+
+  }
+  get isTeacher() {
+    if (this.user.EmployeeType == 'Teacher' || this.user.UserRole != 'administrator') {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   onAccept(application: Application) {
@@ -61,6 +94,7 @@ export class ListAllApplicationsComponent implements OnInit {
         }
       });
   }
+
 
   onReject(application: Application) {
     this._applicationsService.rejected(application.application_ID)
@@ -135,6 +169,8 @@ export class ListAllApplicationsComponent implements OnInit {
       duration: _duration,
     });
   }
+
+
 
 
 }

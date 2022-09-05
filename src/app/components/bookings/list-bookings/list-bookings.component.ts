@@ -17,7 +17,7 @@ export class ListBookingsComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
 
-  displayedColumns: string[] = ['bookingDateTime', 'name', 'bookingType', 'parentFullName', 'slotDay', 'slotStartTime', 'slotEndTime'];
+  displayedColumns: string[] = ['bookingDateTime','bookingStatus', 'name', 'bookingType', 'parentFullName', 'slotDay', 'slotStartTime', 'slotEndTime'];
 
   bookings: Booking[] = [];
   booking: Booking;

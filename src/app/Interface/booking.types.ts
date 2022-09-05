@@ -13,4 +13,5 @@ export interface Booking {
   slotDay: string,
   slotStartTime: string,
   slotEndTime: string,
+  bookingStatus:string
 }
