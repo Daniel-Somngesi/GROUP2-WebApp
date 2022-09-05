@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { GenerateApplicationsReportComponent } from '../applications-reporting/generate-applications-report/generate-applications-report.component';
 import { GenerateBookingsReportComponent } from '../bookings-reporting/generate-bookings-report/generate-bookings-report.component';
 import { GenerateChildAttendanceReportDialogComponent } from '../child-attendance-reporting/generate-child-attendance-report-dialog/generate-child-attendance-report-dialog.component';
 import { GenerateConsumablesByClassReportComponent } from '../consumables-by-class/generate-consumables-by-class-report/generate-consumables-by-class-report.component';
@@ -34,7 +35,21 @@ export class ReportsDashboardComponent implements OnInit {
     });
 
   }
+
   onGenerateApplicationReport() {
+    let dialog = this._matDialog.open(GenerateApplicationsReportComponent, {
+      width: "50%",
+      height: "auto",
+      data: {
+
+      }
+    });
+
+    dialog.afterClosed().subscribe(result => {
+
+    });  }
+
+  onGenerateSchoolEvalutationSurvey() {
     this._router.navigate(['school-evaluation-report']);
   }
 
