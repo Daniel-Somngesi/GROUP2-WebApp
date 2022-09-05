@@ -1,0 +1,5 @@
+<div class="container">
+  <span *ngIf="errorMessage ==''"> Error:Something went wrong, please try again.</span>
+  <span *ngIf="errorMessage !=''">{{errorMessage}}</span>
+  <button mat-button color="accent" (click)="dismiss()">Ok</button>
+</div>

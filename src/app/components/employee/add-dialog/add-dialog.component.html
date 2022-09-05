@@ -67,7 +67,7 @@
         <mat-form-field class="demo-full-width">
           <input class="form-control" name="phone_Number" [(ngModel)]="data.phone_Number" formControlName="phone_Number"
             matTooltip="Enter phone number" matInput placeholder="Phone number" autocomplete="off" required>
-          <mat-hint>should start with 0 and spaces must not be included</mat-hint>
+          <mat-hint>should start with +27 and spaces must not be included</mat-hint>
         </mat-form-field>
         <mat-error>
           <span *ngIf="!employeeForm.get('phone_Number').value && employeeForm.get('phone_Number').touched">Invalid

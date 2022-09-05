@@ -1,0 +1,64 @@
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Add new requested consumables for class: {{record.name}}</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <form [formGroup]="form" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Consumable</mat-label>
+        <mat-select formControlName="ConsumableName" required>
+          <mat-option>--Select--</mat-option>
+          <mat-option *ngFor="let consumable of consumables" [value]="consumable.name">
+            {{consumable.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="ConsumableName.touched && ConsumableName.invalid">
+          <div *ngIf="ConsumableName.errors.required">please select consumable.</div>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Quantity</mat-label>
+        <input type="number" matInput formControlName="Quantity" required min="1" (keyup.enter)="onAddToList()">
+        <mat-error *ngIf="Quantity.touched && Quantity.invalid">
+          <div *ngIf="Quantity.errors.required">please provide quantity.</div>
+          <div *ngIf="Quantity.errors.min">quantity cannot be below 1</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="requiredConsumables.length > 0" class="inline-form-field">
+      <mat-divider></mat-divider>
+      <table>
+        <tr>
+          <th>Required Consumable</th>
+          <th>Quantity Per Child</th>
+          <th></th>
+        </tr>
+
+        <tr *ngFor="let consumable of requiredConsumables">
+          <th>{{consumable.Name}}</th>
+          <th>{{consumable.Quantity}}</th>
+          <th>
+            <a mat-button (click)="onRemoveFromList(consumable)">
+              <mat-icon class="icon-library">delete</mat-icon>
+            </a>
+          </th>
+        </tr>
+      </table>
+    </div>
+
+    <div class="button-row">
+      <a mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</a>
+      <a mat-raised-button type="submit" (click)="onSubmit()" color="primary">Create</a>
+    </div>
+
+  </form>
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">
