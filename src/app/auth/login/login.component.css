@@ -1,6 +1,13 @@
-
 #img img {
-    display:block;
-    margin:auto;
+  display: block;
+  margin: auto;
 }
 
+.btn-primary {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.form-group{
+
+}

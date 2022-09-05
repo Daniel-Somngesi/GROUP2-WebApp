@@ -37,12 +37,20 @@ export class AuthService {
       .post(this.endpointBase.concat("Account/LogIn"), payload, { reportProgress: true, observe: 'events' });
   }
 
+  requestOTP(payload) {
+    return this.http
+      .post(this.endpointBase.concat("Account/RequestOTP"), payload, { reportProgress: true, observe: 'events' });
+  }
+
+  validateOTP(payload) {
+    return this.http
+      .post(this.endpointBase.concat("Account/ValidateOTP"), payload, { reportProgress: true, observe: 'events' });
+  }
+
   register(payload) {
     return this.http
       .post(this.endpointBase.concat("Account/Register"), payload, { reportProgress: true, observe: 'events' });
   }
-
-
 
   ForgotPassword(email) {
     return this.http.get(this.endpointBase.concat("Account/ForgotPassword/") + email, { reportProgress: true, observe: 'events' });

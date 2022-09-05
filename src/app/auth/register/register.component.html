@@ -3,17 +3,27 @@
       height="340" alt="Hatfield Montessori Logo"></div>
   <div class="col-6">
 
-
     <form [formGroup]="registerForm">
       <h2>Register</h2>
 
       <div class="form-group">
         <label for="UserName">Username</label>
         <input type="email" formControlName="UserName" placeholder="E-mail" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.UserName.errors }" />
+          [ngClass]="{ 'is-invalid': submitted && f.UserName.errors }" autocomplete="off"/>
         <div *ngIf="submitted && f.UserName.errors" class="invalid-feedback">
           <div *ngIf="f.UserName.errors?.required">Email is required</div>
           <div *ngIf="f.UserName.errors?.email">Invalid email</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="PhoneNumber">Phone Number</label>
+        <input type="text" formControlName="PhoneNumber" placeholder="+27638487949" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.PhoneNumber.errors }"  autocomplete="off" />
+
+        <div *ngIf="submitted && f.PhoneNumber.errors" class="invalid-feedback">
+          <div *ngIf="f.PhoneNumber.errors?.required">Phone number is required</div>
+          <div *ngIf="f.PhoneNumber.errors?.pattern">Invalid format. Number should start with +27 and have 9 digits(without the 0) after +27</div>
         </div>
       </div>
 
@@ -39,21 +49,6 @@
       </div>
 
       <div class="form-group">
-        <label for="UserRole_Id">User Type</label>
-        <select name="UserRole" formControlName="UserRole_Id" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.UserRole_Id.errors }" class="btn btn-outline-primary"
-          (change)="selectInput($event)">
-          <option value="undefined">Select User Type</option>
-          <option *ngFor="let usertype of listUserRoles" [value]="usertype.userRole_Id">
-            {{usertype.userRole_Name}}
-          </option>
-        </select>
-        <div *ngIf="submitted && f.UserRole_Id.errors" class="invalid-feedback">
-          <div *ngIf="f.UserRole_Id.errors?.required"> Select User Type</div>
-        </div>
-      </div>
-
-      <div class="form-group">
         <button [disabled]="loading" class="btn btn-primary" (click)="onSubmit($event)">
           <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
           Register
@@ -61,9 +56,5 @@
         <a routerLink="../login" class="btn btn-link">Back</a>
       </div>
     </form>
-
-
   </div>
-
-
 </div>
