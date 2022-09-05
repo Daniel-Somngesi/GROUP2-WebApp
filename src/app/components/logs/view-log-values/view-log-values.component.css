@@ -1,0 +1,45 @@
+.top-section {
+  background-color: #045d5d;
+  margin-bottom: 0.5rem;
+}
+
+.field-container {
+  display: flex;
+}
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.field {
+  margin: 10px;
+  padding: 5px;
+  width: 100%;
+  display: flex;
+  flex: 1;
+}
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+.title {
+  color: #fff;
+}
+
+.values-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.old-values {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.heading {
+  font-size: 1.2rem;
+}

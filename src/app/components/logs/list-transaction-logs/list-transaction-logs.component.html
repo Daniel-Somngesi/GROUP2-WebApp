@@ -1,0 +1,62 @@
+<div class="mat-elevation-z8 table-container">
+  <div class="table-top-controllers">
+    <span class="table-name"> Transaction Log |</span>
+    <button mat-button (click)="exportTojson()">Export to JSON</button>
+  </div>
+
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+  </mat-form-field>
+
+  <mat-table [dataSource]="dataSource" matSort class="table" #mytable>
+
+    <ng-container matColumnDef="dateTime">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date Time </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.dateTime}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> User </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.username}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="table">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Table </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.table}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="operation">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Operation </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.operation}}</mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+
+      <mat-cell *matCellDef="let element">
+        <button mat-button [matMenuTriggerFor]="menu">More</button>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onViewValues(element)">View affected values</button>
+
+        </mat-menu>
+
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    <tr class="mat-row no-data-row" *matNoDataRow>
+      <h2 class="mat-cell no-data-text">No data found</h2>
+    </tr>
+  </mat-table>
+
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

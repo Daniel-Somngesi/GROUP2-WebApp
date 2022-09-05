@@ -1,0 +1,26 @@
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Log Values</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <div class="values-container">
+    <div class="old-values">
+      <div class="heading">Old Values</div>
+      <div class="value"> {{oldValues}}</div>
+
+    </div>
+    <div class="new-values">
+      <div class="heading">New Values</div>
+      <div class="value"> {{newValues}}</div>
+    </div>
+  </div>
+
+  <div class="button-row">
+    <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Close</button>
+  </div>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">
