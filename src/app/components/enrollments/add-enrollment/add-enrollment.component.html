@@ -1,0 +1,56 @@
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Enroll Child to class</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <form [formGroup]="form" (submit)="onSubmit()" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Name</mat-label>
+        <input type="text" matInput formControlName="Name" required>
+        <mat-error *ngIf="Name.touched && Name.invalid">
+          <div *ngIf="Name.errors.required">please provide name.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Age</mat-label>
+        <input type="text" matInput formControlName="Age" required>
+        <mat-error *ngIf="Age.touched && Name.invalid">
+          <div *ngIf="Age.errors.required">please provide age.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Class</mat-label>
+        <mat-select formControlName="ClassId" required>
+          <mat-option>--Select--</mat-option>
+          <mat-option *ngFor="let class of classes" [value]="class.id">
+            {{class.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="ClassId.touched && ClassId.invalid">
+          <div *ngIf="ClassId.errors.required">please select class.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+
+
+    <div class="button-row">
+      <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+      <button mat-raised-button type="submit" color="primary">Enroll</button>
+    </div>
+
+  </form>
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

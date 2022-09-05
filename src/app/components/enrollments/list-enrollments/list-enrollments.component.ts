@@ -5,38 +5,39 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { Child } from 'src/app/Interface/child.types';
-import { ChildService } from 'src/app/services/child/child.service';
+import { CurrentUser } from 'src/app/helpers/types/auth.types';
+import { Class } from 'src/app/Interface/class.types';
+import { Enrollment } from 'src/app/Interface/enrollment.types';
+import { AuthService } from 'src/app/services/Auth/auth.service';
 import { EnrollmentService } from 'src/app/services/enrollment/enrollment.service';
 import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
-import { AddEnrollmentComponent } from '../../enrollments/add-enrollment/add-enrollment.component';
+import { AddClassComponent } from '../../classes/add-class/add-class.component';
+import { ReceiveConsumablesComponent } from '../receive-consumables/receive-consumables.component';
 
 @Component({
-  selector: 'app-list-all-children',
-  templateUrl: './list-all-children.component.html',
-  styleUrls: ['./list-all-children.component.css']
+  selector: 'app-list-enrollments',
+  templateUrl: './list-enrollments.component.html',
+  styleUrls: ['./list-enrollments.component.css']
 })
-export class ListAllChildrenComponent implements OnInit {
+export class ListEnrollmentsComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
 
-  displayedColumns: string[] = ['gender', 'name', 'surname', 'dateOfBirth', 'age', 'className', 'actions'];
+  displayedColumns: string[] = ['academicYear', 'className', 'teacherFullName', 'childFullName', 'actions'];
 
-  children: Child[] = [];
-  child: Child;
+  enrollments: Enrollment[] = [];
+  enrollment: Class;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
+    private _matSnackBar: MatSnackBar,
     private _matDialog: MatDialog,
-    private _snackBar: MatSnackBar,
-    private _childService: ChildService,
     private _enrollmentService: EnrollmentService,
-    private _router: Router
-
+    private _authService: AuthService
   ) {
+    this._setUser();
   }
 
   ngOnInit(): void {
@@ -48,26 +49,19 @@ export class ListAllChildrenComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onViewDetails(child: Child) {
-    this._router.navigate(['parent-details', child.parentEmailAddress]);
-  }
-
-  onErollCildToClass(child: Child) {
-    let dialogRef = this._matDialog.open(AddEnrollmentComponent, {
-      width: "80%",
-      height: "auto",
-      data: {
-        record: child
-      }
+  onAdd() {
+    let dialogRef = this._matDialog.open(AddClassComponent, {
+      width: "900px",
+      height: "auto"
     });
 
     dialogRef.afterClosed().subscribe(res => {
       this._getDataFromServer();
-    });
+    })
   }
 
-  onRemoveChildFromClass(child: Child) {
-    this._enrollmentService.delete(child.id)
+  onDeleteValue(value: Enrollment) {
+    this._enrollmentService.delete(value.childId)
       .subscribe({
         next: (event) => {
           if (event.type === HttpEventType.Sent) {
@@ -76,8 +70,7 @@ export class ListAllChildrenComponent implements OnInit {
           if (event.type == HttpEventType.Response) {
             this.displayProgressSpinner = false;
             this._getDataFromServer();
-            this._openSnackBar("Remove child from class", "Success", 3000);
-
+            this.openSnackBar("Remove child from class", "Success");
           }
         },
         error: (error) => {
@@ -90,17 +83,31 @@ export class ListAllChildrenComponent implements OnInit {
       })
   }
 
+  onReciveConsumables(element: Enrollment) {
+    let dialogRef = this._matDialog.open(ReceiveConsumablesComponent, {
+      width: "80%",
+      height: "100%",
+      data: {
+        record: element
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this._getDataFromServer();
+    });
+  }
+
   private _getDataFromServer() {
-    this._childService.getAll()
+    this._enrollmentService.getAll()
       .subscribe({
         next: (event) => {
           if (event.type === HttpEventType.Sent) {
             this.displayProgressSpinner = true;
           }
           if (event.type == HttpEventType.Response) {
-            const res = event.body as Child[];
-            this.children = res;
-            this.dataSource = new MatTableDataSource<Child>(this.children);
+            const res = event.body as Enrollment[];
+            this.enrollments = res;
+            this.dataSource = new MatTableDataSource<Enrollment>(this.enrollments);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.displayProgressSpinner = false;
@@ -112,19 +119,18 @@ export class ListAllChildrenComponent implements OnInit {
         },
         complete: () => {
           this.displayProgressSpinner = false;
-
         }
       });
   }
 
-  private _openSnackBar(message: string, action: string, _duration: number) {
-    this._snackBar.open(message, action, {
-      duration: _duration,
+  openSnackBar(message: string, action: string) {
+    this._matSnackBar.open(message, action, {
+      duration: 3000,
     });
   }
 
   private _openErrorMessageSnackBar(errorMessage: string) {
-    const snackBar = this._snackBar.openFromComponent(CustomErrorSnackBarComponent, {
+    const snackBar = this._matSnackBar.openFromComponent(CustomErrorSnackBarComponent, {
       data: {
         preClose: () => { snackBar.dismiss() },
         parent: errorMessage
@@ -132,6 +138,27 @@ export class ListAllChildrenComponent implements OnInit {
     });
   }
 
+  user: CurrentUser;
+  private _setUser() {
+    if (this._authService.currentUser != null) {
+      this.user = this._authService.currentUser;
+    }
+  }
+
+  get isAdmin() {
+    if (this._authService.currentUser != null) {
+      if (this.user.EmployeeType == 'Admin' || this.user.UserRole == 'administrator') {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    return false;
+  }
 
 }
+
+
+
 

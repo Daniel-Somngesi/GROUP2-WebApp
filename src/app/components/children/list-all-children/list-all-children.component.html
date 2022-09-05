@@ -30,6 +30,16 @@
       <mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="age">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Age </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.age}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="className">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Class </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.className}} </mat-cell>
+    </ng-container>
+
 
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
@@ -39,8 +49,15 @@
 
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="onViewDetails(element)">View Details</button>
-        </mat-menu>
 
+          <button mat-menu-item (click)="onErollCildToClass(element)" *ngIf="element.className == 'Not Enrolled'">
+            Enroll child to class
+          </button>
+
+          <button mat-menu-item (click)="onRemoveChildFromClass(element)" *ngIf="element.className != 'Not Enrolled'">
+            Remove child from class
+          </button>
+        </mat-menu>
       </mat-cell>
     </ng-container>
 
