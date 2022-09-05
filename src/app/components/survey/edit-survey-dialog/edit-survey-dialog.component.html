@@ -1,30 +1,53 @@
-<h1>Update Survey Details</h1>
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Update Survey</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
 
-<form [formGroup]="surveyForm">
-  <mat-form-field class="demo-full-width">
-    <input  class="form-control" [(ngModel)]="data.survey_Name" formControlName="survey_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter survey title" matInput placeholder="Title" autocomplete="off" required>
-  </mat-form-field>
-  <mat-error><span *ngIf="!surveyForm.get('survey_Name').value && surveyForm.get('survey_Name').touched">Invalid format</span>
-  </mat-error>
-  <p>Survey will run from:</p>
-  <mat-form-field appearance="fill">
-    <mat-label>Start Date</mat-label>
-    <input matInput [matDatepicker]="picker1" formControlName="survey_StartDate" [min]="minDate" [(ngModel)]="start"  [(ngModel)]="data.startDate" required>
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-    <mat-datepicker #picker1></mat-datepicker>
-  </mat-form-field>
-  <p>until:</p>
-  <mat-form-field appearance="fill">
-    <mat-label>End Date</mat-label>
-    <input matInput [matDatepicker]="picker2" formControlName="survey_EndDate" [min]="data.startDate" [(ngModel)]="end"  [(ngModel)]="data.endDate" required>
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-    <mat-datepicker #picker2></mat-datepicker>
-  </mat-form-field>
-<br>
-<div mat-dialog-actions>
-  <button mat-button mat-raised-button [disabled]="!surveyForm.valid" color="accent" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
-  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+  <form [formGroup]="form" (submit)="onSubmit()" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Name</mat-label>
+        <input type="text" matInput formControlName="Name" required>
+        <mat-error *ngIf="Name.touched && Name.invalid">
+          <div *ngIf="Name.errors.required">please provide name.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="StartDate" [min]="minDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="StartDate.touched && StartDate.invalid">
+          <div *ngIf="StartDate.errors.required">please provide start date.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="picker2" formControlName="EndDate" [min]="minDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="EndDate.touched && EndDate.invalid">
+          <div *ngIf="EndDate.errors.required">please provide end date.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="button-row">
+      <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+      <button mat-raised-button type="submit" color="primary">Update</button>
+    </div>
+
+  </form>
+
 </div>
-</form>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

@@ -1,31 +1,30 @@
-import { HttpEventType } from "@angular/common/http";
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
-import { Survey } from "src/app/Interface/survey.types";
-import { SurveyService } from "src/app/services/survey/survey.service";
-import { CustomErrorSnackBarComponent } from "src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component";
-import { DeleteSurveyDialogComponent } from "../delete-survey-dialog/delete-survey-dialog.component";
-import { EditSurveyDialogComponent } from "../edit-survey-dialog/edit-survey-dialog.component";
-
+import { HttpEventType } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { SurveyQuestion } from 'src/app/Interface/survey.types';
+import { SurveyService } from 'src/app/services/survey/survey.service';
+import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
+import { DeleteSurveyQuestionComponent } from '../delete-survey-question/delete-survey-question.component';
+import { UpdateSurveyQuestionComponent } from '../update-survey-question/update-survey-question.component';
 
 @Component({
-  selector: 'app-survey-list',
-  templateUrl: './survey-list.component.html',
-  styleUrls: ['./survey-list.component.css']
+  selector: 'app-list-survey-questions',
+  templateUrl: './list-survey-questions.component.html',
+  styleUrls: ['./list-survey-questions.component.css']
 })
-export class SurveyListComponent implements OnInit {
+export class ListSurveyQuestionsComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
 
-  displayedColumns: string[] = ['status', 'name', 'startDate', 'endDate', 'questionsCount', 'responsesCount', 'actions'];
+  displayedColumns: string[] = ['surveyName', 'text','answersCount', 'actions'];
 
-  surveys: Survey[] = [];
-  survey: Survey;
+  surveyQuestions: SurveyQuestion[] = [];
+  surveyQuestion: SurveyQuestion;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -51,12 +50,8 @@ export class SurveyListComponent implements OnInit {
     this._router.navigate(['add-survey']);
   }
 
-  onViewSurveyResponse(value: Survey) {
-    this._router.navigate(['view-survey-results', value.id]);
-  }
-
-  onUpdateValue(value: Survey) {
-    let dialogRef = this._matDialog.open(EditSurveyDialogComponent, {
+  onUpdateValue(value: SurveyQuestion) {
+    let dialogRef = this._matDialog.open(UpdateSurveyQuestionComponent, {
       width: "80%",
       height: "auto",
       data: {
@@ -69,8 +64,8 @@ export class SurveyListComponent implements OnInit {
     });
   }
 
-  onDeleteValue(value: Survey) {
-    let dialogRef = this._matDialog.open(DeleteSurveyDialogComponent, {
+  onDeleteValue(value: SurveyQuestion) {
+    let dialogRef = this._matDialog.open(DeleteSurveyQuestionComponent, {
       width: "80%",
       height: "auto",
       data: {
@@ -84,16 +79,16 @@ export class SurveyListComponent implements OnInit {
   }
 
   private _getDataFromServer() {
-    this._surveyService.getAllSurveys()
+    this._surveyService.getAllSurveyQuestions()
       .subscribe({
         next: (event) => {
           if (event.type === HttpEventType.Sent) {
             this.displayProgressSpinner = true;
           }
           if (event.type == HttpEventType.Response) {
-            const res = event.body as Survey[];
-            this.surveys = res;
-            this.dataSource = new MatTableDataSource<Survey>(this.surveys);
+            const res = event.body as SurveyQuestion[];
+            this.surveyQuestions = res;
+            this.dataSource = new MatTableDataSource<SurveyQuestion>(this.surveyQuestions);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.displayProgressSpinner = false;

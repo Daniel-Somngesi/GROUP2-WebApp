@@ -2,26 +2,26 @@ import { HttpEventType } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Survey } from 'src/app/Interface/survey.types';
+import { SurveyQuestion } from 'src/app/Interface/survey.types';
 import { SurveyService } from 'src/app/services/survey/survey.service';
 import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
 
 @Component({
-  selector: 'app-delete-survey-dialog',
-  templateUrl: './delete-survey-dialog.component.html',
-  styleUrls: ['./delete-survey-dialog.component.css']
+  selector: 'app-delete-survey-question',
+  templateUrl: './delete-survey-question.component.html',
+  styleUrls: ['./delete-survey-question.component.css']
 })
-export class DeleteSurveyDialogComponent implements OnInit {
+export class DeleteSurveyQuestionComponent implements OnInit {
   displayProgressSpinner = false;
 
-  record: Survey;
+  record: SurveyQuestion;
 
   constructor(
-    public dialogRef: MatDialogRef<DeleteSurveyDialogComponent>,
+    public dialogRef: MatDialogRef<DeleteSurveyQuestionComponent>,
     @Inject(MAT_DIALOG_DATA) dataFromParent: any,
     private _matSnackBar: MatSnackBar,
     private _surveyService: SurveyService) {
-    this.record = dataFromParent.record as Survey;
+    this.record = dataFromParent.record as SurveyQuestion;
   }
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class DeleteSurveyDialogComponent implements OnInit {
 
   onSubmit() {
 
-    this._surveyService.delete(this.record.id)
+    this._surveyService.deleteSurveyQuestion(this.record.id)
       .subscribe({
         next: (event) => {
           if (event.type === HttpEventType.Sent) {
@@ -38,7 +38,7 @@ export class DeleteSurveyDialogComponent implements OnInit {
           if (event.type == HttpEventType.Response) {
             this.displayProgressSpinner = false;
 
-            this.openSnackBar("Delete Survey", "Success");
+            this.openSnackBar("Delete Survey Question", "Success");
             this.closeDialog();
           }
         },

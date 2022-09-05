@@ -1,0 +1,59 @@
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Update Survey Question</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <form [formGroup]="form" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Survey Name</mat-label>
+        <input type="text" matInput formControlName="SurveyName" required>
+        <mat-error *ngIf="SurveyName.touched && SurveyName.invalid">
+          <div *ngIf="SurveyName.errors.required">please provide name.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Question Title</mat-label>
+        <input type="text" matInput formControlName="Name" required>
+        <mat-error *ngIf="Name.touched && Name.invalid">
+          <div *ngIf="Name.errors.required">please provide title.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <h4>Possible Question Answers</h4>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Add Answer Option</mat-label>
+        <input matInput #answerInput (keyup.enter)="addAnswerToPossibleAnswers(answerInput.value)">
+
+      </mat-form-field>
+
+    </div>
+
+    <div class="inline-form-field">
+      <mat-selection-list [multiple]="false">
+        <mat-list-option matTooltip="Click to remove" (click)="onRemoveAnswerFromList(answer)"
+          *ngFor="let answer of questionsPayload">
+          {{answer}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+
+    <div class="button-row">
+      <a mat-raised-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</a>
+      <a mat-raised-button color="primary" (click)="onSubmit()">Update</a>
+    </div>
+
+  </form>
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

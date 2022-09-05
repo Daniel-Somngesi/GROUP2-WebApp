@@ -1,66 +1,85 @@
-
-<h1>Survey</h1>
-
-<div class=" mat-elevation-z8">
-
-  <div class="form">
-    <mat-form-field floatPlaceholder="never" color="accent">
-      <input matInput #filter placeholder=" Find survey">
-    </mat-form-field>
+<div class="mat-elevation-z8 table-container">
+  <div class="table-top-controllers">
+    <span class="table-name"> Manage Surveys |</span>
+    <button mat-button (click)="onAdd()">Create new survey</button>
   </div>
 
-  <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
-    ng update @angular/cli @angular/core
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-          <ng-container matColumnDef="survey">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Survey</mat-header-cell>
-            <mat-cell *matCellDef="let survey"> {{survey.survey_Name}}</mat-cell>
-          </ng-container>
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+  </mat-form-field>
 
+  <mat-table [dataSource]="dataSource" matSort class="table" #mytable>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
 
     <ng-container matColumnDef="startDate">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Start date</mat-header-cell>
-      <mat-cell *matCellDef="let survey"> {{survey.startDate | date: 'dd-MM-yyyy'}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.startDate}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="endDate">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>End date</mat-header-cell>
-      <mat-cell *matCellDef="let survey"> {{survey.endDate | date: 'dd-MM-yyyy'}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> End Date </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.endDate}}</mat-cell>
     </ng-container>
 
-    <!-- actions -->
+    <ng-container matColumnDef="questionsCount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Questions Count </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.questions.length}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="responsesCount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Responses Count </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.responsesCount}}</mat-cell>
+    </ng-container>
+
+
     <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button color="primary" (click)="openAddDialog()">
-          <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
-        </button>
-      </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
 
-      <mat-cell *matCellDef="let survey; let i=index;">
-        <button mat-icon-button color="accent" (click)="startEdit(survey.survey_Id, survey.survey_Name, survey.startDate, survey.endDate)">
-          <mat-icon aria-label="Edit">edit</mat-icon>
+        <button mat-button matTooltip="Cannot update a survey that's closed or open"
+          *ngIf="element.status !='Up Coming'">
+          <mat-icon class="icon-library diasbled">create</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent">
-          <mat-icon aria-label="Delete" (click)="deleteItem(survey.survey_Id, survey.survey_Name, survey.startDate, survey.endDate)">delete</mat-icon>
+        <button mat-button (click)="onUpdateValue(element)" matTooltip="Update Details"
+          *ngIf="element.status =='Up Coming'">
+          <mat-icon class="icon-library">create</mat-icon>
         </button>
+
+        <button mat-button (click)="onDeleteValue(element)" matTooltip="Delete">
+          <mat-icon class="icon-library">delete</mat-icon>
+        </button>
+
+        <button mat-button (click)="onViewSurveyResponse(element)" matTooltip="View survey results"
+          *ngIf="element.responsesCount > 0">
+          <mat-icon class="icon-library">remove_red_eye</mat-icon>
+        </button>
+
       </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let survey; columns: displayedColumns;"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+
+    <tr class="mat-row no-data-row" *matNoDataRow>
+      <h2 class="mat-cell no-data-text">No data found</h2>
+    </tr>
   </mat-table>
 
 
-  <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
-    <h4>No surveys..</h4>
-  </div>
-
-  <mat-paginator #paginator
-                 [length]="dataSource.filteredData.length"
-                 [pageIndex]="0"
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 25, 100]">
-  </mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

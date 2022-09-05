@@ -1,0 +1,47 @@
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Update Survey Question Answer Option</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <form [formGroup]="form" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Survey Name</mat-label>
+        <input type="text" matInput formControlName="SurveyName" required>
+        <mat-error *ngIf="SurveyName.touched && SurveyName.invalid">
+          <div *ngIf="SurveyName.errors.required">please provide name.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Survey Question Title</mat-label>
+        <input type="text" matInput formControlName="SurveyQuestionTitle" required>
+        <mat-error *ngIf="SurveyQuestionTitle.touched && SurveyQuestionTitle.invalid">
+          <div *ngIf="SurveyQuestionTitle.errors.required">please provide question title.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Answer Title</mat-label>
+        <input type="text" matInput formControlName="Text" required>
+        <mat-error *ngIf="Text.touched && Text.invalid">
+          <div *ngIf="Text.errors.required">please provide answer text.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="button-row">
+      <a mat-raised-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</a>
+      <a mat-raised-button color="primary" (click)="onSubmit()">Update</a>
+    </div>
+  </form>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

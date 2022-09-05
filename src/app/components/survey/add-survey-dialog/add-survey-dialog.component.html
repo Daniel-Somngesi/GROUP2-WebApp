@@ -1,30 +1,90 @@
-<h1>Add Survey Details</h1>
+<h1>Create new survey</h1>
 
-<form [formGroup]="surveyForm">
-  <mat-form-field class="demo-full-width">
-    <input  class="form-control" [(ngModel)]="data.survey_Name" formControlName="survey_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter survey title" matInput placeholder="Title" autocomplete="off" required>
-  </mat-form-field>
-  <mat-error><span *ngIf="!surveyForm.get('survey_Name').value && surveyForm.get('survey_Name').touched">Invalid format</span>
-  </mat-error>
-  <p>Survey will run from:</p>
-  <mat-form-field appearance="fill">
-    <mat-label>Start Date</mat-label>
-    <input matInput [matDatepicker]="picker1" formControlName="survey_StartDate" [min]="minDate"  [(ngModel)]="data.startDate" required>
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-    <mat-datepicker #picker1></mat-datepicker>
-  </mat-form-field>
-  <p>until:</p>
-  <mat-form-field appearance="fill">
-    <mat-label>End Date</mat-label>
-    <input matInput [matDatepicker]="picker2" formControlName="survey_EndDate" [min]="data.startDate"  [(ngModel)]="data.endDate" required>
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-    <mat-datepicker #picker2></mat-datepicker>
-  </mat-form-field>
-<br>
-<div mat-dialog-actions>
-  <button mat-button mat-raised-button [disabled]="!surveyForm.valid" color="accent" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
-  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+<div class="section">
+  <form [formGroup]="form" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Name</mat-label>
+        <input type="text" matInput formControlName="Name" pattern="[a-zA-Z ]*" required>
+        <mat-error *ngIf="Name.touched && Name.invalid">
+          <div *ngIf="Name.errors.required">please provide name.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="StartDate" [min]="minDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="StartDate.touched && StartDate.invalid">
+          <div *ngIf="StartDate.errors.required">please provide start date.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="picker2" formControlName="EndDate" [min]="minDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="EndDate.touched && EndDate.invalid">
+          <div *ngIf="EndDate.errors.required">please provide end date.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
 </div>
-</form>
+
+<h2 class="section-title" *ngIf="form != null">Add Questions</h2>
+<div class="section section-control" *ngIf="form != null">
+  <button mat-raised-button class="show-add-question-dialog-button" (click)="onShowAddNewQuestionToList()">
+    Add New Question to Survey
+  </button>
+
+  <div class="add-Question-section" *ngIf="showAddQuestionSection">
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Question Title</mat-label>
+      <input matInput required #newQuestion>
+    </mat-form-field>
+    <button mat-raised-button class="add-Question-section-button" (click)="onAddNewQuestionToList(newQuestion.value)">
+      Add to list
+    </button>
+  </div>
+</div>
+
+<h2 class="section-title" *ngIf="questionsList.length >0 && form != null">Survey Questions</h2>
+
+<div *ngIf="questionsList.length >0 && form != null">
+  <mat-card class="questions-container mat-elevation-z8" *ngFor="let questionInList of questionsList">
+    <div class="question-in-list">
+      <div class="question-title" matTooltip="Click on question title to remove" (click)="onRemoveQuestion(questionInList.Title)">
+        {{questionInList.Index}} . {{questionInList.Title}}
+      </div>
+    </div>
+
+    <mat-list role="list">
+      <mat-list-item class="possible-answer" role="listitem" matTooltip="Click to remove"
+        *ngFor="let possibleAnswer of questionInList.PossibleAnswers; let i = index" [attr.data-index]="i"
+        (click)="onRemoveAnswerFromList(questionInList.Title,possibleAnswer)">
+        {{questionInList.Index}} .{{i+1}} {{possibleAnswer}}
+      </mat-list-item>
+    </mat-list>
+
+    <div class="add-Answer-section" [id]="questionInList.Text">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Add Answer Option</mat-label>
+        <input matInput #answerInput (keyup.enter)="addAnswerToPossibleAnswers(questionInList.Title,answerInput.value)">
+      </mat-form-field>
+    </div>
+  </mat-card>
+</div>
+
+<div class="section" *ngIf="questionsList.length >0 && form != null">
+  <button class="submit-survey-button" mat-raised-button (click)="onSubmit()">Create Survey</button>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

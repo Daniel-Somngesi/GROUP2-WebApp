@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+.card-question {
+  display: flex;
+  width: 80%;
+  margin-bottom: 0.5rem;
+}
+
+.survey-details{
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin-bottom: 0.5rem;
+  background-color: #F2F2F2;
+}

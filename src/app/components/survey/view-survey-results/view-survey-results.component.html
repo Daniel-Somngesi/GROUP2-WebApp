@@ -1,0 +1,18 @@
+<div class="wrapper">
+
+  <mat-card class="mat-elevation-z8 survey-details">
+    <mat-card-title>{{survey.name}}</mat-card-title>
+  </mat-card>
+
+  <mat-card *ngFor="let response of surveyResponses" class="mat-elevation-z8 card-question">
+    <mat-card-title>{{response.index}}. {{response.question}}</mat-card-title>
+    <ngx-charts-pie-chart [results]="response.answers" [view]="[700, 370]" [scheme]="colorScheme" [gradient]="gradient"
+      [legend]="showLegend" [legendPosition]="legendlocation" [labels]="showLabels" [doughnut]="isDoughnut"
+      (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+    </ngx-charts-pie-chart>
+  </mat-card>
+</div>
+
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

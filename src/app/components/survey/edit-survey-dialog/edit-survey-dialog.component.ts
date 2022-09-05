@@ -1,8 +1,12 @@
-import { SurveyService } from './../../../services/survey.service';
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HttpEventType } from "@angular/common/http";
+import { Component, Inject, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Survey } from "src/app/Interface/survey.types";
+import { SurveyService } from "src/app/services/survey/survey.service";
+import { CustomErrorSnackBarComponent } from "src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component";
+
 
 @Component({
   selector: 'app-edit-survey-dialog',
@@ -10,72 +14,98 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./edit-survey-dialog.component.css']
 })
 export class EditSurveyDialogComponent implements OnInit {
+  displayProgressSpinner = false;
+  form: FormGroup;
 
-  surveyForm: any;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  minDate:any = new Date().toISOString().slice(0, 10);
-  start:any;
-  end:any;
+  record: Survey;
+  minDate: any = new Date().toISOString().slice(0, 10);
 
-  constructor(public service: SurveyService,private _snackBar: MatSnackBar,
-    private formbulider: FormBuilder, public dialog: MatDialogRef<EditSurveyDialogComponent>,
-   @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(
+    private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<EditSurveyDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) dataFromParent: any,
+    private _snackBar: MatSnackBar,
+    private _matSnackBar: MatSnackBar,
+    private _surveyService: SurveyService) {
+    this.record = dataFromParent.record as Survey;
+  }
 
   ngOnInit(): void {
-    this.surveyForm = this.formbulider.group({
-      survey_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(50)]],
-      survey_StartDate: ['', [Validators.required]],
-      survey_EndDate: ['', [Validators.required ]],
-    })
+    this._buildForm(this._formBuilder);
   }
 
-  stopEdit(): void {
-    const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  onSubmit() {
+    let isValid = true;
+    if (this.form.invalid) {
+      this.openSnackBar("Provide all required input", "Error");
+      isValid = false;
+    }
 
-    var day = new Date(this.start);
-    var d = day.getDate() + 1;
-    var m = month[(day.getMonth())];
-    var y = day.getFullYear();
-    var date = new Date(d  + "-" + m + "-" + y);
-    this.data.startDate = date;
+    if (this.EndDate.value <= this.StartDate.value) {
+      this.openSnackBar("End date must be ahead of start date", "Error");
+      isValid = false;
+    }
 
-    var day1 = new Date(this.end);
-    var d1 = day1.getDate() + 1;
-    var m1 = month[(day1.getMonth())];
-    var y1 = day1.getFullYear();
-    var date1 = new Date(d1  + "-" + m1 + "-" + y1);
-    this.data.endDate = date1;
-    this.service.updateItem(this.data);
-    this.SavedSuccessful(0);
+    if (isValid) {
+      this._surveyService.update(this.record.id, this.form.value)
+        .subscribe({
+          next: (event) => {
+            if (event.type === HttpEventType.Sent) {
+              this.displayProgressSpinner = true;
+            }
+            if (event.type == HttpEventType.Response) {
+              this.displayProgressSpinner = false;
+
+              this.openSnackBar("Update Survey", "Success");
+              this.closeDialog();
+            }
+          },
+          error: (error) => {
+            this.displayProgressSpinner = false;
+            this._openErrorMessageSnackBar(error.error.message);
+          },
+          complete: () => {
+            this.displayProgressSpinner = false;
+          }
+        });
+    }
+
   }
 
-  onNoClick(): void {
-    this.dialog.close();
+  closeDialog() {
+    this.dialogRef.close({ event: 'Cancel' });
   }
 
-  SavedSuccessful(isUpdate:any) {
-    if (isUpdate == 0) {
-      this._snackBar.open('Record Updated Successfully!', 'Close', {
-        duration: 3000,
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+  private _openErrorMessageSnackBar(errorMessage: string) {
+    const snackBar = this._matSnackBar.openFromComponent(CustomErrorSnackBarComponent, {
+      data: {
+        preClose: () => { snackBar.dismiss() },
+        parent: errorMessage
+      }
+    });
+  }
+
+  private _buildForm(formFb: FormBuilder) {
+    if (this.record != null) {
+      this.form = formFb.group({
+        Name: [this.record.name, [Validators.required]],
+        StartDate: [this.record.rawStartDate, [Validators.required]],
+        EndDate: [this.record.rawEndDate, [Validators.required]],
       });
     }
-    else if (isUpdate == 1) {
-      this._snackBar.open('Record Saved Successfully!', 'Close', {
-        duration: 2000,
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
-      });
+    else {
+      this.openSnackBar("Could not initialise component", "Error");
     }
-    else if (isUpdate == 2) {
-      this._snackBar.open('Record Deleted Successfully!', 'Close', {
-        duration: 2000,
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
-      });
-    }
+
   }
 
+  get Name() { return this.form.get('Name'); }
+  get StartDate() { return this.form.get('StartDate'); }
+  get EndDate() { return this.form.get('EndDate'); }
 }
