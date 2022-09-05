@@ -15,6 +15,20 @@ export class ReportingService {
   constructor(private _httpClient: HttpClient) {
   }
 
+  getSchoolEvalutationTop() {
+    return this._httpClient.get(
+      this.endpointBase.concat("Reporting/SchoolEvaluation/Top"),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
+
+  getSchoolEvalutationGraph() {
+    return this._httpClient.get(
+      this.endpointBase.concat("Reporting/SchoolEvaluation/Graph"),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
+
   getSchoolClassAttendance(payload) {
     return this._httpClient.post(
       this.endpointBase.concat("Reporting/SchoolClassAttendance"), payload,
@@ -39,6 +53,27 @@ export class ReportingService {
   getBookings(payload) {
     return this._httpClient.post(
       this.endpointBase.concat("Reporting/Bookings"), payload,
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
+
+  getConsumablesByClass() {
+    return this._httpClient.get(
+      this.endpointBase.concat("Reporting/Consumables/ByClass"),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
+
+  getConsumablesByChild() {
+    return this._httpClient.get(
+      this.endpointBase.concat("Reporting/Consumables/ByChild"),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
+
+  getWeeklyAttendance() {
+    return this._httpClient.get(
+      this.endpointBase.concat("Reporting/Attendance/Weekly"),
       { reportProgress: true, observe: 'events', headers: this.headers }
     );
   }
