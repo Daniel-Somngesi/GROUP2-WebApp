@@ -1,8 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
-
-import { User } from './models';
+import { Component, ViewChild } from '@angular/core';
+import { CurrentUser } from './helpers/types/auth.types';
 import { AuthService } from './services/Auth/auth.service';
 
 @Component({
@@ -12,23 +9,39 @@ import { AuthService } from './services/Auth/auth.service';
 })
 export class AppComponent {
   title = 'EasyTechWebApp';
-  isLoggedIn = false;
-
 
   constructor(
-    private router: Router,
-    private _authService: AuthService
+    private _authService: AuthService,
+
   ) {
-    this.isLoggedIn = this._authService.isSignedIn();
+    this._setUser();
   }
 
   ngOnInit() {
-
   }
 
   logout(): void {
     this._authService.signOut();
-    this.router.navigate(['']);
     return;
+  }
+
+  user: CurrentUser;
+  private _setUser() {
+    if (this._authService.isSignedIn()) {
+      this.user = this._authService.currentUser;
+    }
+  }
+
+  get isAdmin() {
+    if (this._authService.isSignedIn()) {
+      this.user = this._authService.currentUser;
+      if (this.user.EmployeeType == 'Admin' || this.user.UserRole == 'administrator') {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    return false;
   }
 }

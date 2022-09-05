@@ -31,36 +31,6 @@
       <strong>To Date: {{reportOverview.toDate}}</strong>
 
     </div>
-
-    <div class="report-table">
-      <h2>Slots</h2>
-      <table class="table">
-        <tr class="table-header-row">
-          <th class="table-header-item">Date</th>
-          <th class="table-header-item">Slot info</th>
-        </tr>
-        <tr *ngFor="let slot of slots">
-          <td>
-            {{slot.date}}
-          </td>
-          <td>
-            <table>
-              <tr *ngFor="let time of slot.slots">
-                <td>{{time.fromTime}}</td>
-                <td>{{time.toTime}}</td>
-                <td>{{time.name}}</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-      </table>
-
-      <div class="no-data" *ngIf="slots.length == 0">
-        No slots found for date  {{reportOverview.fromDate}} - {{reportOverview.toDate}}.
-      </div>
-    </div>
-
     <div class="report-table">
       <h2>Bookings</h2>
       <table class="table">

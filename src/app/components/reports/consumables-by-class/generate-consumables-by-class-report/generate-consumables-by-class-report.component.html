@@ -1,0 +1,34 @@
+<mat-dialog-content>
+  <div class="container">
+    <mat-toolbar class="header">
+      <span class="fill-remaining-space"></span>
+      <span class="title">Generate Consumables By Class Report</span>
+      <span class="fill-remaining-space"></span>
+    </mat-toolbar>
+
+    <form [formGroup]="generateReportForm" class="form" *ngIf="generateReportForm !=null">
+      <div class="field-container-inline">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Class</mat-label>
+          <mat-select formControlName="ClassId" required>
+            <mat-option>--Select--</mat-option>
+            <mat-option *ngFor="let class of classes" [value]="class.id">
+              {{class.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="ClassId.touched && ClassId.invalid">
+            <div *ngIf="ClassId.errors.required">please select class.</div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button cdkFocusInitial (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>
+
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

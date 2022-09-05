@@ -7,11 +7,14 @@ import { ReportingService } from 'src/app/services/reporting/reporting.service';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import domtoimage from 'dom-to-image';
-import { isToday } from 'date-fns';
 import { IdNameValuePair } from 'src/app/Interface/shared.types';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationStatusService } from 'src/app/services/application-statuses/application-status.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+import * as XLSX from 'xlsx';
+import { MixpanelService } from 'src/app/services/mixpanel/mixpanel.service';
+
 
 @Component({
   selector: 'app-view-applications-report',
@@ -39,17 +42,15 @@ export class ViewApplicationsReportComponent implements OnInit {
 
   filterForm: FormGroup;
 
-
-
   constructor(
     private _reportingService: ReportingService,
     private _router: Router,
     private _applicationStatus: ApplicationStatusService,
     private _formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar
-
-
+    private _snackBar: MatSnackBar,
+    private _mixpanelService:MixpanelService
   ) {
+    this._mixpanelService.track("View Applications Report");
     this.fromDate = localStorage.getItem('applications-report-from-date');
     this.toDate = localStorage.getItem('applications-report-to-date');
   }
@@ -122,7 +123,6 @@ export class ViewApplicationsReportComponent implements OnInit {
     var filename;
     var newImage: any;
 
-
     domtoimage.toPng(div, { bgcolor: '#fff' })
       .then(function (dataUrl) {
 
@@ -164,6 +164,21 @@ export class ViewApplicationsReportComponent implements OnInit {
 
   }
 
+
+  exportToExcel(): void {
+    /* pass here the table id */
+    let element = document.getElementById('excel-table');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, this.dateGenerated + '-applications-report.xlsx');
+
+  }
+
   onFilterSubmittion(specialNeeds, statusid) {
 
     if (this.filterForm.valid) {
@@ -180,24 +195,24 @@ export class ViewApplicationsReportComponent implements OnInit {
         console.log(payload);
 
         this._reportingService.getApplicationsByFilter(payload)
-        .subscribe({
-          next: (event) => {
-            if (event.type === HttpEventType.Sent) {
-              this.displayProgressSpinner = true;
+          .subscribe({
+            next: (event) => {
+              if (event.type === HttpEventType.Sent) {
+                this.displayProgressSpinner = true;
+              }
+              if (event.type == HttpEventType.Response) {
+                this.reportOverview = event.body as ApplicationReportOverview;
+                console.log(this.reportOverview);
+                this.entries = this.reportOverview.applications as ApplicationReportEntry[];
+              }
+            },
+            error: (error) => {
+              this.displayProgressSpinner = false;
+            },
+            complete: () => {
+              this.displayProgressSpinner = false;
             }
-            if (event.type == HttpEventType.Response) {
-              this.reportOverview = event.body as ApplicationReportOverview;
-              console.log(this.reportOverview);
-              this.entries = this.reportOverview.applications as ApplicationReportEntry[];
-            }
-          },
-          error: (error) => {
-            this.displayProgressSpinner = false;
-          },
-          complete: () => {
-            this.displayProgressSpinner = false;
-          }
-        });
+          });
       }
 
 
@@ -223,5 +238,4 @@ export class ViewApplicationsReportComponent implements OnInit {
 
   get FilterFromDate() { return this.filterForm.get('FilterFromDate'); }
   get FilterToDate() { return this.filterForm.get('FilterToDate'); }
-
 }

@@ -1,0 +1,76 @@
+<div class="heading">
+  <button class="control-button" mat-button (click)="downloadAsPDF()">Export Report to PDF</button>
+</div>
+<div class="content" id="content" #content>
+  <div class="header-row">
+    <div class="date-section">
+      Date Generated: {{dateGenerated}}
+    </div>
+    <div class="logo-section">
+      <img src="assets/logo.png" alt="logo">
+    </div>
+    <div class="company-info-section">
+      <h6>Company Name: Hatfield Montessori Preschool</h6>
+      <h6>Company Contact: 012 362 0269</h6>
+      <h6>Company Email: info@hatfieldmontessori.co.za</h6>
+      <h6>Company Address: Hatfield Scout Hall 1307 South Street Hatfield 0083</h6>
+    </div>
+  </div>
+  <div class="divider-row"></div>
+
+  <div class="body-section" *ngIf="classesData != null">
+    <div class="report-title">
+      <strong class="report-title-text">Consumables Report</strong>
+    </div>
+
+    <div class="report-description">
+      <strong>Description</strong>
+      <h6 clas="report-description-text"> This reports shows all the consumables per class and an overview view of
+        the total counts for the business
+      </h6>
+    </div>
+
+    <div class="report-table" *ngFor="let class of classesData">
+      <strong>Class Name: {{class.className}}</strong><br />
+      <strong>Class Enrollment Count: {{class.enrollmentsCount}}</strong>
+      <table class="table">
+        <tr class="table-header-row">
+          <th class="table-header-item">Name</th>
+          <th class="table-header-item">Requested Quantity Per Child</th>
+          <th class="table-header-item">Expected Quantity For Class</th>
+          <th class="table-header-item">Received Quantity For class</th>
+        </tr>
+        <tr *ngFor="let consumable of class.items">
+          <td>{{consumable.name}}</td>
+          <td>{{consumable.quantityPerChild}}</td>
+          <td>{{consumable.quantityExpectedForClass}}</td>
+          <td>{{consumable.quantityReceivedForClass}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="report-table" *ngIf="businessData.length > 0">
+      <strong>Business Totals</strong>
+      <table class="table">
+        <tr class="table-header-row">
+          <th class="table-header-item">Name</th>
+          <th class="table-header-item">Sum of Expected Quantity For all classes</th>
+          <th class="table-header-item">Sum of Received Quantity For all classes</th>
+        </tr>
+        <tr *ngFor="let consumable of businessData">
+          <td>{{consumable.name}}</td>
+          <td>{{consumable.quantityExpectedForClass}}</td>
+          <td>{{consumable.quantityReceivedForClass}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="end-section">
+      <strong>***END OF REPORT***</strong>
+    </div>
+
+  </div>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

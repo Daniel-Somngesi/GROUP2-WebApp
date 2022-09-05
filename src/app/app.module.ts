@@ -1,19 +1,13 @@
-import { FeeService } from './services/fee.service';
-import { SurveyService } from './services/survey.service';
-import { SlotTypeService } from './services/slot-type.service';
-import { ConsumablesService } from './services/consumables.service';
-import { MedicalAidTypeService } from './services/medical-aid-type.service';
+
 import { DeleteUserRoleDeleteComponent } from './components/user-role/delete-user-role-delete/delete-user-role-delete.component';
 import { EditUserRoleDialogComponent } from './components/user-role/edit-user-role-dialog/edit-user-role-dialog.component';
 import { AddUserRoleDialogComponent } from './components/user-role/add-user-role-dialog/add-user-role-dialog.component';
-import { UserRoleService } from './services/user-role.service';
-import { EmployeeService } from 'src/app/services/employee.service';
 import { EmployeeListComponent } from './components/employee/employee-list/employee-list.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { JwtModule } from '@auth0/angular-jwt';
 
 
 
@@ -104,7 +98,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertComponent } from './components/alert/alert/alert.component';
 import { AddEditComponent } from './users/add-edit/add-edit.component';
 import { LayoutComponent } from './users/layout/layout/layout.component';
-import { ListComponent } from './users/list/list.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { EventCalenderComponent } from './components/event/event-calender/event-calender.component';
@@ -130,8 +123,46 @@ import { ViewBookingsReportComponent } from './components/reports/bookings-repor
 import { ListBookingsComponent } from './components/bookings/list-bookings/list-bookings.component';
 import { ListSlotsComponent } from './components/slots/list-slots/list-slots.component';
 import { UpdateSlotComponent } from './components/slots/update-slot/update-slot.component';
-
-
+import { ListBusinessRulesComponent } from './components/business-rules/list-business-rules/list-business-rules.component';
+import { AddBusinessRuleComponent } from './components/business-rules/add-business-rule/add-business-rule.component';
+import { UpdateBusinessRuleComponent } from './components/business-rules/update-business-rule/update-business-rule.component';
+import { DeleteBusinessRuleComponent } from './components/business-rules/delete-business-rule/delete-business-rule.component';
+import { CustomErrorSnackBarComponent } from './shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
+import { ListTransactionLogsComponent } from './components/logs/list-transaction-logs/list-transaction-logs.component';
+import { ViewLogValuesComponent } from './components/logs/view-log-values/view-log-values.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ListSurveyQuestionsComponent } from './components/survey-questions/list-survey-questions/list-survey-questions.component';
+import { UpdateSurveyQuestionComponent } from './components/survey-questions/update-survey-question/update-survey-question.component';
+import { DeleteSurveyQuestionComponent } from './components/survey-questions/delete-survey-question/delete-survey-question.component';
+import { SurveyQuestionAnswerOptionsComponent } from './components/survey-question-answer-options/survey-question-answer-options/survey-question-answer-options.component';
+import { UpdateSurveyQuestionAnswerOptionComponent } from './components/survey-question-answer-options/update-survey-question-answer-option/update-survey-question-answer-option.component';
+import { ListSurveyAnswersPoolComponent } from './components/survey/pool/list-survey-answers-pool/list-survey-answers-pool.component';
+import { ViewSurveyResultsComponent } from './components/survey/view-survey-results/view-survey-results.component';
+import { NgxChartsModule, TooltipModule } from '@swimlane/ngx-charts';
+import { MatTabsModule } from '@angular/material/tabs';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'; // this includes the core NgIdleModule but includes keepalive providers for easy wireup
+import { MomentModule } from 'angular2-moment';
+import { IdleAlertComponent } from './components/alert/idle-alert/idle-alert.component';
+import { ManageTreeComponent } from './components/tree/manage-tree/manage-tree.component'; // optional, provides moment-style pipes for date formatting
+import { MatTreeModule } from '@angular/material/tree';
+import { ListClassesComponent } from './components/classes/list-classes/list-classes.component';
+import { AddClassComponent } from './components/classes/add-class/add-class.component';
+import { UpdateClassComponent } from './components/classes/update-class/update-class.component';
+import { DeleteClassComponent } from './components/classes/delete-class/delete-class.component';
+import { ListEnrollmentsComponent } from './components/enrollments/list-enrollments/list-enrollments.component';
+import { AddEnrollmentComponent } from './components/enrollments/add-enrollment/add-enrollment.component';
+import { DeleteEnrollmentComponent } from './components/enrollments/delete-enrollment/delete-enrollment.component';
+import { AddRequiredConsumablesComponent } from './components/required-consumables/add-required-consumables/add-required-consumables.component';
+import { ReceiveConsumablesComponent } from './components/enrollments/receive-consumables/receive-consumables.component';
+import { ListRequestedConsumablesComponent } from './components/consumables/list-requested-consumables/list-requested-consumables.component';
+import { ListReceivedConsumablesComponent } from './components/consumables/list-received-consumables/list-received-consumables.component';
+import { ModalModule } from 'ngx-modal-bootstrap';
+import { SchoolEvaluationReportComponent } from './components/reports/school-evaluation-report/school-evaluation-report.component';
+import { GenerateConsumablesByClassReportComponent } from './components/reports/consumables-by-class/generate-consumables-by-class-report/generate-consumables-by-class-report.component';
+import { ViewConsumablesByClassReportComponent } from './components/reports/consumables-by-class/view-consumables-by-class-report/view-consumables-by-class-report.component';
+import { ViewWeeklyAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-weekly-attendance-report/view-weekly-attendance-report.component';
+import { ConsumablesByChildReportComponent } from './components/reports/consumables-by-child-report/consumables-by-child-report.component';
+// import { ModalModule } from 'ngx-bootstrap/modal'
 
 
 export function tokenGetter() {
@@ -199,7 +230,6 @@ export function tokenGetter() {
     AlertComponent,
     AddEditComponent,
     LayoutComponent,
-    ListComponent,
     EventCalenderComponent,
     ListAllAcademicYearsComponent,
     AddNewAcademicYearComponent,
@@ -217,8 +247,39 @@ export function tokenGetter() {
     ViewBookingsReportComponent,
     ListBookingsComponent,
     ListSlotsComponent,
-    UpdateSlotComponent
-
+    UpdateSlotComponent,
+    ListBusinessRulesComponent,
+    AddBusinessRuleComponent,
+    UpdateBusinessRuleComponent,
+    DeleteBusinessRuleComponent,
+    CustomErrorSnackBarComponent,
+    ListTransactionLogsComponent,
+    ViewLogValuesComponent,
+    ListSurveyQuestionsComponent,
+    UpdateSurveyQuestionComponent,
+    DeleteSurveyQuestionComponent,
+    SurveyQuestionAnswerOptionsComponent,
+    UpdateSurveyQuestionAnswerOptionComponent,
+    ListSurveyAnswersPoolComponent,
+    ViewSurveyResultsComponent,
+    IdleAlertComponent,
+    ManageTreeComponent,
+    ListClassesComponent,
+    AddClassComponent,
+    UpdateClassComponent,
+    DeleteClassComponent,
+    ListEnrollmentsComponent,
+    AddEnrollmentComponent,
+    DeleteEnrollmentComponent,
+    AddRequiredConsumablesComponent,
+    ReceiveConsumablesComponent,
+    ListRequestedConsumablesComponent,
+    ListReceivedConsumablesComponent,
+    SchoolEvaluationReportComponent,
+    GenerateConsumablesByClassReportComponent,
+    ViewConsumablesByClassReportComponent,
+    ViewWeeklyAttendanceReportComponent,
+    ConsumablesByChildReportComponent,
   ],
 
   imports: [
@@ -232,7 +293,12 @@ export function tokenGetter() {
     MatListModule,
     AppRoutingModule,
     HttpClientModule,
+    NgxChartsModule,
+    MatTreeModule,
+    ModalModule.forRoot(),
 
+
+    MatTabsModule,
     MatInputModule,
     MatCardModule,
     MatButtonModule,
@@ -253,12 +319,15 @@ export function tokenGetter() {
     CdkTableModule,
     MatPaginatorModule,
     ReactiveFormsModule,
+    MatAutocompleteModule,
     CommonModule,
     FormsModule,
     AppOverlayModule,
     ProgressSpinnerModule,
     NgbModule,
     NgbModalModule,
+    NgIdleKeepaliveModule.forRoot(),
+    MomentModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

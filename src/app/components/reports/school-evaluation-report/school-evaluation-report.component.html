@@ -1,0 +1,67 @@
+<div class="heading">
+  <button class="control-button" mat-button (click)="downloadAsPDF()">Export Report to PDF</button>
+</div>
+<div class="content" id="content" #content>
+  <div class="header-row">
+    <div class="date-section">
+      Date Generated: {{dateGenerated}}
+    </div>
+    <div class="logo-section">
+      <img src="assets/logo.png" alt="logo">
+    </div>
+    <div class="company-info-section">
+      <h6>Company Name: Hatfield Montessori Preschool</h6>
+      <h6>Company Contact: 012 362 0269</h6>
+      <h6>Company Email: info@hatfieldmontessori.co.za</h6>
+      <h6>Company Address: Hatfield Scout Hall 1307 South Street Hatfield 0083</h6>
+    </div>
+  </div>
+  <div class="divider-row"></div>
+
+  <div class="body-section">
+    <div class="report-title">
+      <strong class="report-title-text">School Evaluation Report</strong>
+    </div>
+    <div class="report-description">
+      <strong>School Evaluation Report Description</strong>
+      <h6 clas="report-description-text">
+        This report is going to show summarized representation of data based on the feedback we received from parents on
+        how they feel about different things in the school
+      </h6>
+    </div>
+
+    <div class="report-table">
+      <strong>General School rating based on the following criteria:</strong>
+      <ul>
+        <div class="top-report-item" *ngFor="let record of topRecords">
+          <div>{{record.name}}</div>
+          <div>{{record.average}}</div>
+        </div>
+      </ul>
+    </div>
+
+    <div class="report-table">
+      <strong>Preferred Extra Mural Activities</strong>
+      <ngx-charts-bar-vertical [results]="graphRecords" [view]="[700, 370]" [scheme]="colorScheme"
+        [gradient]="gradient" [xAxis]="xAxis" [yAxis]="yAxis" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="xAxisLabel"
+        [legendTitle]="legendTitle" [legendPosition]="legendlocation" [animations]="animations"
+        [showGridLines]="showGridLines" [trimXAxisTicks]="trimXAxisTicks" [trimYAxisTicks]="trimYAxisTicks"
+        [rotateXAxisTicks]="rotateXAxisTicks" [maxXAxisTickLength]="maxXAxisTickLength"
+        [maxYAxisTickLength]="maxYAxisTickLength" [xAxisTickFormatting]="formatString"
+        [yAxisTickFormatting]="formatNumber" [yAxisTicks]="yAxisTicks" [showDataLabel]="showDataLabel"
+        [barPadding]="barPadding" [tooltipDisabled]="tooltipDisabled" [roundEdges]="roundEdges">
+      </ngx-charts-bar-vertical>
+    </div>
+
+    <div class="end-section">
+      <strong>***END OF REPORT***</strong>
+    </div>
+
+  </div>
+
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

@@ -1,25 +1,23 @@
-import { HttpEventType } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { BookingReportOverview } from 'src/app/Interface/reports.types';
-import { Slot } from 'src/app/Interface/slot.types';
-import { ReportingService } from 'src/app/services/reporting/reporting.service';
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import domtoimage from 'dom-to-image';
-import { Booking } from 'src/app/Interface/booking.types';
+import { HttpEventType } from '@angular/common/http';
+import { Router } from '@angular/router';
+import {  ConsumableByClassReport, ConsumableForBusinssDto, ConsumableOverviewReport } from 'src/app/Interface/reports.types';
+import { ReportingService } from 'src/app/services/reporting/reporting.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
 import { MixpanelService } from 'src/app/services/mixpanel/mixpanel.service';
 
 @Component({
-  selector: 'app-view-bookings-report',
-  templateUrl: './view-bookings-report.component.html',
-  styleUrls: ['./view-bookings-report.component.css']
+  selector: 'app-view-consumables-by-class-report',
+  templateUrl: './view-consumables-by-class-report.component.html',
+  styleUrls: ['./view-consumables-by-class-report.component.css']
 })
-export class ViewBookingsReportComponent implements OnInit {
+export class ViewConsumablesByClassReportComponent implements OnInit {
   displayProgressSpinner = false;
-  fromDate;
-  toDate;
 
   today = new Date();
   dd = String(this.today.getDate()).padStart(2, '0');
@@ -29,55 +27,48 @@ export class ViewBookingsReportComponent implements OnInit {
 
   dateGenerated = this.dd + '-' + this.mm + '-' + this.yyyy;
 
-  reportOverview: BookingReportOverview;
-  slots: Slot[] = [];
-  bookings: Booking[] = [];
-
   @ViewChild('content') content: ElementRef;
 
+  classesData: ConsumableOverviewReport[];
+  businessData: ConsumableForBusinssDto[];
+
   constructor(
-    private _router: Router,
     private _reportingService: ReportingService,
+    private _router: Router,
+    private _matSnackBar: MatSnackBar,
     private _mixpanelService:MixpanelService
+
+
   ) {
-    this._mixpanelService.track("View Bookings Report");
-    this.fromDate = localStorage.getItem('bookings-report-from-date');
-    this.toDate = localStorage.getItem('bookings-report-to-date');
+    this._mixpanelService.track("View Consumables Report");
   }
 
   ngOnInit(): void {
-    if (this.fromDate != null && this.toDate != null) {
-      this._getReportFromServer();
-    }
-    else {
-      //Go back to reports dashboard if date not in local storage
-      this._router.navigate(['reports-dashboard']);
-    }
+
+    this._getApplicationFromServer();
   }
 
-  private _getReportFromServer() {
-    let payload: any = {};
-    let formattedFromDate = this.fromDate as Date;
-    let formattedToDate = this.toDate as Date;
-    payload['FromDate'] = new Date(formattedFromDate);
-    payload['ToDate'] = new Date(formattedToDate);
-
-    this._reportingService.getBookings(payload)
+  private _getApplicationFromServer() {
+    this._reportingService.getConsumablesByClass()
       .subscribe({
         next: (event) => {
           if (event.type === HttpEventType.Sent) {
             this.displayProgressSpinner = true;
           }
           if (event.type == HttpEventType.Response) {
-            this.reportOverview = event.body as BookingReportOverview;
-            console.log(this.reportOverview);
 
-            this.slots = this.reportOverview.slots as Slot[];
-            this.bookings = this.reportOverview.bookings as Booking[];
+            this.classesData = event.body as ConsumableOverviewReport[];
+            this.businessData = this.classesData[0].businessItems;
+
+            console.log(this.classesData)
+            console.log(this.businessData)
+
+            this.displayProgressSpinner = false;
           }
         },
         error: (error) => {
           this.displayProgressSpinner = false;
+          this._openErrorMessageSnackBar(error.error.message)
         },
         complete: () => {
           this.displayProgressSpinner = false;
@@ -91,7 +82,6 @@ export class ViewBookingsReportComponent implements OnInit {
     var img: any;
     var filename;
     var newImage: any;
-
 
     domtoimage.toPng(div, { bgcolor: '#fff' })
       .then(function (dataUrl) {
@@ -119,7 +109,7 @@ export class ViewBookingsReportComponent implements OnInit {
 
           doc.addImage(newImage, 'PNG', 10, 10, width, height);
 
-          filename = 'Applications_Report' + '.pdf';
+          filename = 'consumables_by_class_report' + '.pdf';
           doc.save(filename);
 
         };
@@ -127,11 +117,21 @@ export class ViewBookingsReportComponent implements OnInit {
 
       })
       .catch(function (error) {
-
-        // Error Handling
-
       });
-
   }
 
+  openSnackBar(message: string, action: string) {
+    this._matSnackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
+  private _openErrorMessageSnackBar(errorMessage: string) {
+    const snackBar = this._matSnackBar.openFromComponent(CustomErrorSnackBarComponent, {
+      data: {
+        preClose: () => { snackBar.dismiss() },
+        parent: errorMessage
+      }
+    });
+  }
 }

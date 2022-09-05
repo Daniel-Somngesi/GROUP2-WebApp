@@ -49,6 +49,7 @@
       </div>
     </form>
   </div>
+  <button class="control-button" mat-raised-button (click)="exportToExcel()">Export Report to Excel</button>
   <button class="control-button" mat-raised-button (click)="downloadAsPDF()">Export Report to PDF</button>
 </div>
 <div class="content" id="content" #content>
@@ -85,7 +86,7 @@
     </div>
 
     <div class="report-table">
-      <table class="table">
+      <table class="table" id="excel-table">
         <tr class="table-header-row">
           <th class="table-header-item">Date</th>
           <th class="table-header-item">Special Needs</th>
@@ -108,7 +109,7 @@
         </tr>
       </table>
       <div class="no-data" *ngIf="entries.length == 0">
-        No applications found for date  {{reportOverview.fromDate}} - {{reportOverview.toDate}}.
+        No applications found for date {{reportOverview.fromDate}} - {{reportOverview.toDate}}.
       </div>
     </div>
 

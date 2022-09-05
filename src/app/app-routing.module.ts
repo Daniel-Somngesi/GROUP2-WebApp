@@ -25,7 +25,7 @@ import { ListAllApplicationsComponent } from './components/applications/list-all
 
 import { ListAllAcademicYearsComponent } from './components/academic-years/list-all-academic-years/list-all-academic-years.component';
 import { ListAllAttendanceLogsComponent } from './components/attendance-log/list-all-attendance-logs/list-all-attendance-logs.component';
-import { AuthGuard } from './helpers/auth.guard';
+import { AdminGuard, AuthGuard } from './helpers/auth.guard';
 import { ListAllParentsComponent } from './components/parents/list-all-parents/list-all-parents.component';
 import { ViewParentChildDetailsComponent } from './components/parents/view-parent-child-details/view-parent-child-details.component';
 import { ListAllChildrenComponent } from './components/children/list-all-children/list-all-children.component';
@@ -36,6 +36,22 @@ import { ViewApplicationsReportComponent } from './components/reports/applicatio
 import { ViewBookingsReportComponent } from './components/reports/bookings-reporting/view-bookings-report/view-bookings-report.component';
 import { ListBookingsComponent } from './components/bookings/list-bookings/list-bookings.component';
 import { ListSlotsComponent } from './components/slots/list-slots/list-slots.component';
+import { ListBusinessRulesComponent } from './components/business-rules/list-business-rules/list-business-rules.component';
+import { ListTransactionLogsComponent } from './components/logs/list-transaction-logs/list-transaction-logs.component';
+import { AddSurveyDialogComponent } from './components/survey/add-survey-dialog/add-survey-dialog.component';
+import { ListSurveyQuestionsComponent } from './components/survey-questions/list-survey-questions/list-survey-questions.component';
+import { SurveyQuestionAnswerOptionsComponent } from './components/survey-question-answer-options/survey-question-answer-options/survey-question-answer-options.component';
+import { ListSurveyAnswersPoolComponent } from './components/survey/pool/list-survey-answers-pool/list-survey-answers-pool.component';
+import { ViewSurveyResultsComponent } from './components/survey/view-survey-results/view-survey-results.component';
+import { ManageTreeComponent } from './components/tree/manage-tree/manage-tree.component';
+import { ListClassesComponent } from './components/classes/list-classes/list-classes.component';
+import { ListEnrollmentsComponent } from './components/enrollments/list-enrollments/list-enrollments.component';
+import { ListRequestedConsumablesComponent } from './components/consumables/list-requested-consumables/list-requested-consumables.component';
+import { ListReceivedConsumablesComponent } from './components/consumables/list-received-consumables/list-received-consumables.component';
+import { SchoolEvaluationReportComponent } from './components/reports/school-evaluation-report/school-evaluation-report.component';
+import { ViewConsumablesByClassReportComponent } from './components/reports/consumables-by-class/view-consumables-by-class-report/view-consumables-by-class-report.component';
+import { ViewWeeklyAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-weekly-attendance-report/view-weekly-attendance-report.component';
+import { ConsumablesByChildReportComponent } from './components/reports/consumables-by-child-report/consumables-by-child-report.component';
 
 const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
@@ -46,33 +62,30 @@ const routes: Routes = [
   { path: 'users', loadChildren: userModule, canActivate: [AuthGuard] },
   { path: 'auth', loadChildren: authModule },
 
-  // otherwise redirect to home
-
-
   {
     path: 'user-roles',
     component: UserRoleListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'list-users',
     component: ListAllUsersComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'schedule/:academic-year',
     component: EventCalenderComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'employees',
     component: EmployeeListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'employee-types',
     component: EmployeeTypeListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'medical-aid-types',
@@ -82,7 +95,7 @@ const routes: Routes = [
   {
     path: 'consumables',
     component: ConsumablesListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
 
   {
@@ -141,11 +154,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'survey',
-    component: SurveyListComponent,
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'fee-management',
     component: FeeManagementComponent,
     canActivate: [AuthGuard]
@@ -153,11 +161,6 @@ const routes: Routes = [
   {
     path: 'fee',
     component: FeeListComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'survey-management',
-    component: SurveymanagementComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -215,10 +218,99 @@ const routes: Routes = [
     component: ViewBookingsReportComponent,
     canActivate: [AuthGuard]
   },
-
   {
     path: 'list-bookings',
     component: ListBookingsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'manage-settings',
+    component: ListBusinessRulesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-transaction-logs',
+    component: ListTransactionLogsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'survey-management',
+    component: SurveymanagementComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-surveys',
+    component: SurveyListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'add-survey',
+    component: AddSurveyDialogComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-survey-questions',
+    component: ListSurveyQuestionsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-survey-question-answer-options',
+    component: SurveyQuestionAnswerOptionsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-survey-answers-Pool',
+    component: ListSurveyAnswersPoolComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'view-survey-results/:id',
+    component: ViewSurveyResultsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'manage-tree',
+    component: ManageTreeComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-class',
+    component: ListClassesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-enrollments',
+    component: ListEnrollmentsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'requested-consumables',
+    component: ListRequestedConsumablesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'received-consumables',
+    component: ListReceivedConsumablesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'school-evaluation-report',
+    component: SchoolEvaluationReportComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'consumables-by-class-report',
+    component: ViewConsumablesByClassReportComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'weekly-class-attendance-report',
+    component: ViewWeeklyAttendanceReportComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'consumables-by-child-report',
+    component: ConsumablesByChildReportComponent,
     canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' },

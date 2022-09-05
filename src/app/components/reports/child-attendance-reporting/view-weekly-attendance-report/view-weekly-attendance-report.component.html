@@ -1,0 +1,92 @@
+<div class="heading">
+  <button class="control-button" mat-button (click)="downloadAsPDF()">Export Report to PDF</button>
+</div>
+<div class="content" id="content" #content>
+  <div class="header-row">
+    <div class="date-section">
+      Date Generated: {{dateGenerated}}
+    </div>
+    <div class="logo-section">
+      <img src="assets/logo.png" alt="logo">
+    </div>
+    <div class="company-info-section">
+      <h6>Company Name: Hatfield Montessori Preschool</h6>
+      <h6>Company Contact: 012 362 0269</h6>
+      <h6>Company Email: info@hatfieldmontessori.co.za</h6>
+      <h6>Company Address: Hatfield Scout Hall 1307 South Street Hatfield 0083</h6>
+    </div>
+  </div>
+  <div class="divider-row"></div>
+
+  <div class="body-section" *ngIf="reportOverview != null">
+    <div class="report-title">
+      <strong class="report-title-text">Weekly Class Attendance Report</strong>
+    </div>
+    <div class="report-description">
+      <strong> Description</strong>
+      <h6 clas="report-description-text"> Shows attendance for the past 5 days
+      </h6>
+
+      <strong>Date Range: {{reportOverview.startDate}} - {{reportOverview.endDate}} </strong>
+
+    </div>
+
+    <div class="report-table">
+      <table class="table">
+        <tr class="table-header-row">
+          <th class="table-header-item">Child</th>
+          <th class="table-header-item">Absent</th>
+          <th class="table-header-item">Present</th>
+          <th class="table-header-item">Expected Days</th>
+        </tr>
+        <tr *ngFor="let attendance of attendances">
+          <td>{{attendance.child}}</td>
+          <td>{{attendance.absent}}</td>
+          <td>{{attendance.present}}</td>
+          <td>{{attendance.expectedDays}}</td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+          <td>Class Totals</td>
+          <td>{{reportOverview.absentTotal}}</td>
+          <td>{{reportOverview.presentTotal}}</td>
+          <td>{{reportOverview.expectedDays}}</td>
+        </tr>
+      </table>
+
+      <div class="no-data" *ngIf="attendances.length == 0">
+        No attandances found for date Date Range: {{reportOverview.startDate}} - {{reportOverview.endDate}}
+      </div>
+    </div>
+
+    <div class="button-stats">
+      <div class="state-item">
+        <strong> Number of students: </strong>
+        <p> {{reportOverview.studentsTotal}} </p>
+      </div>
+
+      <div class="state-item">
+        <strong> Number of school days: </strong>
+        <p> {{reportOverview.schoolDays}} </p>
+      </div>
+
+      <div class="state-item">
+        <strong> Overall Attendance Rate: </strong>
+        <p> {{overAll}} % ({{reportOverview.presentTotal}} / {{reportOverview.expectedDays}}) </p>
+      </div>
+
+    </div>
+
+    <div class="end-section">
+      <strong>***END OF REPORT***</strong>
+    </div>
+
+  </div>
+
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

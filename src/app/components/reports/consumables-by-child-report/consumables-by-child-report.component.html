@@ -1,0 +1,71 @@
+<div class="heading">
+  <button class="control-button" mat-button (click)="downloadAsPDF()">Export Report to PDF</button>
+</div>
+<div class="content" id="content" #content>
+  <div class="header-row">
+    <div class="date-section">
+      Date Generated: {{dateGenerated}}
+    </div>
+    <div class="logo-section">
+      <img src="assets/logo.png" alt="logo">
+    </div>
+    <div class="company-info-section">
+      <h6>Company Name: Hatfield Montessori Preschool</h6>
+      <h6>Company Contact: 012 362 0269</h6>
+      <h6>Company Email: info@hatfieldmontessori.co.za</h6>
+      <h6>Company Address: Hatfield Scout Hall 1307 South Street Hatfield 0083</h6>
+    </div>
+  </div>
+  <div class="divider-row"></div>
+
+  <div class="body-section" *ngIf="multipleData != null">
+    <div class="report-title">
+      <strong class="report-title-text">Consumables By Child Report</strong>
+    </div>
+
+    <div class="report-description">
+      <strong>Description</strong>
+      <h6 clas="report-description-text"> This reports grouped consumables by child
+      </h6>
+    </div>
+
+    <table class="table table-bordered table-hover table-sm">
+      <thead class="table-primary">
+        <tr>
+          <th>Consumable Name</th>
+          <th>Quantity Grouped by child</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let multiData of multipleData">
+          <td>{{ multiData.consumableName }}</td>
+          <td>
+            <table class="table table-bordered table-hover table-sm">
+              <thead class="table-primary">
+                <tr>
+                  <th>Child Name</th>
+                  <th>Requested Quantity </th>
+                  <th>Received Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let nestedMultiData of multiData?.items">
+                  <td>{{ nestedMultiData.childName }}</td>
+                  <td>{{ nestedMultiData.expected }}</td>
+                  <td>{{ nestedMultiData.received }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="end-section">
+      <strong>***END OF REPORT***</strong>
+    </div>
+
+  </div>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">
