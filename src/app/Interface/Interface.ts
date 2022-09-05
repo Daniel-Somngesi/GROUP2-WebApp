@@ -112,9 +112,6 @@ export interface RefreshTokenRequest {
   refreshToken: string;
 }
 
-2
-3
-4
 export interface ErrorResponse {
   error: string;
   errorCode: string;
@@ -145,6 +142,7 @@ export interface Application {
 }
 
 
-export interface CurrentUser {
-  UserName: string;
+export interface KeyValueType {
+  id: number,
+  name: string
 }

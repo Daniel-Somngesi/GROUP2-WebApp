@@ -11,4 +11,6 @@ export interface Child {
   addressLine2: string,
   city: string,
   postalCode: string,
+  className: string,
+  age:string
 }
