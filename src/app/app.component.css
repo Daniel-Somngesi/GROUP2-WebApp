@@ -1,4 +1,8 @@
 mat-toolbar {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
   background: #045D5d;
   color: white;
   padding: 10px;
@@ -6,6 +10,14 @@ mat-toolbar {
   top: 0;
   z-index: 1000;
 }
+
+.user-control{
+  background-color: #0d202b;
+  color: white;
+  text-align: center;
+  border: 0.5px solid black;
+}
+
 .container {
   margin: 0;
   padding-left: 0rem;

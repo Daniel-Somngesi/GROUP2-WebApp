@@ -32,9 +32,14 @@ export class AuthService {
     );
   }
 
+  resetPassword(payload) {
+    return this.http
+      .post(this.endpointBase.concat("Account/ResetPassword"), payload, { reportProgress: true, observe: 'events', headers: this.headers });
+  }
+
   signIn(payload) {
     return this.http
-      .post(this.endpointBase.concat("Account/LogIn"), payload, { reportProgress: true, observe: 'events' });
+      .post(this.endpointBase.concat("Account/LogIn/Employee"), payload, { reportProgress: true, observe: 'events' });
   }
 
   requestOTP(payload) {

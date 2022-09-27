@@ -52,6 +52,7 @@ import { SchoolEvaluationReportComponent } from './components/reports/school-eva
 import { ViewConsumablesByClassReportComponent } from './components/reports/consumables-by-class/view-consumables-by-class-report/view-consumables-by-class-report.component';
 import { ViewWeeklyAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-weekly-attendance-report/view-weekly-attendance-report.component';
 import { ConsumablesByChildReportComponent } from './components/reports/consumables-by-child-report/consumables-by-child-report.component';
+import { ResetAccountPasswordComponent } from './components/user-account/reset-account-password/reset-account-password.component';
 
 const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
@@ -61,6 +62,12 @@ const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'users', loadChildren: userModule, canActivate: [AuthGuard] },
   { path: 'auth', loadChildren: authModule },
+
+  {
+    path: 'reset-password',
+    component: ResetAccountPasswordComponent,
+    canActivate: [AuthGuard]
+  },
 
   {
     path: 'user-roles',

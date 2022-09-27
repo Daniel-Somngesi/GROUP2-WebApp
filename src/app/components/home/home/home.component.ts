@@ -11,12 +11,14 @@ import { AuthService } from 'src/app/services/Auth/auth.service';
 })
 export class HomeComponent implements OnInit {
   isShow = false;
+  displayProgressSpinner = false;
 
   constructor(
     private _router: Router,
     private _authService: AuthService,
     private _matSnackBar: MatSnackBar
   ) {
+    this.displayProgressSpinner = false;
     this._setUser();
   }
 
@@ -60,6 +62,9 @@ export class HomeComponent implements OnInit {
   private _setUser() {
     if (this._authService.isSignedIn()) {
       this.user = this._authService.currentUser;
+    }
+    else {
+      this._authService.signOut();
     }
   }
 

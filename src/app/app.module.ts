@@ -162,6 +162,7 @@ import { GenerateConsumablesByClassReportComponent } from './components/reports/
 import { ViewConsumablesByClassReportComponent } from './components/reports/consumables-by-class/view-consumables-by-class-report/view-consumables-by-class-report.component';
 import { ViewWeeklyAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-weekly-attendance-report/view-weekly-attendance-report.component';
 import { ConsumablesByChildReportComponent } from './components/reports/consumables-by-child-report/consumables-by-child-report.component';
+import { ResetAccountPasswordComponent } from './components/user-account/reset-account-password/reset-account-password.component';
 // import { ModalModule } from 'ngx-bootstrap/modal'
 
 
@@ -280,6 +281,7 @@ export function tokenGetter() {
     ViewConsumablesByClassReportComponent,
     ViewWeeklyAttendanceReportComponent,
     ConsumablesByChildReportComponent,
+    ResetAccountPasswordComponent,
   ],
 
   imports: [

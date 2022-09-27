@@ -1,31 +1,26 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
 <mat-toolbar>
-  <button mat-icon-button (click)="drawer.toggle()">
-    <mat-icon style="color:white;">menu</mat-icon>
-  </button>
-  <span class="header">Hatfield Montessori Pre-school</span>
-  <span class="spacer"></span>
-  <button [matMenuTriggerFor]="menu" mat-icon-button class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon">
-    <mat-icon class="usericon">account_circle</mat-icon>
+  <div>
+    <button mat-icon-button (click)="drawer.toggle()">
+      <mat-icon style="color:white;">menu</mat-icon>
+    </button>
+    <span class="header">Hatfield Montessori Pre-school</span>
+    <span class="spacer"></span>
+  </div>
+
+  <button [matMenuTriggerFor]="menu" class="user-control" *ngIf="this.user != null">
+    {{user.UserName}}
   </button>
 
   <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="onResetPassword()">
+      <mat-icon>build</mat-icon>
+      Reset Password
+    </button>
     <button mat-menu-item (click)="logout()">
       <mat-icon>exit_to_app</mat-icon>
       Sign out
     </button>
   </mat-menu>
-
-
 </mat-toolbar>
 
 <mat-drawer-container class="container" autosize>
