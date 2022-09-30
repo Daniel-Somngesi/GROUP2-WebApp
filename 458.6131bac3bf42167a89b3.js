@@ -1,0 +1,1 @@
+(self.webpackChunkeasy_tech_web_app=self.webpackChunkeasy_tech_web_app||[]).push([[458],{2458:(e,n,s)=>{"use strict";s.r(n),s.d(n,{UserModule:()=>a});var t=s(8583),r=s(7716);let a=(()=>{class e{}return e.\u0275fac=function(n){return new(n||e)},e.\u0275mod=r["\u0275\u0275defineNgModule"]({type:e}),e.\u0275inj=r["\u0275\u0275defineInjector"]({imports:[[t.ez]]}),e})()}}]);
