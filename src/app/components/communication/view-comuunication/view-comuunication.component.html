@@ -1,0 +1,41 @@
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">View Communication</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <form [formGroup]="form" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Title</mat-label>
+        <input type="text" matInput formControlName="Title" required>
+        <mat-error *ngIf="Title.touched && Title.invalid">
+          <div *ngIf="Title.errors.required">please provide title.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Message</mat-label>
+        <textarea matInput formControlName="Message" required rows="6"></textarea>
+        <mat-error *ngIf="Message.touched && Title.invalid">
+          <div *ngIf="Message.errors.required">please provide message.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+
+
+    <div class="button-row">
+      <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+      <button mat-raised-button type="submit" color="primary">Ok</button>
+    </div>
+
+  </form>
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Delete Communication</h1>
+<div mat-dialog-content>
+  <p>Are you sure you want to delete this Communication?</p>
+</div>
+<div mat-dialog-actions class="button-row">
+  <button mat-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-button mat-dialog-close color="primary" type="button" cdkFocusInitial (click)="onSubmit()">Delete</button>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">
