@@ -1,0 +1,20 @@
+<h1>Write New Blog</h1>
+<form [formGroup]="richTextForm" *ngIf="richTextForm !=null">
+  <div class="form-field-container">
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Title</mat-label>
+      <input type="text" matInput formControlName="Title" required>
+    </mat-form-field>
+  </div>
+
+  <div class="form-field-container">
+    <quill-editor [modules]="modules" formControlName="Message"></quill-editor>
+  </div>
+
+  <div class="bottom-controls-container">
+    <button mat-raised-button color="primary" (click)="onSubmit()" type="submit" mat-button>Submit</button>
+  </div>
+</form>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">
