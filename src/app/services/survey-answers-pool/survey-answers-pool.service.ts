@@ -15,6 +15,20 @@ export class SurveyAnswersPoolService {
   constructor(private _httpClient: HttpClient) {
   }
 
+  questionsPoolgetAll() {
+    return this._httpClient.get(
+      this.endpointBase.concat("SurveyQuestionPool"),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
+
+  questionsPoolcreate(payload: any) {
+    return this._httpClient.post(
+      this.endpointBase.concat("SurveyQuestionPool"), payload,
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
+
   getAll() {
     return this._httpClient.get(
       this.endpointBase.concat("SurveyAnswersPool"),

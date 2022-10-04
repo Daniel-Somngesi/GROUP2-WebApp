@@ -66,16 +66,13 @@ import { FeeTypeListComponent } from './components/feeType/fee-type-list/fee-typ
 import { AddFeeTypeDialogComponent } from './components/feeType/add-fee-type-dialog/add-fee-type-dialog.component';
 import { EditFeeTypeDialogComponent } from './components/feeType/edit-fee-type-dialog/edit-fee-type-dialog.component';
 import { DeleteFeeTypeDialogComponent } from './components/feeType/delete-fee-type-dialog/delete-fee-type-dialog.component';
-import { FeeTypeService } from './services/fee-type.service';
 import { AllergyListComponent } from './components/allergy/allergy-list/allergy-list.component';
-import { AllergyService } from './services/allergy.service';
 import { AddAllergyDialogComponent } from './components/allergy/add-allergy-dialog/add-allergy-dialog.component';
 import { EditAllergyDialogComponent } from './components/allergy/edit-allergy-dialog/edit-allergy-dialog.component';
 import { DeleteAllergyDialogComponent } from './components/allergy/delete-allergy-dialog/delete-allergy-dialog.component';
 import { AddEmployeeTypeDialogComponent } from './components/employeeType/add-employee-type-dialog/add-employee-type-dialog.component';
 import { EditEmployeeTypeDialogComponent } from './components/employeeType/edit-employee-type-dialog/edit-employee-type-dialog.component';
 import { DeleteEmployeeTypeDialogComponent } from './components/employeeType/delete-employee-type-dialog/delete-employee-type-dialog.component';
-import { EmployeeTypeService } from './services/employee-type.service';
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
 import { AddSurveyDialogComponent } from './components/survey/add-survey-dialog/add-survey-dialog.component';
 import { SurveyListComponent } from './components/survey/survey-list/survey-list.component';
@@ -163,7 +160,33 @@ import { ViewConsumablesByClassReportComponent } from './components/reports/cons
 import { ViewWeeklyAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-weekly-attendance-report/view-weekly-attendance-report.component';
 import { ConsumablesByChildReportComponent } from './components/reports/consumables-by-child-report/consumables-by-child-report.component';
 import { ResetAccountPasswordComponent } from './components/user-account/reset-account-password/reset-account-password.component';
-// import { ModalModule } from 'ngx-bootstrap/modal'
+import { ViewEmployeeAddressComponent } from './components/employee/view-employee-address/view-employee-address.component';
+import { UpdateUserComponent } from './components/users/update-user/update-user.component';
+import { DeleteUserComponent } from './components/users/delete-user/delete-user.component';
+import { ForceDeleteParentComponent } from './components/parents/force-delete-parent/force-delete-parent.component';
+import { ListCompaniesComponent } from './components/companies/list-companies/list-companies.component';
+import { AddCompanyComponent } from './components/companies/add-company/add-company.component';
+import { UpdateCompanyComponent } from './components/companies/update-company/update-company.component';
+import { DeleteCompanyComponent } from './components/companies/delete-company/delete-company.component';
+import { ListActivitiesComponent } from './components/activities/list-activities/list-activities.component';
+import { UpdateActivityComponent } from './components/activities/update-activity/update-activity.component';
+import { DeleteActivityComponent } from './components/activities/delete-activity/delete-activity.component';
+import { ListEventsComponent } from './components/event/list-events/list-events.component';
+import { UpdateEventComponent } from './components/event/update-event/update-event.component';
+import { DeleteEventComponent } from './components/event/delete-event/delete-event.component';
+import { QuillModule } from 'ngx-quill';
+import { ListBlogComponent } from './components/blog/list-blog/list-blog.component';
+import { CreateBlockComponent } from './components/blog/create-block/create-block.component';
+import { DeleteBlockComponent } from './components/blog/delete-block/delete-block.component';
+import { ViewBlogComponent } from './components/blog/view-blog/view-blog.component';
+import { UpdateAcademicYearComponent } from './components/academic-years/update-academic-year/update-academic-year.component';
+import { DeleteAcademicYearComponent } from './components/academic-years/delete-academic-year/delete-academic-year.component';
+import { ListCommunicationsComponent } from './components/communication/list-communications/list-communications.component';
+import { AddCommunicationComponent } from './components/communication/add-communication/add-communication.component';
+import { DeleteCommunicationComponent } from './components/communication/delete-communication/delete-communication.component';
+import { ViewComuunicationComponent } from './components/communication/view-comuunication/view-comuunication.component';
+import { ViewMixpanelComponent } from './components/helpers/view-mixpanel/view-mixpanel.component';
+import { DeleteDocumentComponent } from './components/document/delete-document/delete-document.component';
 
 
 export function tokenGetter() {
@@ -282,6 +305,32 @@ export function tokenGetter() {
     ViewWeeklyAttendanceReportComponent,
     ConsumablesByChildReportComponent,
     ResetAccountPasswordComponent,
+    ViewEmployeeAddressComponent,
+    UpdateUserComponent,
+    DeleteUserComponent,
+    ForceDeleteParentComponent,
+    ListCompaniesComponent,
+    AddCompanyComponent,
+    UpdateCompanyComponent,
+    DeleteCompanyComponent,
+    ListActivitiesComponent,
+    UpdateActivityComponent,
+    DeleteActivityComponent,
+    ListEventsComponent,
+    UpdateEventComponent,
+    DeleteEventComponent,
+    ListBlogComponent,
+    CreateBlockComponent,
+    DeleteBlockComponent,
+    ViewBlogComponent,
+    UpdateAcademicYearComponent,
+    DeleteAcademicYearComponent,
+    ListCommunicationsComponent,
+    AddCommunicationComponent,
+    DeleteCommunicationComponent,
+    ViewComuunicationComponent,
+    ViewMixpanelComponent,
+    DeleteDocumentComponent,
   ],
 
   imports: [
@@ -298,6 +347,7 @@ export function tokenGetter() {
     NgxChartsModule,
     MatTreeModule,
     ModalModule.forRoot(),
+    QuillModule.forRoot(),
 
 
     MatTabsModule,

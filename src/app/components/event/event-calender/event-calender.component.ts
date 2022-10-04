@@ -1,16 +1,20 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { HttpEventType } from '@angular/common/http';
 import { EventService } from './../../../services/event.service';
 import { Component, ViewChild, TemplateRef, } from '@angular/core';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { ScheduleService } from 'src/app/services/schedules/schedule.service';
 import { iEvent } from 'src/app/Interface/Interface';
 import { SlotService } from 'src/app/services/slots/slot.service';
+import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
+import { Company } from 'src/app/Interface/company.types';
+import { CompanyService } from 'src/app/services/company/company.service';
+import { ActivitiesService } from 'src/app/services/activities/activities.service';
 
 
 @Component({
@@ -19,6 +23,9 @@ import { SlotService } from 'src/app/services/slots/slot.service';
   templateUrl: './event-calender.component.html',
 })
 export class EventCalenderComponent {
+  displayProgressSpinner = false;
+  companies: Company[] = [];
+
   academicYear: string = "";
   events!: CalendarEvent[];
   scheduleEntries: iEvent[] = [];
@@ -30,17 +37,13 @@ export class EventCalenderComponent {
 
   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
 
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   public eventForm!: FormGroup;
+  activityFormGroup: FormGroup;
   minDate: any = new Date().toISOString().slice(0, 10);
 
   public slotForm!: FormGroup;
-
   view: CalendarView = CalendarView.Month;
-
   CalendarView = CalendarView;
-
   viewDate: Date = new Date();
 
   modalData!: {
@@ -48,25 +51,7 @@ export class EventCalenderComponent {
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent: any) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-
-      },
-    },
-  ];
-
+  visibleForm = '';
   activeDayIsOpen: boolean = true;
   start: any;
   end: any;
@@ -76,6 +61,8 @@ export class EventCalenderComponent {
     public _eventService: EventService,
     private _scheduleService: ScheduleService,
     private _slotService: SlotService,
+    private _companyService: CompanyService,
+    private _activitiesServie: ActivitiesService,
     private formbulider: FormBuilder,
     private _activatedRoute: ActivatedRoute,
     private _snackBar: MatSnackBar
@@ -87,11 +74,14 @@ export class EventCalenderComponent {
   }
 
   ngOnInit(): void {
-
-    this._getCalenderEntries();
-
+    this._getCompaniesFromServer();
     this._buildEventForm();
     this._buildSlotForm();
+    this._buildActivityForm();
+  }
+
+  onShowAddForm(formToShow: string) {
+    this.visibleForm = formToShow;
   }
 
   private _buildEventForm() {
@@ -109,6 +99,18 @@ export class EventCalenderComponent {
     });
   }
 
+  private _buildActivityForm() {
+    this.activityFormGroup = this.formbulider.group({
+      ActivityName: ['', [Validators.required, this.noWhitespaceValidator, Validators.pattern('[a-zA-Z ]*')]],
+      CompanyId: ['', [Validators.required]],
+      start: [null, [Validators.required]],
+      end: [null, [Validators.required]],
+    });
+  }
+
+  get ActivityName() { return this.activityFormGroup.get('ActivityName'); }
+  get CompanyId() { return this.activityFormGroup.get('CompanyId'); }
+
   public noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
@@ -117,30 +119,6 @@ export class EventCalenderComponent {
 
   get g() {
     return this.eventForm.controls;
-  }
-
-  _getCalenderEntries() {
-    return this._scheduleService.getAllEntriesByYear(this.academicYear)
-      .subscribe({
-        next: (event) => {
-          if (event.type === HttpEventType.Sent) {
-            // this.displayProgressSpinner = true;
-          }
-          if (event.type == HttpEventType.Response) {
-            let res = event.body as iEvent[];
-            this.scheduleEntries = res;
-            this.loopThroughEvents(this.scheduleEntries);
-
-          }
-        },
-        error: (error) => {
-          // this.displayProgressSpinner = false;
-        },
-        complete: () => {
-          // this.displayProgressSpinner = false;
-        }
-      });
-
   }
 
   loopThroughEvents(res: any) {
@@ -157,78 +135,157 @@ export class EventCalenderComponent {
     }
     this.events = obj;
     this.refresh.next();
+    this.displayProgressSpinner = false;
   }
 
-  addNewEvent() {
-    let newEvent: any = {
-      title: '',
-      start: new Date(),
-      end: new Date(),
-
-    }
-
-    newEvent.title = this.title;
-    newEvent.start = this.start;
-    newEvent.end = this.end;
-
-    this.events.push(newEvent);
+  onCreateEvent() {
 
     let payload: any = {};
     payload['Title'] = this.title;
     payload['Start'] = this.start.toJSON();
     payload['End'] = this.end.toJSON();
 
-    this._eventService.createEvent(payload).subscribe({
-      next: (event => {
-        if (event.type === HttpEventType.Sent) {
-        }
+    let valid = true;
+    let currentDateTime = new Date().toJSON();
 
-        if (event.type === HttpEventType.Response) {
-          this.addEvent()
-          window.location.reload();
-        }
-      }),
-      error: (error => {
+    if (this.end.toJSON() <= this.start.toJSON()) {
+      this._openSnackBar("To date time should be greater than From date time", "Error", 3000);
+      valid = false;
+    }
 
-      })
-    });
+    if (this.start.toJSON() < currentDateTime) {
+      this._openSnackBar("From date time should be greater than current date time", "Error", 3000);
+      valid = false;
+    }
 
+    if (this.end.toJSON() < currentDateTime) {
+      this._openSnackBar("To date time should be greater than current date time", "Error", 3000);
+      valid = false;
+    }
+
+    if (valid) {
+      this._eventService.create(payload)
+        .subscribe({
+          next: (event => {
+            if (event.type === HttpEventType.Sent) {
+              this.displayProgressSpinner = true;
+            }
+
+            if (event.type === HttpEventType.Response) {
+              this._openSnackBar("Add Event", "Success", 3000);
+              this.displayProgressSpinner = false;
+              window.location.reload();
+            }
+          }),
+          error: (error => {
+            this.displayProgressSpinner = false;
+            this._openErrorMessageSnackBar(error.error.message);
+          }),
+          complete: () => {
+            this.displayProgressSpinner = false;
+          }
+        });
+    }
   }
 
   onCreateSlot() {
-    let newEvent: any = {
-      title: '',
-      start: new Date(),
-      end: new Date(),
-
-    }
-
-    newEvent.title = this.title;
-    newEvent.start = this.start;
-    newEvent.end = this.end;
-
-    this.events.push(newEvent);
-
     let payload: any = {};
     payload['Title'] = 'Open Slot'; //This gets populated on the back end
     payload['Start'] = this.start.toJSON();
     payload['End'] = this.end.toJSON();
 
-    this._eventService.createSlot(payload).subscribe({
-      next: (event => {
-        if (event.type === HttpEventType.Sent) {
-        }
+    let valid = true;
+    let currentDateTime = new Date().toJSON();
 
-        if (event.type === HttpEventType.Response) {
-          this.addEvent()
-          window.location.reload();
-        }
-      }),
-      error: (error => {
+    if (this.end.toJSON() <= this.start.toJSON()) {
+      this._openSnackBar("To date time should be greater than From date time", "Error", 3000);
+      valid = false;
+    }
 
-      })
-    });
+    if (this.start.toJSON() < currentDateTime) {
+      this._openSnackBar("From date time should be greater than current date time", "Error", 3000);
+      valid = false;
+    }
 
+    if (this.end.toJSON() < currentDateTime) {
+      this._openSnackBar("To date time should be greater than current date time", "Error", 3000);
+      valid = false;
+    }
+
+    if (valid) {
+      this._slotService.create(payload)
+        .subscribe({
+          next: (event => {
+            if (event.type === HttpEventType.Sent) {
+              this.displayProgressSpinner = true;
+            }
+
+            if (event.type === HttpEventType.Response) {
+              this._openSnackBar("Add Slot", "Success", 3000);
+              this.displayProgressSpinner = false;
+              window.location.reload();
+            }
+          }),
+          error: (error => {
+            this.displayProgressSpinner = false;
+            this._openErrorMessageSnackBar(error.error.message);
+          }),
+          complete: () => {
+            this.displayProgressSpinner = false;
+          }
+        });
+    }
+
+  }
+
+  onCreateActivity() {
+    let payload: any = {};
+    payload['Name'] = this.ActivityName.value;
+    payload['CompanyId'] = this.CompanyId.value;
+    payload['Start'] = this.start.toJSON();
+    payload['End'] = this.end.toJSON();
+
+    let valid = true;
+    let currentDateTime = new Date().toJSON();
+
+    if (this.end.toJSON() <= this.start.toJSON()) {
+      this._openSnackBar("To date time should be greater than From date time", "Error", 3000);
+      valid = false;
+    }
+
+    if (this.start.toJSON() < currentDateTime) {
+      this._openSnackBar("From date time should be greater than current date time", "Error", 3000);
+      valid = false;
+    }
+
+    if (this.end.toJSON() < currentDateTime) {
+      this._openSnackBar("To date time should be greater than current date time", "Error", 3000);
+      valid = false;
+    }
+
+    if (valid) {
+      this._activitiesServie.create(payload)
+        .subscribe({
+          next: (event => {
+            if (event.type === HttpEventType.Sent) {
+              this.displayProgressSpinner = true;
+            }
+
+            if (event.type === HttpEventType.Response) {
+              this._openSnackBar("Add Activity", "Success", 3000);
+              this.displayProgressSpinner = false;
+              window.location.reload();
+            }
+          }),
+          error: (error => {
+            this.displayProgressSpinner = false;
+            this._openErrorMessageSnackBar(error.error.message);
+          }),
+          complete: () => {
+            this.displayProgressSpinner = false;
+          }
+        });
+    }
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -275,34 +332,6 @@ export class EventCalenderComponent {
 
   }
 
-  deleteEvent(entryToDelete: any) {
-
-    let calenderEvent = entryToDelete as CalendarEvent;
-    let scheduleEntry = entryToDelete as iEvent;
-    this.events = this.events.filter((event: any) => event !== calenderEvent);
-
-    //Handle for slot
-    if (scheduleEntry.type.toLowerCase() == 'Slot'.toLowerCase()) {
-
-      if (scheduleEntry.title != 'Open Slot') {
-        this._openSnackBar("Cannot delete a slot that's taken", 'Error', 3000)
-      }
-      else {
-        this._slotService.deleteSlot(scheduleEntry.id);
-        window.location.reload();
-      }
-    }
-    //Handle for Booking
-    if (scheduleEntry.type.toLowerCase() == 'Booking'.toLowerCase()) {
-      this._openSnackBar("Cannot delete a slot that's taken", 'Error', 3000)
-    }
-     //Handle for slot
-    if (scheduleEntry.type.toLowerCase() == 'Event'.toLowerCase()) {
-      this._eventService.deleteEvent(scheduleEntry.id);
-      window.location.reload();
-    }
-  }
-
   setView(view: CalendarView) {
     this.view = view;
   }
@@ -311,9 +340,63 @@ export class EventCalenderComponent {
     this.activeDayIsOpen = false;
   }
 
+  private _getCalenderEntries() {
+    return this._scheduleService.getAllEntriesByYear(this.academicYear)
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Sent) {
+            this.displayProgressSpinner = true;
+          }
+          if (event.type == HttpEventType.Response) {
+            let res = event.body as iEvent[];
+            this.scheduleEntries = res;
+            this.loopThroughEvents(this.scheduleEntries);
+
+          }
+        },
+        error: (error) => {
+          this.displayProgressSpinner = false;
+          this._openErrorMessageSnackBar(error.error.message);
+        }
+      });
+
+  }
+
+  private _getCompaniesFromServer() {
+    this._companyService.getAll()
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Sent) {
+            this.displayProgressSpinner = true;
+          }
+          if (event.type == HttpEventType.Response) {
+            this.companies = event.body as Company[];
+            this.displayProgressSpinner = false;
+            this._getCalenderEntries();
+          }
+        },
+        error: (error) => {
+          this.displayProgressSpinner = false;
+          this._openErrorMessageSnackBar(error.error.message);
+        },
+        complete: () => {
+          this.displayProgressSpinner = false;
+        }
+      });
+  }
+
   private _openSnackBar(message: string, action: string, _duration: number) {
     this._snackBar.open(message, action, {
       duration: _duration,
+    });
+  }
+
+  private _openErrorMessageSnackBar(errorMessage: string) {
+    const snackBar = this._snackBar.openFromComponent(CustomErrorSnackBarComponent, {
+      data: {
+        preClose: () => { snackBar.dismiss() },
+        parent: errorMessage
+      }
     });
   }
 }

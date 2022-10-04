@@ -1,8 +1,15 @@
 import { EmployeeService } from 'src/app/services/employee.service';
-import { EmployeeData } from './../../../Interface/Interface';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {Component, Inject} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpEventType } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { EmployeeType } from 'src/app/Interface/employe-type.types';
+import { Employee } from 'src/app/Interface/employee.types';
+import { EmployeeTypeService } from 'src/app/services/employee-types/employee-type.service';
+import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
+import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { User } from 'src/app/models';
 
 @Component({
   selector: 'app-add.dialog',
@@ -11,79 +18,147 @@ import {FormBuilder, Validators} from '@angular/forms';
 })
 
 export class AddDialogComponent {
-  employeeForm:any;
-  emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$";
-  type: any;
-  Dob!: string;
-  gender:any="Male";
-  idNumber:any;
-  maxDate:any = new Date().toISOString().slice(0, 10);
-  mySelect!:number;
-  typeName: any;
+  displayProgressSpinner = false;
+  types: EmployeeType[] = [];
 
-  constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: EmployeeData,
-              public service: EmployeeService, private formbulider: FormBuilder) { }
+  form: FormGroup;
 
-ngOnInit(): void {
-  this.employeeForm = this.formbulider.group({
-    employee_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
-    employee_Surname: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
-    employee_Email: ['', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]],
-    phone_Number: ['',[Validators.required, Validators.pattern("^((\\+27-?)|0)?[0-9]{9}$")]],
-    gender: [this.gender],
-    eType:['',[Validators.required]],
-    address_Line1:['',[Validators.required, Validators.maxLength(50)]],
-    address_Line2:['',[Validators.maxLength(50)]],
-    city:['',[Validators.required, Validators.maxLength(50)]],
-    doB:['',[Validators.required]],
-    id_Number:['',[Validators.required, Validators.pattern("^[0-9]{13}$")]],
-    emplTypeName:[''],
-    postal_Code:['',[Validators.required, Validators.pattern("^[0-9]{4}$")]]
-  })
-  this.retrieveEmployeeTypes();
-}
-
-retrieveEmployeeTypes(): void {
-  this.service.getAllTypes()
-    .subscribe(
-      data => {
-        this.type = data;
-    }
-    );}
-
-    getDob(idNumber:any) {
-      var Year = idNumber.substring(0, 2);
-      var Month = idNumber.substring(2, 4);
-      var Day = idNumber.substring(4, 6);
-      var cutoff = (new Date()).getFullYear() - 2000
-      var dob = (Year > cutoff ? '19' : '20') + Year + '-' + Month + '-' + Day;
-      this.Dob = dob;
-    }
-
-  onNoClick(): void {
-    this.dialogRef.close();
+  record: User;
+  constructor(
+    private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<AddDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) dataFromParent: any,
+    private _snackBar: MatSnackBar,
+    private _matSnackBar: MatSnackBar,
+    private _employeeTypeService: EmployeeTypeService,
+    private _employeeService: EmployeeService
+  ) {
+    this.record = dataFromParent.record as User;
   }
 
-  getEmployeeTypeName(){
-    this.service.getEmployeeTypeById(this.mySelect).subscribe(employeeType => {
-      this.typeName = employeeType.employeeType_Name;
-      console.log(this.typeName);
+  ngOnInit(): void {
+    this._getTypesFromServer();
+  }
+
+  private _getTypesFromServer() {
+    this._employeeTypeService.getAll()
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Sent) {
+            this.displayProgressSpinner = true;
+          }
+          if (event.type == HttpEventType.Response) {
+            let res = event.body as EmployeeType[];
+            this.types = res;
+            this.displayProgressSpinner = false;
+
+            this._buildForm();
+
+          }
+        },
+        error: (error) => {
+          this.displayProgressSpinner = false;
+          this._openErrorMessageSnackBar(error.error.message);
+        },
+        complete: () => {
+          this.displayProgressSpinner = false;
+        }
+      });
+  }
+
+  onSubmit() {
+    if (this.form.invalid) {
+      this.openSnackBar("Provide all required input", "Error");
+    }
+    else {
+      this.Email.enable();
+      this.PhoneNumber.enable();
+      this._employeeService.create(this.form.value)
+        .subscribe({
+          next: (event) => {
+            if (event.type === HttpEventType.Sent) {
+              this.displayProgressSpinner = true;
+            }
+            if (event.type == HttpEventType.Response) {
+              this.displayProgressSpinner = false;
+
+              this.openSnackBar("Create Employee Profile", "Success");
+              this.closeDialog();
+            }
+          },
+          error: (error) => {
+            this._disableFormControls();
+            this.displayProgressSpinner = false;
+            this._openErrorMessageSnackBar(error.error.message);
+          },
+          complete: () => {
+            this._disableFormControls();
+            this.displayProgressSpinner = false;
+          }
+        });
+    }
+
+  }
+
+  closeDialog() {
+    this.dialogRef.close({ event: 'Cancel' });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
     });
   }
 
-  public confirmAdd(): void {
-    const _employee = this.employeeForm.value;
-    _employee.employeeType_Id = this.mySelect;
-    this.data.employeeType_ID = this.mySelect;
-    this.data.employeeType_Name = this.typeName;
-    this.data.gender = this.gender;
-    this.service.addItem(this.data);
+  private _openErrorMessageSnackBar(errorMessage: string) {
+    const snackBar = this._matSnackBar.openFromComponent(CustomErrorSnackBarComponent, {
+      data: {
+        preClose: () => { snackBar.dismiss() },
+        parent: errorMessage
+      }
+    });
   }
 
-  onItemChange(value:any){
-    this.gender = value;
- }
+  private _buildForm() {
+    if (this.record != null) {
+      this.form = this._formBuilder.group({
+        Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
+        Surname: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
+        Email: [this.record.username, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$")]],
+        PhoneNumber: [this.record.phoneNumber, [Validators.required, Validators.pattern("^((\\+27-?)|0)?[0-9]{9}$")]],
+        IdNumber: ['', [Validators.required, Validators.pattern("^[0-9]{13}$")]],
+        Gender: ['', [Validators.required]],
+        Type: ['', [Validators.required]],
 
+        AddressLine1: ['', [Validators.required, Validators.maxLength(50)]],
+        AddressLine2: ['', [Validators.maxLength(50)]],
+        City: ['', [Validators.required, Validators.maxLength(50)]],
+        postalCode: ['', [Validators.required, Validators.pattern("^[0-9]{4}$")]],
+      })
+
+      this._disableFormControls();
+    }
+    else {
+      this.openSnackBar("Could not initialise component", "Error");
+    }
+
+  }
+
+  private _disableFormControls() {
+    this.Email.disable();
+    this.PhoneNumber.disable();
+  }
+
+  get Name() { return this.form.get('Name'); }
+  get Surname() { return this.form.get('Surname'); }
+  get Email() { return this.form.get('Email'); }
+  get PhoneNumber() { return this.form.get('PhoneNumber'); }
+  get Gender() { return this.form.get('Gender'); }
+  get IdNumber() { return this.form.get('IdNumber'); }
+  get Type() { return this.form.get('Type'); }
+
+  get AddressLine1() { return this.form.get('AddressLine1'); }
+  get AddressLine2() { return this.form.get('AddressLine2'); }
+  get City() { return this.form.get('City'); }
+  get postalCode() { return this.form.get('postalCode'); }
 }
-

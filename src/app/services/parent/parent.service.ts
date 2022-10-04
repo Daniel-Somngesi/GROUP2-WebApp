@@ -26,4 +26,11 @@ export class ParentService {
       { reportProgress: true, observe: 'events', headers: this.headers }
     );
   }
+
+  delete(id: number) {
+    return this._httpClient.delete(
+      this.endpointBase.concat("Profile/" + id),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
 }

@@ -1,0 +1,55 @@
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Update Academic Year</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <form [formGroup]="form" (submit)="onSubmit()" *ngIf="form != null">
+
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Name</mat-label>
+        <input type="text" matInput formControlName="AcademicYear" required>
+        <mat-error *ngIf="AcademicYear.touched && AcademicYear.invalid">
+          <div *ngIf="AcademicYear.errors.required">please provide Academic Year.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="StartDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="StartDate.touched && StartDate.invalid">
+          <div *ngIf="StartDate.errors.required">please provide start date.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="picker2" formControlName="EndDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="EndDate.touched && EndDate.invalid">
+          <div *ngIf="EndDate.errors.required">please provide end date.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="button-row">
+      <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+      <button mat-raised-button type="submit" color="primary">Submit</button>
+    </div>
+
+  </form>
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

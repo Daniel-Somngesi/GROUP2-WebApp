@@ -45,7 +45,9 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
 
       <mat-cell *matCellDef="let element">
-        <button mat-button [matMenuTriggerFor]="menu">More</button>
+        <button mat-button [matMenuTriggerFor]="menu">
+          <mat-icon class="icon-library">more_horiz</mat-icon>
+        </button>
 
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="onViewDetails(element)">View Details</button>

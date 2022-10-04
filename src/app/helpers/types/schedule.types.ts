@@ -1,7 +1,12 @@
 export interface Schedule {
+  id: number,
   academicYear: string,
   startDate: string,
   endDate: string,
+  rawStartDate: Date,
+  rawEndDate: Date,
+  slotsCount: number,
   eventsCount: number,
-  slotsCount: number
+  classesCount: number,
+  activitiesCount: number,
 }

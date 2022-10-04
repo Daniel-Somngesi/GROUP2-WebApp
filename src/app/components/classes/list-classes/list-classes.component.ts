@@ -10,8 +10,6 @@ import { Class } from 'src/app/Interface/class.types';
 import { AuthService } from 'src/app/services/Auth/auth.service';
 import { ClassService } from 'src/app/services/class/class.service';
 import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
-import { DeleteBusinessRuleComponent } from '../../business-rules/delete-business-rule/delete-business-rule.component';
-import { UpdateBusinessRuleComponent } from '../../business-rules/update-business-rule/update-business-rule.component';
 import { AddRequiredConsumablesComponent } from '../../required-consumables/add-required-consumables/add-required-consumables.component';
 import { AddClassComponent } from '../add-class/add-class.component';
 import { DeleteClassComponent } from '../delete-class/delete-class.component';

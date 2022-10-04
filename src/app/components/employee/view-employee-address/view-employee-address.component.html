@@ -1,0 +1,36 @@
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Employee Address</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <div class="values-container" *ngIf="employee!= null">
+    <div class="value">
+      <div class="title">-</div>
+      <div class="value"> {{employee.name}}  {{employee.surname}}</div>
+    </div>
+
+    <div class="value">
+      <div class="title">-</div>
+      <div class="value"> {{employee.addressLine1}}</div>
+    </div>
+    <div class="new-values">
+      <div class="title"> -</div>
+      <div class="value"> {{employee.addressLine2}}</div>
+    </div>
+    <div class="new-values">
+      <div class="title">- </div>
+      <div class="value"> {{employee.city}}</div>
+    </div>
+    <div class="new-values">
+      <div class="title">- </div>
+      <div class="value"> {{employee.postalCode}}</div>
+    </div>
+  </div>
+
+  <div class="button-row">
+    <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Close</button>
+  </div>
+</div>
+

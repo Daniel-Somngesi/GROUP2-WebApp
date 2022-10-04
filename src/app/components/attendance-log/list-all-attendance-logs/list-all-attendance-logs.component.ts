@@ -6,9 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AttendanceLog } from 'src/app/helpers/types/attendance-log.types';
-import { Application } from 'src/app/Interface/Interface';
-import { ApplicationsService } from 'src/app/services/applications/applications.service';
 import { AttendanceLogService } from 'src/app/services/attendance-log/attendance-log.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-list-all-attendance-logs',
@@ -18,8 +17,13 @@ import { AttendanceLogService } from 'src/app/services/attendance-log/attendance
 export class ListAllAttendanceLogsComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
-
+  today = new Date();
+  dd = String(this.today.getDate()).padStart(2, '0');
+  mm = String(this.today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  yyyy = this.today.getFullYear();
+  time = this.today.toLocaleTimeString();
   displayedColumns: string[] = ['name', 'date', 'timIn', 'timeOut'];
+  dateGenerated = this.dd + '-' + this.mm + '-' + this.yyyy;
 
   logs: AttendanceLog[] = [];
   log: AttendanceLog;
@@ -57,6 +61,7 @@ export class ListAllAttendanceLogsComponent implements OnInit {
             this.dataSource = new MatTableDataSource<AttendanceLog>(this.logs);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
+
             this.displayProgressSpinner = false;
           }
         },
@@ -67,6 +72,21 @@ export class ListAllAttendanceLogsComponent implements OnInit {
           this.displayProgressSpinner = false;
         }
       });
+  }
+
+  exportToExcel(): void {
+    /* pass here the table id */
+    let element = document.getElementById('excel-table');
+    console.log(element)
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, this.dateGenerated + '-attendance-log.xlsx');
+
   }
 
   private _openSnackBar(message: string, action: string, _duration: number) {

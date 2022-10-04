@@ -1,35 +1,37 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  min-width: 450px;
+.top-section {
+  background-color: #045d5d;
+  margin-bottom: 0.5rem;
 }
 
-.container > * {
+.field-container {
+  display: flex;
+}
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.field {
+  margin: 10px;
+  padding: 5px;
+  width: 100%;
+  display: flex;
+  flex: 1;
+}
+.button-row {
+  display: flex;
+  justify-content: space-between;
+}
+.title {
+  color: #fff;
+}
+
+.inline-form-field {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
 }
 
-.invisible{
-  display: block;
-  visibility: hidden;
-  height: 0;
-  width: 0;
+.form-field {
+  width: 100%;
+  margin: 0 0.2rem;
 }
-
-
-tr {
-  width: 50%;
-  padding: 50px;
-}
-
-td {
-  padding: 30px;
-}
-
-#lbl {
-  display: flex;
-  margin-top: 20px;
-}
-
-
-
-

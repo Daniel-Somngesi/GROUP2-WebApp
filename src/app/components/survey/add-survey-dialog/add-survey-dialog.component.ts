@@ -17,6 +17,7 @@ export class AddSurveyDialogComponent implements OnInit {
   displayProgressSpinner = false;
 
   form: FormGroup;
+  questionpoolFormGroup: FormGroup;
   minDate: any = new Date().toISOString().slice(0, 10);
 
   showAddQuestionSection = false;
@@ -24,7 +25,10 @@ export class AddSurveyDialogComponent implements OnInit {
   questionIndex = 0;
 
   answersPool: SurveyAnswersPool[] = [];
+  questionsPool: SurveyAnswersPool[] = [];
   justAnswersInPool: string[] = [];
+
+  questionFromDropDown: string = "";
 
   @ViewChild('answerInput') answerInput: ElementRef;
   constructor(
@@ -37,6 +41,9 @@ export class AddSurveyDialogComponent implements OnInit {
 
   ngOnInit() {
     this._getAnswersFromPool();
+    this._getQuestionsFromPool();
+    this._buildForm(this._formBuilder);
+
   }
 
   onSubmit() {
@@ -86,7 +93,6 @@ export class AddSurveyDialogComponent implements OnInit {
             this.displayProgressSpinner = false;
           }
         });
-
     }
   }
 
@@ -104,20 +110,37 @@ export class AddSurveyDialogComponent implements OnInit {
     }
   }
 
-  onAddNewQuestionToList(questionTitle: string) {
-    if (questionTitle.length == 0) {
+  onAddNewQuestionToList(newQuestionTitle: string) {
+    console.log(newQuestionTitle);
+    console.log(this.questionFromDropDown);
+    let isValid = true;
+    let questionToAdd = "";
+    if (newQuestionTitle.length == 0 && this.questionFromDropDown == "") {
       this._openSnackBar("Question title is required", "Error");
+      isValid = false;
+      return;
     }
-    else {
-      if (this.questionsList.find(o => o.Title.toLowerCase() == questionTitle.toLowerCase())) {
+
+    if (this.questionFromDropDown != "") {
+      questionToAdd = this.questionFromDropDown;
+    }
+
+    if (newQuestionTitle.length != 0) {
+      let payload: any = {};
+      payload["QuestionText"] = newQuestionTitle;
+      this.onAddQuestionToPool(payload);
+      questionToAdd = newQuestionTitle;
+    }
+
+    if (isValid) {
+      if (this.questionsList.find(o => o.Title.toLowerCase() == questionToAdd.toLowerCase())) {
         this._openSnackBar("Question with same title already added", "Info");
       }
       else {
         this.showAddQuestionSection = false;
         this.questionIndex += 1;
         let questionsPayload: any = {
-          Index: this.questionIndex,
-          Title: questionTitle,
+          Title: questionToAdd,
           PossibleAnswers: []
         }
         this.questionsList.push(questionsPayload);
@@ -137,8 +160,6 @@ export class AddSurveyDialogComponent implements OnInit {
           item.Index = adjustedIndex;
         });
         this._openSnackBar("Question removed from survey questions", "Info");
-
-
       }
     }
   }
@@ -173,7 +194,6 @@ export class AddSurveyDialogComponent implements OnInit {
             o.PossibleAnswers.splice(index, 1);
             this._openSnackBar("Answer removed from list", "Info");
           }
-
         }
       }
     });
@@ -189,11 +209,30 @@ export class AddSurveyDialogComponent implements OnInit {
           if (event.type == HttpEventType.Response) {
             const res = event.body as SurveyAnswersPool[];
             this.answersPool = res;
-            this.answersPool.forEach(o => {
-              this.justAnswersInPool.push(o.text);
-            });
             this.displayProgressSpinner = false;
-            this._buildForm(this._formBuilder);
+          }
+        },
+        error: (error) => {
+          this.displayProgressSpinner = false;
+          this._openErrorMessageSnackBar(error.error.message);
+        },
+        complete: () => {
+          this.displayProgressSpinner = false;
+        }
+      });
+  }
+
+  private _getQuestionsFromPool() {
+    this._surveyAnswersPoolService.questionsPoolgetAll()
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Sent) {
+            this.displayProgressSpinner = true;
+          }
+          if (event.type == HttpEventType.Response) {
+            const res = event.body as SurveyAnswersPool[];
+            this.questionsPool = res;
+            this.displayProgressSpinner = false;
           }
         },
         error: (error) => {
@@ -228,6 +267,47 @@ export class AddSurveyDialogComponent implements OnInit {
       EndDate: ['', [Validators.required]],
     });
   }
+
+  onAddQuestionToPool(payload: any) {
+
+    this._surveyAnswersPoolService.questionsPoolcreate(payload)
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Sent) {
+            this.displayProgressSpinner = true;
+          }
+          if (event.type == HttpEventType.Response) {
+            this.displayProgressSpinner = false;
+
+            this.openSnackBar("New Question Added To Pool", "Success");
+            this._getQuestionsFromPool();
+          }
+        },
+        error: (error) => {
+          this.displayProgressSpinner = false;
+          this._openErrorMessageSnackBar(error.error.message);
+        },
+        complete: () => {
+          this.displayProgressSpinner = false;
+        }
+      });
+
+  }
+
+
+  openSnackBar(message: string, action: string) {
+    this._matSnackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+  // private _buildQuestionPoolForm() {
+  //   this.questionpoolFormGroup = this._formBuilder.group({
+  //     QuestionText: [''],
+  //   });
+  // }
+
+  // get QuestionText() { return this.form.get('questionpoolFormGroup'); }
 
   get Name() { return this.form.get('Name'); }
   get StartDate() { return this.form.get('StartDate'); }

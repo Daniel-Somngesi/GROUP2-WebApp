@@ -1,27 +1,39 @@
-<h1>Update Employee Type {{data.employeeType_ID}}</h1>
-<form [formGroup]="employeeTypeForm">
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Update Employee Type</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
 
-    <td><mat-form-field class="demo-full-width">
-      <input class="form-control" [(ngModel)]="data.employeeType_Name" formControlName="employeeType_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
-    </mat-form-field>
-    <mat-error>
-      <span *ngIf="!employeeTypeForm.get('employeeType_Name').value && employeeTypeForm.get('employeeType_Name').touched">Invalid format</span>
-    </mat-error>
-
-    <mat-form-field class="demo-full-width">
-        <input class="form-control" [(ngModel)]="data.employeeType_Description" formControlName="employeeType_Description" pattern="[a-zA-Z ]*"  matTooltip="Enter Description" matInput placeholder="Description" autocomplete="off" required>
+  <form [formGroup]="form" (submit)="onSubmit()" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Name</mat-label>
+        <input type="text" matInput formControlName="Name" required>
+        <mat-error *ngIf="Name.touched && Name.invalid">
+          <div *ngIf="Name.errors.required">please provide name.</div>
+        </mat-error>
       </mat-form-field>
-      <mat-error>
-        <span *ngIf="!employeeTypeForm.get('employeeType_Description').value && employeeTypeForm.get('employeeType_Description').touched">Invalid format</span>
-      </mat-error>
+    </div>
 
-<br>
-<div mat-dialog-actions>
-  <button mat-button [disabled]="!employeeTypeForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
-  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Description</mat-label>
+        <input type="text" matInput formControlName="Description" required>
+        <mat-error *ngIf="Description.touched && Description.invalid">
+          <div *ngIf="Description.errors.required">please provide description.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="button-row">
+      <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+      <button mat-raised-button type="submit" color="primary">Update</button>
+    </div>
+
+  </form>
+
 </div>
-</form>
 
-
-
-
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

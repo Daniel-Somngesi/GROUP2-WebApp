@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Delete Company</h1>
+<div mat-dialog-content>
+  The Following Data wil be deleted
+  <ul>
+    <li>All Linked Activities, that do not have signups</li>
+  </ul>
+  <strong>NB: Company cannot be deleted if it's activities have signups</strong>
+</div>
+<div mat-dialog-actions class="button-row">
+  <button mat-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-button mat-dialog-close color="primary" type="button" cdkFocusInitial (click)="onSubmit()">Delete</button>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

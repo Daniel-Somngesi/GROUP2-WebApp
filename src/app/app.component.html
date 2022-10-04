@@ -44,35 +44,19 @@
     </button>
     <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button" [routerLink]="['/user-management']" *ngIf="isAdmin">
-      <mat-icon>person</mat-icon>
-      <span> User</span>
-    </button>
-    <mat-divider *ngIf="isAdmin"></mat-divider>
 
-    <button mat-button class="menu-button" [routerLink]="['/employee-management']" *ngIf="isAdmin">
+
+    <!-- <button mat-button class="menu-button" [routerLink]="['/employee-management']" *ngIf="isAdmin">
       <mat-icon>work</mat-icon>
       <span> Employee</span>
     </button>
-    <mat-divider *ngIf="isAdmin"></mat-divider>
+    <mat-divider *ngIf="isAdmin"></mat-divider> -->
 
-    <button mat-button class="menu-button" [routerLink]="['/booking-management']" *ngIf="isAdmin">
-      <mat-icon>event_available</mat-icon>
-      <span> Booking</span>
-    </button>
-    <mat-divider *ngIf="isAdmin"></mat-divider>
-
-    <button mat-button class="menu-button" [routerLink]="['/medical-aid-types']" *ngIf="isAdmin">
+    <!-- <button mat-button class="menu-button" [routerLink]="['/medical-aid-types']" *ngIf="isAdmin">
       <mat-icon>medical_information</mat-icon>
       <span> Medical Aid Type</span>
     </button>
-    <mat-divider *ngIf="isAdmin"></mat-divider>
-
-    <button mat-button class="menu-button" [routerLink]="['/fee-management']" *ngIf="isAdmin">
-      <mat-icon>payments</mat-icon>
-      <span> Fee</span>
-    </button>
-    <mat-divider *ngIf="isAdmin"></mat-divider>
+    <mat-divider *ngIf="isAdmin"></mat-divider> -->
 
     <button mat-button class="menu-button" [routerLink]="['/consumables']" *ngIf="isAdmin">
       <mat-icon>shopping_cart</mat-icon>
@@ -92,11 +76,11 @@
     </button>
     <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button" [routerLink]="['/allergy']">
+    <!-- <button mat-button class="menu-button" [routerLink]="['/allergy']">
       <mat-icon>medication_liquid</mat-icon>
       <span> Allergy</span>
     </button>
-    <mat-divider></mat-divider>
+    <mat-divider></mat-divider> -->
 
     <button mat-button class="menu-button" [routerLink]="['/survey-management']">
       <mat-icon>quiz</mat-icon>
@@ -128,37 +112,75 @@
     </button>
     <mat-divider></mat-divider>
 
+    <button mat-button class="menu-button" [routerLink]="['/list-bookings']" *ngIf="isAdmin">
+      <mat-icon>event_available</mat-icon>
+      <span> Booking</span>
+    </button>
+    <mat-divider *ngIf="isAdmin"></mat-divider>
+
     <button mat-button class="menu-button" [routerLink]="['/list-slots']">
       <mat-icon>calendar_month</mat-icon>
       <span> Slots</span>
     </button>
     <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button">
-      <mat-icon>description</mat-icon>
-      <span> Teacher</span>
+    <button mat-button class="menu-button" [routerLink]="['/list-activities']">
+      <mat-icon>calendar_month</mat-icon>
+      <span> Activities</span>
     </button>
     <mat-divider></mat-divider>
 
+    <button mat-button class="menu-button" [routerLink]="['/list-events']">
+      <mat-icon>calendar_month</mat-icon>
+      <span> Events</span>
+    </button>
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button" [routerLink]="['/list-companies']">
+      <mat-icon>list</mat-icon>
+      <span> Companies</span>
+    </button>
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button" [routerLink]="['/user-management']" *ngIf="isAdmin">
+      <mat-icon>person</mat-icon>
+      <span> Users</span>
+    </button>
+    <mat-divider *ngIf="isAdmin"></mat-divider>
+
+    <button mat-button class="menu-button" [routerLink]="['/employee-management']" *ngIf="isAdmin">
+      <mat-icon>person</mat-icon>
+      <span> Employees</span>
+    </button>
+    <mat-divider *ngIf="isAdmin"></mat-divider>
+
+    <!-- <button mat-button class="menu-button">
+      <mat-icon>person</mat-icon>
+      <span> Teachers</span>
+    </button>
+    <mat-divider></mat-divider> -->
+
     <button mat-button class="menu-button" [routerLink]="['/list-parents']">
-      <mat-icon> escalator_warning</mat-icon>
+      <mat-icon> person</mat-icon>
       <span> Parents</span>
     </button>
     <mat-divider></mat-divider>
+
     <button mat-button class="menu-button" [routerLink]="['/list-children']">
       <mat-icon>face </mat-icon>
       <span> Children</span>
     </button>
     <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button">
-      <mat-icon>sports_soccer</mat-icon>
-      <span> Sports & Recreation</span>
-    </button>
-    <mat-divider></mat-divider>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" [routerLink]="['/list-communications']">
       <mat-icon>chat</mat-icon>
       <span> Communication</span>
+    </button>
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button" [routerLink]="['/list-blogs']">
+      <mat-icon>chat</mat-icon>
+      <span> Blogs</span>
     </button>
     <mat-divider></mat-divider>
 

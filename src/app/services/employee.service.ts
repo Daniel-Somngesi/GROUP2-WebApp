@@ -1,82 +1,46 @@
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { EmployeeData } from '../Interface/Interface';
 import { environment } from 'src/environments/environment';
 
-
-const baseUrl = environment.apiUrl + 'Employee';
 const _baseUrl = environment.apiUrl + 'EmployeeType';
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
 
-  dataChange: BehaviorSubject<EmployeeData[]> = new BehaviorSubject<EmployeeData[]>([]);
-  // Temporarily stores data from dialogs
-  dialogData: any;
-  horizontalPosition!: MatSnackBarHorizontalPosition;
-  verticalPosition!: MatSnackBarVerticalPosition;
-
-  constructor(private httpClient: HttpClient) { }
-
-  get data(): EmployeeData[] {
-    return this.dataChange.value;
+  endpointBase = environment.apiUrl;
+  headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`
   }
 
-  getDialogData() {
-    return this.dialogData;
+  constructor(private _httpClient: HttpClient) {
   }
 
-  getEmployeeTypeById(id: any): Observable<any> {
-    return this.httpClient.get(`${_baseUrl}/${id}`);
-  }
-
-  getAllEmployees(): void {
-    this.httpClient.get<EmployeeData[]>(baseUrl).subscribe(data => {
-      this.dataChange.next(data);
-    },
-      (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
-      });
-  }
-
-  // ADD, POST METHOD
-  addItem(employee: EmployeeData): void {
-    this.httpClient.post(baseUrl, employee).subscribe(data => {
-      this.dialogData = employee;
-      this.getAllEmployees();
-    },
-      (err: HttpErrorResponse) => {
-        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-      });
-  }
-
-  deleteItem(id: number): void {
-    this.httpClient.delete(`${baseUrl}/${id}`).subscribe(data => {
-      this.getAllEmployees()
-    },
-      (err: HttpErrorResponse) => {
-        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-      }
+  getAll() {
+    return this._httpClient.get(
+      this.endpointBase.concat("Employee/Employees"),
+      { reportProgress: true, observe: 'events', headers: this.headers }
     );
   }
 
-  getAllTypes(): Observable<any> {
-    return this.httpClient.get(_baseUrl);
+  create(payload: any) {
+    return this._httpClient.post(
+      this.endpointBase.concat("Employee"), payload,
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
   }
 
-
-
-  updateItem(employee: any): void {
-    this.dialogData = employee;
-    this.httpClient.put(`${baseUrl}/${employee.employee_Id}`, employee).subscribe(data => {
-      this.getAllEmployees()
-    },
-      (err: HttpErrorResponse) => {
-        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-      });
+  update(id: number, payload: any) {
+    return this._httpClient.put(
+      this.endpointBase.concat("Employee/" + id), payload,
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
   }
 
+  delete(id: number) {
+    return this._httpClient.delete(
+      this.endpointBase.concat("Employee/" + id),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
+  }
 }

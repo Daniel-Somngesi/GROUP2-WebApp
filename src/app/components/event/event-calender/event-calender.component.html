@@ -47,8 +47,97 @@
 
 <br /><br />
 
+<div class="add-form-control">
+  <mat-form-field appearance="fill">
+    <mat-label>Select form</mat-label>
+    <mat-select>
+      <mat-option (click)="onShowAddForm('')">--Select--</mat-option>
+      <mat-option (click)="onShowAddForm('Slot-Form')">Add Slot</mat-option>
+      <mat-option (click)="onShowAddForm('Activity-Form')">Add Activity</mat-option>
+      <mat-option (click)="onShowAddForm('Event-Form')">Add Event</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+
 <div class="new-entry-container row">
-  <div class="new-entry col-4">
+
+  <!-- Slot Form -->
+  <div class="new-entry col-12" *ngIf="visibleForm == 'Slot-Form'">
+    <h1>Create Slot</h1>
+
+    <form [formGroup]="slotForm">
+
+      <mat-hint>From</mat-hint>
+      <input class="form-control" [formControlName]="'start'" type="text" [(ngModel)]="start" mwlFlatpickr
+        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+        dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" [minDate]="minDate" required />
+
+      <mat-hint>To</mat-hint>
+      <input class="form-control" [formControlName]="'end'" type="text" [(ngModel)]="end" mwlFlatpickr required
+        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+        dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" [minDate]="minDate" />
+
+      <br />
+      <br />
+      <div mat-dialog-actions>
+        <button mat-button mat-raised-button [disabled]="!slotForm.valid" color="accent" (click)="onCreateSlot()"
+          [mat-dialog-close]="1">Create slot</button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Activity form -->
+  <div class="new-entry col-12" *ngIf="visibleForm == 'Activity-Form'">
+    <h1>Create Activity</h1>
+
+    <form [formGroup]="activityFormGroup" *ngIf="activityFormGroup">
+
+      <mat-form-field class="input-full-width">
+        <input type="text" class="form-control" placeholder="Activity Name" autocomplete="off" matInput
+          formControlName="ActivityName" required />
+        <mat-error *ngIf="ActivityName.touched && ActivityName.invalid">
+          <div *ngIf="ActivityName.errors.required">please provide name.</div>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="input-full-width">
+        <mat-select formControlName="CompanyId" required class="form-control" placeholder="Company" autocomplete="off">
+          <mat-option>--Select--</mat-option>
+          <mat-option *ngFor="let company of companies" [value]="company.id">
+            {{company.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="CompanyId.touched && CompanyId.invalid">
+          <div *ngIf="CompanyId.errors.required">please select company.</div>
+        </mat-error>
+      </mat-form-field>
+
+
+
+      <mat-hint>From</mat-hint>
+      <input class="form-control" [formControlName]="'start'" type="text" [(ngModel)]="start" mwlFlatpickr
+        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+        dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" [minDate]="minDate" required />
+
+      <mat-hint>To</mat-hint>
+      <input class="form-control" [formControlName]="'end'" type="text" [(ngModel)]="end" mwlFlatpickr required
+        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+        dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" [minDate]="minDate" />
+
+      <br />
+      <br />
+      <div mat-dialog-actions>
+        <button mat-button mat-raised-button [disabled]="!activityFormGroup.valid" color="accent"
+          (click)="onCreateActivity()" [mat-dialog-close]="1">Add Activity</button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Event form -->
+  <div class="new-entry col-12" *ngIf="visibleForm == 'Event-Form'">
     <h1>New Event</h1>
 
     <form [formGroup]="eventForm">
@@ -79,37 +168,14 @@
       <br />
       <br />
       <div mat-dialog-actions>
-        <button mat-button mat-raised-button [disabled]="!eventForm.valid" color="accent" (click)="addNewEvent()"
+        <button mat-button mat-raised-button [disabled]="!eventForm.valid" color="accent" (click)="onCreateEvent()"
           [mat-dialog-close]="1">Add event</button>
       </div>
 
     </form>
   </div>
 
-  <div class="new-entry col-4">
-    <h1>New Slot</h1>
 
-    <form [formGroup]="slotForm">
-
-      <mat-hint>From</mat-hint>
-      <input class="form-control" [formControlName]="'start'" type="text" [(ngModel)]="start" mwlFlatpickr
-        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
-        dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" required />
-
-      <mat-hint>To</mat-hint>
-      <input class="form-control" [formControlName]="'end'" type="text" [(ngModel)]="end" mwlFlatpickr required
-        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
-        dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
-
-      <br />
-      <br />
-      <div mat-dialog-actions>
-        <button mat-button mat-raised-button [disabled]="!slotForm.valid" color="accent" (click)="onCreateSlot()"
-          [mat-dialog-close]="1">Create slot</button>
-      </div>
-
-    </form>
-  </div>
 </div>
 
 <br />
@@ -125,10 +191,8 @@
       <tr>
         <th>Type</th>
         <th>Title</th>
-
         <th>Starts at</th>
         <th>Ends at</th>
-        <th>Remove</th>
       </tr>
     </thead>
 
@@ -139,22 +203,18 @@
         </td>
 
         <td>
-          <input type="text" class="form-control" disabled="disabled" [(ngModel)]="entry.title" (keyup)="refresh.next()" />
+          <input type="text" class="form-control" disabled="disabled" [(ngModel)]="entry.title"
+            (keyup)="refresh.next()" />
         </td>
         <td>
-          <input class="form-control" type="text" mwlFlatpickr [min]="minDate" [(ngModel)]="entry.start"
-            (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
-            dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+          <input disabled="disabled" class="form-control" type="text" mwlFlatpickr [min]="minDate"
+            [(ngModel)]="entry.start" (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true"
+            [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
         </td>
         <td>
-          <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="entry.end" (ngModelChange)="refresh.next()"
-            [altInput]="true" [convertModelValue]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
-            placeholder="Not set" />
-        </td>
-        <td>
-          <button class="btn btn-danger" (click)="deleteEvent(entry)">
-            Delete
-          </button>
+          <input disabled="disabled" class="form-control" type="text" mwlFlatpickr [(ngModel)]="entry.end"
+            (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i" placeholder="Not set" />
         </td>
       </tr>
     </tbody>
@@ -184,3 +244,7 @@
     </button>
   </div>
 </ng-template>
+
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

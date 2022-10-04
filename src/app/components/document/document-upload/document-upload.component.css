@@ -55,3 +55,7 @@ article section h1{
 
 
 
+.delete-icon:hover{
+  color: red;
+  cursor: pointer;
+}

@@ -44,6 +44,15 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  onGoToDocuments(){
+    if (!this.isAdmin) {
+      this.openSnackBar("Only Admins can perform this operation", "Info");
+    }
+    else {
+      this._router.navigate(['document']);
+    }
+  }
+
   ongoToChildren() {
     this._router.navigate(['list-children']);
   }

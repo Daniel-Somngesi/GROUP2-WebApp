@@ -12,7 +12,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationStatusService } from 'src/app/services/application-statuses/application-status.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import * as XLSX from 'xlsx';
 import { MixpanelService } from 'src/app/services/mixpanel/mixpanel.service';
 
 
@@ -165,19 +164,7 @@ export class ViewApplicationsReportComponent implements OnInit {
   }
 
 
-  exportToExcel(): void {
-    /* pass here the table id */
-    let element = document.getElementById('excel-table');
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
-    /* generate workbook and add the worksheet */
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    /* save to file */
-    XLSX.writeFile(wb, this.dateGenerated + '-applications-report.xlsx');
-
-  }
 
   onFilterSubmittion(specialNeeds, statusid) {
 
