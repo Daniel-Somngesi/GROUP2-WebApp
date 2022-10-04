@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Delete Activity</h1>
+<div mat-dialog-content>
+  <p *ngIf="record.signUpsCount ==0">Are you sure you want to delete activity?</p>
+  <strong *ngIf="record.signUpsCount >0">NB: Cannot delete an activity with at least one sign up</strong>
+</div>
+<div mat-dialog-actions class="button-row">
+  <button mat-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-button mat-dialog-close color="primary" type="button" [disabled]="record.signUpsCount >0" cdkFocusInitial
+    (click)="onSubmit()">Delete</button>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

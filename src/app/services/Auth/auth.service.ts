@@ -32,9 +32,14 @@ export class AuthService {
     );
   }
 
+  resetPassword(payload) {
+    return this.http
+      .post(this.endpointBase.concat("Account/ResetPassword"), payload, { reportProgress: true, observe: 'events', headers: this.headers });
+  }
+
   signIn(payload) {
     return this.http
-      .post(this.endpointBase.concat("Account/LogIn"), payload, { reportProgress: true, observe: 'events' });
+      .post(this.endpointBase.concat("Account/LogIn/Employee"), payload, { reportProgress: true, observe: 'events' });
   }
 
   requestOTP(payload) {
@@ -42,9 +47,24 @@ export class AuthService {
       .post(this.endpointBase.concat("Account/RequestOTP"), payload, { reportProgress: true, observe: 'events' });
   }
 
+  resetPasswordRequestOTP(payload) {
+    return this.http
+      .post(this.endpointBase.concat("Account/ForgotPassword/RequestOTP"), payload, { reportProgress: true, observe: 'events' });
+  }
+
   validateOTP(payload) {
     return this.http
       .post(this.endpointBase.concat("Account/ValidateOTP"), payload, { reportProgress: true, observe: 'events' });
+  }
+
+  resetPasswordValidateOTP(payload) {
+    return this.http
+      .post(this.endpointBase.concat("Account/ForgotPassword/ValidateOTP"), payload, { reportProgress: true, observe: 'events' });
+  }
+
+  resetPasswordSetupPassword(payload) {
+    return this.http
+      .post(this.endpointBase.concat("Account/ForgotPassword/ResetPassword"), payload, { reportProgress: true, observe: 'events' });
   }
 
   register(payload) {

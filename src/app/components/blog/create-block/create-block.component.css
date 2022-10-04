@@ -1,0 +1,20 @@
+.form-field-container {
+  display: flex;
+  flex-direction: column;
+}
+
+
+::ng-deep .ql-editor {
+  height: 20rem;
+  max-height: 20rem;
+}
+
+::ng-deep .ql-container {
+  height: 21rem;
+}
+
+.bottom-controls-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0 0 0;
+}

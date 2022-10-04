@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "EasyTechWebApp": {
+    "Group2-WebApp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/EasyTechWebApp",
+            "outputPath": "dist/Group2-WebApp",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "EasyTechWebApp:build:production"
+              "browserTarget": "Group2-WebApp:build:production"
             },
             "development": {
-              "browserTarget": "EasyTechWebApp:build:development"
+              "browserTarget": "Group2-WebApp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "EasyTechWebApp:build"
+            "browserTarget": "Group2-WebApp:build"
           }
         },
         "test": {
@@ -108,5 +108,5 @@
       }
     }
   },
-  "defaultProject": "EasyTechWebApp"
+  "defaultProject": "Group2-WebApp"
 }

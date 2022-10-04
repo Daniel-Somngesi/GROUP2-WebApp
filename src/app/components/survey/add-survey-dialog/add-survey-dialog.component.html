@@ -45,10 +45,25 @@
   </button>
 
   <div class="add-Question-section" *ngIf="showAddQuestionSection">
-    <mat-form-field class="form-field" appearance="outline">
-      <mat-label>Question Title</mat-label>
-      <input matInput required #newQuestion>
-    </mat-form-field>
+
+    <div class="inline-form-field">
+
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Select Question From Pool</mat-label>
+        <mat-select [(ngModel)]="questionFromDropDown" required>
+          <mat-option>--Select--</mat-option>
+          <mat-option *ngFor="let question of questionsPool" [value]="question.text">
+            {{question.text}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>New Question Question Title</mat-label>
+        <input matInput required #newQuestion>
+      </mat-form-field>
+    </div>
+
     <button mat-raised-button class="add-Question-section-button" (click)="onAddNewQuestionToList(newQuestion.value)">
       Add to list
     </button>
@@ -60,8 +75,9 @@
 <div *ngIf="questionsList.length >0 && form != null">
   <mat-card class="questions-container mat-elevation-z8" *ngFor="let questionInList of questionsList">
     <div class="question-in-list">
-      <div class="question-title" matTooltip="Click on question title to remove" (click)="onRemoveQuestion(questionInList.Title)">
-        {{questionInList.Index}} . {{questionInList.Title}}
+      <div class="question-title" matTooltip="Click on question title to remove"
+        (click)="onRemoveQuestion(questionInList.Title)">
+        {{questionInList.Title}}
       </div>
     </div>
 
@@ -69,7 +85,7 @@
       <mat-list-item class="possible-answer" role="listitem" matTooltip="Click to remove"
         *ngFor="let possibleAnswer of questionInList.PossibleAnswers; let i = index" [attr.data-index]="i"
         (click)="onRemoveAnswerFromList(questionInList.Title,possibleAnswer)">
-        {{questionInList.Index}} .{{i+1}} {{possibleAnswer}}
+        {{possibleAnswer}}
       </mat-list-item>
     </mat-list>
 

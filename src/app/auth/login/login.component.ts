@@ -124,6 +124,11 @@ export class LoginComponent implements OnInit {
   onNavigateToRegister() {
     this.router.navigate(['auth', 'register']);
   }
+
+  onNavigateToForgotPassword() {
+    this.router.navigate(['auth', 'forgot-password']);
+  }
+
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 3000,

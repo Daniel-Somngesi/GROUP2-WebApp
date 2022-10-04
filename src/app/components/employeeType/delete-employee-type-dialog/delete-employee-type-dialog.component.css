@@ -1,0 +1,37 @@
+.top-section {
+  background-color: #045d5d;
+  margin-bottom: 0.5rem;
+}
+
+.field-container {
+  display: flex;
+}
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.field {
+  margin: 10px;
+  padding: 5px;
+  width: 100%;
+  display: flex;
+  flex: 1;
+}
+.button-row {
+  display: flex;
+  justify-content: space-between;
+}
+.title {
+  color: #fff;
+}
+
+.inline-form-field {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.form-field {
+  width: 100%;
+  margin: 0 0.2rem;
+}

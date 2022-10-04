@@ -4,29 +4,30 @@
 <br />
 <div class="docUploadDiv">
 
-  <input accept=".pdf, .xlsx, .xls, .doc, .docx, .ppt, .pptx, .txt" requiredFileType="pdf" type="file"
-    class="file-input" (change)="onFileSelected($event)" #fileUpload>
+  <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload
+    accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
 
   <div class="file-upload">
 
     {{fileName || "No file attached yet."}}
 
     <button style="text-align: center;" mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
-      <mat-icon matTooltip="Choose file">attach_file</mat-icon>
+      <mat-icon matTooltip="Choose file. Accepted formats [.pdf,.docx]">attach_file</mat-icon>
     </button>
   </div>
+
   <div class="progress">
     <mat-progress-bar class="progress-bar" mode="determinate" [value]="uploadProgress" *ngIf="uploadProgress">
     </mat-progress-bar>
-
     <mat-icon class="cancel-upload" (click)="cancelUpload()" *ngIf="uploadProgress">delete_forever</mat-icon>
   </div>
+
   <h3>{{ name }}</h3>
   <h4>{{ size }}</h4>
 
   <mat-form-field class="demo-full-width">
-    <input class="form-control" [(ngModel)]="descr" pattern="[a-zA-Z ]*" matTooltip="Description"
-      matInput placeholder="Description" autocomplete="off" required>
+    <input class="form-control" [(ngModel)]="descr" matTooltip="Description" matInput placeholder="Description"
+      autocomplete="off" required>
   </mat-form-field>
 
 
@@ -46,11 +47,14 @@
   </thead>
   <tbody>
     <tr *ngFor="let doc of documents">
-      <td>{{doc.document_Name}}</td>
+      <td>{{doc.name}}</td>
       <td>{{doc.description}}</td>
       <td>
-        <mat-icon aria-label="Delete">delete</mat-icon>
+        <mat-icon aria-label="Delete" class="delete-icon" (click)="onDeleteValue(doc)" matTooltip="Delete Doc">delete</mat-icon>
       </td>
     </tr>
   </tbody>
 </table>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

@@ -1,0 +1,42 @@
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Delete User</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <form [formGroup]="form" (submit)="onSubmit()" *ngIf="form != null">
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Username</mat-label>
+        <input type="email" matInput formControlName="Username" required>
+        <mat-error *ngIf="Username.touched && Username.invalid">
+          <div *ngIf="Username.errors.required">please provide username.</div>
+          <div *ngIf="Username.errors.email">please provide valid email address.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Phone number</mat-label>
+        <input type="text" matInput formControlName="PhoneNumber" required>
+        <mat-error *ngIf="PhoneNumber.touched && PhoneNumber.invalid">
+          <div *ngIf="PhoneNumber.errors.required">please provide phone number.</div>
+          <div *ngIf="PhoneNumber.errors.pattern">phone number should start with +27 and not contain the zero</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="button-row">
+      <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+      <button mat-raised-button type="submit" color="primary">Delete</button>
+    </div>
+
+  </form>
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

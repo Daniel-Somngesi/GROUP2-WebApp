@@ -1,9 +1,11 @@
-import { UserRoleService } from './../../../services/user-role.service';
-import { UserRoleData } from './../../../Interface/Interface';
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpEventType } from '@angular/common/http';
+import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
+import { AddClassComponent } from '../../classes/add-class/add-class.component';
+import { UserRoleService } from 'src/app/services/user-role.service';
 
 @Component({
   selector: 'app-add-user-role-dialog',
@@ -12,53 +14,75 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 })
 
 export class AddUserRoleDialogComponent implements OnInit {
+  displayProgressSpinner = false;
 
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  userRoleForm: any;
-  type: any;
+  form: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<AddUserRoleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UserRoleData,
-    public service: UserRoleService, private formbulider: FormBuilder,  private _snackBar: MatSnackBar) { }
+  constructor(
+    private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<AddClassComponent>,
+    private _snackBar: MatSnackBar,
+    private _matSnackBar: MatSnackBar,
+    private _userRoleService: UserRoleService,
+  ) { }
 
   ngOnInit(): void {
-    this.userRoleForm = this.formbulider.group({
-      userRole_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
-    })
+    this._buildForm();
   }
 
-      onNoClick(): void {
-        this.dialogRef.close();
+  onSubmit() {
+    if (this.form.invalid) {
+      this.openSnackBar("Provide all required input", "Error");
+    }
+    else {
+      this._userRoleService.create(this.form.value)
+        .subscribe({
+          next: (event) => {
+            if (event.type === HttpEventType.Sent) {
+              this.displayProgressSpinner = true;
+            }
+            if (event.type == HttpEventType.Response) {
+              this.displayProgressSpinner = false;
+
+              this.openSnackBar("Add User Role", "Success");
+              this.closeDialog();
+            }
+          },
+          error: (error) => {
+            this.displayProgressSpinner = false;
+            this._openErrorMessageSnackBar(error.error.message);
+          },
+          complete: () => {
+            this.displayProgressSpinner = false;
+          }
+        });
+    }
+  }
+
+  closeDialog() {
+    this.dialogRef.close({ event: 'Cancel' });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+  private _openErrorMessageSnackBar(errorMessage: string) {
+    const snackBar = this._matSnackBar.openFromComponent(CustomErrorSnackBarComponent, {
+      data: {
+        preClose: () => { snackBar.dismiss() },
+        parent: errorMessage
       }
+    });
+  }
 
-      public confirmAdd(): void {
-        const _employee = this.userRoleForm.value;
-        this.service.addItem(this.data);
+  private _buildForm() {
+    this.form = this._formBuilder.group({
+      Name: ['', [Validators.required]],
+    });
+  }
 
-      }
-
-      SavedSuccessful(isUpdate:any) {
-        if (isUpdate == 0) {
-          this._snackBar.open('Record Updated Successfully!', 'Close', {
-            duration: 2000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
-        }
-        else if (isUpdate == 1) {
-          this._snackBar.open('Record Added Successfully!', 'Close', {
-            duration: 3000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
-        }
-        else if (isUpdate == 2) {
-          this._snackBar.open('Record Deleted Successfully!', 'Close', {
-            duration: 2000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
-        }
-        }
+  get Name() { return this.form.get('Name'); }
 }

@@ -26,15 +26,23 @@
       <mat-cell *matCellDef="let element"> {{element.endDate}}</mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="eventsCount">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Events </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.eventsCount}}</mat-cell>
-    </ng-container>
+
 
     <ng-container matColumnDef="slotsCount">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Slots </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.slotsCount}}</mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="eventsCount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Events </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.eventsCount}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="activitiesCount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Activities </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.activitiesCount}}</mat-cell>
+    </ng-container>
+
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -42,12 +50,24 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
 
+
+
       <mat-cell *matCellDef="let element">
-        <button mat-button [matMenuTriggerFor]="menu">More</button>
+
+        <button mat-button (click)="onUpdateValue(element)" matTooltip="Update Details">
+          <mat-icon class="icon-library">create</mat-icon>
+        </button>
+
+        <button mat-button (click)="onDeleteValue(element)" matTooltip="Delete">
+          <mat-icon class="icon-library">delete</mat-icon>
+        </button>
+
+        <button mat-button [matMenuTriggerFor]="menu">
+          <mat-icon class="icon-library">more_horiz</mat-icon>
+        </button>
 
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="onNavigateToSchedule(element)">View Schedule</button>
-
         </mat-menu>
 
       </mat-cell>

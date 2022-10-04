@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { CurrentUser } from './helpers/types/auth.types';
 import { AuthService } from './services/Auth/auth.service';
 
@@ -12,17 +13,23 @@ export class AppComponent {
 
   constructor(
     private _authService: AuthService,
+    private _router: Router
 
   ) {
-    this._setUser();
+
   }
 
   ngOnInit() {
+    this._setUser();
   }
 
   logout(): void {
     this._authService.signOut();
     return;
+  }
+
+  onResetPassword() {
+    this._router.navigate(['reset-password']);
   }
 
   user: CurrentUser;

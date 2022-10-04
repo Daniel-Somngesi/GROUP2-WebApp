@@ -28,3 +28,7 @@ mat-header-cell {
   color: rgba(0, 0, 0, 0.87);
   font-weight: bolder;
 }
+
+#excel-table{
+  display: none;
+}

@@ -10,6 +10,8 @@ import { Schedule } from 'src/app/helpers/types/schedule.types';
 import { ApplicationsService } from 'src/app/services/applications/applications.service';
 import { ScheduleService } from 'src/app/services/schedules/schedule.service';
 import { AddNewAcademicYearComponent } from '../add-new-academic-year/add-new-academic-year.component';
+import { DeleteAcademicYearComponent } from '../delete-academic-year/delete-academic-year.component';
+import { UpdateAcademicYearComponent } from '../update-academic-year/update-academic-year.component';
 
 @Component({
   selector: 'app-list-all-academic-years',
@@ -20,7 +22,7 @@ export class ListAllAcademicYearsComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
 
-  displayedColumns: string[] = ['academicYear', 'startDate', 'endDate','eventsCount','slotsCount', 'actions'];
+  displayedColumns: string[] = ['academicYear', 'startDate', 'endDate', 'slotsCount', 'eventsCount', 'activitiesCount', 'actions'];
 
   schedules: Schedule[] = [];
   schedule: Schedule;
@@ -63,6 +65,32 @@ export class ListAllAcademicYearsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       this._getDataFromServer();
     })
+  }
+
+  onUpdateValue(value: Schedule) {
+    let dialogRef = this._matDialog.open(UpdateAcademicYearComponent, {
+      width: "80%",
+      height: "auto",
+      data: {
+        record: value
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this._getDataFromServer();
+    });
+  }
+
+  onDeleteValue(value: Schedule) {
+    let dialogRef = this._matDialog.open(DeleteAcademicYearComponent, {
+      data: {
+        record: value
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this._getDataFromServer();
+    });
   }
 
   private _getDataFromServer() {

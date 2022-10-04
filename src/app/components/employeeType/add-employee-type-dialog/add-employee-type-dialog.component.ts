@@ -1,9 +1,10 @@
-import { EmployeeTypeData } from './../../../Interface/Interface';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { EmployeeTypeService } from 'src/app/services/employee-type.service';
-import { FormBuilder, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { HttpEventType } from '@angular/common/http';
+import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
+import { EmployeeTypeService } from 'src/app/services/employee-types/employee-type.service';
 
 @Component({
   selector: 'app-add-employee-type-dialog',
@@ -11,57 +12,77 @@ import { FormBuilder, Validators } from '@angular/forms'
   styleUrls: ['./add-employee-type-dialog.component.css']
 })
 export class AddEmployeeTypeDialogComponent implements OnInit {
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  employeeType: any;
-  employeeTypeForm: any;
+  displayProgressSpinner = false;
 
+  form: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<AddEmployeeTypeDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EmployeeTypeData,
-    public service: EmployeeTypeService, private formbulider: FormBuilder,  private _snackBar: MatSnackBar) { }
+  constructor(
+    private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<AddEmployeeTypeDialogComponent>,
+    private _snackBar: MatSnackBar,
+    private _matSnackBar: MatSnackBar,
+    private _employeeTypeService: EmployeeTypeService,
+  ) { }
 
-    ngOnInit(): void {
-      this.employeeTypeForm = this.formbulider.group({
-        employeeType_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(50)]],
-        employeeType_Description: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.maxLength(100)]],
+  ngOnInit(): void {
+    this._buildForm();
+  }
 
-      })
+  onSubmit() {
+    if (this.form.invalid) {
+      this.openSnackBar("Provide all required input", "Error");
     }
+    else {
+      this._employeeTypeService.create(this.form.value)
+        .subscribe({
+          next: (event) => {
+            if (event.type === HttpEventType.Sent) {
+              this.displayProgressSpinner = true;
+            }
+            if (event.type == HttpEventType.Response) {
+              this.displayProgressSpinner = false;
 
-    onNoClick(): void {
-      this.dialogRef.close();
+              this.openSnackBar("Add Employee Type", "Success");
+              this.closeDialog();
+            }
+          },
+          error: (error) => {
+            this.displayProgressSpinner = false;
+            this._openErrorMessageSnackBar(error.error.message);
+          },
+          complete: () => {
+            this.displayProgressSpinner = false;
+          }
+        });
     }
+  }
 
-    public confirmAdd(): void {
-      const _employeeType = this.employeeTypeForm.value;
-      this.service.addItem(this.data);
-      this.SavedSuccessful(1);
-    }
+  closeDialog() {
+    this.dialogRef.close({ event: 'Cancel' });
+  }
 
-    SavedSuccessful(isUpdate:any) {
-      if (isUpdate == 0) {
-        this._snackBar.open('Record Updated Successfully!', 'Close', {
-          duration: 2000,
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-        });
-      }
-      else if (isUpdate == 1) {
-        this._snackBar.open('Record Added Successfully!', 'Close', {
-          duration: 3000,
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-        });
-      }
-      else if (isUpdate == 2) {
-        this._snackBar.open('Record Deleted Successfully!', 'Close', {
-          duration: 2000,
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-        });
-      }
-      }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
 
+  private _openErrorMessageSnackBar(errorMessage: string) {
+    const snackBar = this._matSnackBar.openFromComponent(CustomErrorSnackBarComponent, {
+      data: {
+        preClose: () => { snackBar.dismiss() },
+        parent: errorMessage
+      }
+    });
+  }
+
+  private _buildForm() {
+    this.form = this._formBuilder.group({
+      Name: ['', [Validators.required]],
+      Description: ['', [Validators.required]],
+    });
+  }
+
+  get Name() { return this.form.get('Name'); }
+  get Description() { return this.form.get('Description'); }
 }
-

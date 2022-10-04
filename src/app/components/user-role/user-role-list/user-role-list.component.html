@@ -1,63 +1,54 @@
-<h1>User Role</h1>
-
-<div class=" mat-elevation-z8">
-
-  <div class="form">
-    <mat-form-field floatPlaceholder="never" color="accent">
-      <input matInput #filter placeholder="Find user role">
-    </mat-form-field>
+<div class="mat-elevation-z8 table-container">
+  <div class="table-top-controllers">
+    <span class="table-name"> Manage User Roles |</span>
+    <button mat-button (click)="onAdd()" *ngIf="isAdmin">Add new Roles</button>
   </div>
 
-  <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
-    ng update @angular/cli @angular/core
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-          <ng-container matColumnDef="userRole_Id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
-            <mat-cell *matCellDef="let userRole"> {{userRole.userRole_Id}}</mat-cell>
-          </ng-container>
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+  </mat-form-field>
 
+  <mat-table [dataSource]="dataSource" matSort class="table" #mytable>
 
     <ng-container matColumnDef="userRole_Name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let userRole"> {{userRole.userRole_Name}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.userRole_Name}} </mat-cell>
     </ng-container>
 
 
+    <ng-container matColumnDef="usersCount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Users Count </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.usersCount}}</mat-cell>
+    </ng-container>
 
-    <!-- actions -->
+
     <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button color="primary" (click)="openAddDialog()">
-          <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
-        </button>
-      </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
 
-      <mat-cell *matCellDef="let userRole; let i=index;">
-        <button mat-icon-button color="accent" (click)="startEdit(userRole.userRole_Id, userRole.userRole_Name)">
-          <mat-icon aria-label="Edit">edit</mat-icon>
+        <button mat-button (click)="onUpdateValue(element)" matTooltip="Update Details" *ngIf="isAdmin">
+          <mat-icon class="icon-library">create</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent">
-          <mat-icon aria-label="Delete" (click)="deleteItem(userRole.userRole_Id, userRole.userRole_Name)">delete</mat-icon>
+        <button mat-button (click)="onDeleteValue(element)" matTooltip="Delete" *ngIf="isAdmin">
+          <mat-icon class="icon-library">delete</mat-icon>
         </button>
       </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let employee; columns: displayedColumns;"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+
+    <tr class="mat-row no-data-row" *matNoDataRow>
+      <h2 class="mat-cell no-data-text">No data found</h2>
+    </tr>
   </mat-table>
 
 
-  <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
-    <h4>No user roles..</h4>
-  </div>
-
-  <mat-paginator #paginator
-                 [length]="dataSource.filteredData.length"
-                 [pageIndex]="0"
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 25, 100]">
-  </mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
 
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

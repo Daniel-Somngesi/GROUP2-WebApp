@@ -5,10 +5,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { AttendanceLog } from 'src/app/helpers/types/attendance-log.types';
 import { User } from 'src/app/models';
-import { AttendanceLogService } from 'src/app/services/attendance-log/attendance-log.service';
 import { UserService } from 'src/app/services/user.service';
+import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
+import { AddDialogComponent } from '../../employee/add-dialog/add-dialog.component';
+import { EditDialogComponent } from '../../employee/edit-dialog/edit-dialog.component';
+import { DeleteUserComponent } from '../delete-user/delete-user.component';
+import { UpdateUserComponent } from '../update-user/update-user.component';
 
 @Component({
   selector: 'app-list-all-users',
@@ -19,7 +22,7 @@ export class ListAllUsersComponent implements OnInit {
   displayProgressSpinner = false;
   dataSource;
 
-  displayedColumns: string[] = ['username', 'role'];
+  displayedColumns: string[] = ['role', 'username', 'phoneNumber', 'accountStatus', 'actions'];
 
   users: User[] = [];
   user: User;
@@ -29,7 +32,8 @@ export class ListAllUsersComponent implements OnInit {
 
   constructor(
     private _dialog: MatDialog,
-    private _snackBar: MatSnackBar,
+    private _matSnackBar: MatSnackBar,
+    private _matDialog: MatDialog,
     private _usersService: UserService
 
   ) {
@@ -62,6 +66,7 @@ export class ListAllUsersComponent implements OnInit {
         },
         error: (error) => {
           this.displayProgressSpinner = false;
+          this._openErrorMessageSnackBar(error.error.message);
         },
         complete: () => {
           this.displayProgressSpinner = false;
@@ -69,9 +74,60 @@ export class ListAllUsersComponent implements OnInit {
       });
   }
 
-  private _openSnackBar(message: string, action: string, _duration: number) {
-    this._snackBar.open(message, action, {
-      duration: _duration,
+  openSnackBar(message: string, action: string) {
+    this._matSnackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
+  private _openErrorMessageSnackBar(errorMessage: string) {
+    const snackBar = this._matSnackBar.openFromComponent(CustomErrorSnackBarComponent, {
+      data: {
+        preClose: () => { snackBar.dismiss() },
+        parent: errorMessage
+      }
+    });
+  }
+
+  onCreateEmployeeAccount(record: User) {
+    let dialogRef = this._matDialog.open(AddDialogComponent, {
+      width: "80%",
+      height: "auto",
+      data: {
+        record: record
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this._getDataFromServer();
+    });
+  }
+
+  onUpdate(record: User) {
+    let dialogRef = this._matDialog.open(UpdateUserComponent, {
+      width: "80%",
+      height: "auto",
+      data: {
+        record: record
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this._getDataFromServer();
+    });
+  }
+
+  onDelete(record: User) {
+    let dialogRef = this._matDialog.open(DeleteUserComponent, {
+      width: "80%",
+      height: "auto",
+      data: {
+        record: record
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this._getDataFromServer();
     });
   }
 

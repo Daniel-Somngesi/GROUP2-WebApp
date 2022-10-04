@@ -1,20 +1,23 @@
-
-import { DeleteUserRoleDeleteComponent } from './../delete-user-role-delete/delete-user-role-delete.component';
-import { EditUserRoleDialogComponent } from './../edit-user-role-dialog/edit-user-role-dialog.component';
-import { AddUserRoleDialogComponent } from './../add-user-role-dialog/add-user-role-dialog.component';
-import { UserRoleData } from './../../../Interface/Interface';
-import { UserRoleService } from './../../../services/user-role.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { DataSource } from '@angular/cdk/collections';
+import { HttpEventType } from '@angular/common/http';
+import { MatTableDataSource } from '@angular/material/table';
+import { CurrentUser } from 'src/app/helpers/types/auth.types';
+import { Class } from 'src/app/Interface/class.types';
+import { Company } from 'src/app/Interface/company.types';
+import { AuthService } from 'src/app/services/Auth/auth.service';
+import { CustomErrorSnackBarComponent } from 'src/app/shared/components/custom-error-snack-bar/custom-error-snack-bar.component';
+import { DeleteCompanyComponent } from '../../companies/delete-company/delete-company.component';
+import { UpdateCompanyComponent } from '../../companies/update-company/update-company.component';
+import { AddRequiredConsumablesComponent } from '../../required-consumables/add-required-consumables/add-required-consumables.component';
+import { UserRoleData } from 'src/app/Interface/Interface';
+import { UserRoleService } from 'src/app/services/user-role.service';
+import { AddUserRoleDialogComponent } from '../add-user-role-dialog/add-user-role-dialog.component';
+import { EditUserRoleDialogComponent } from '../edit-user-role-dialog/edit-user-role-dialog.component';
+import { DeleteUserRoleDeleteComponent } from '../delete-user-role-delete/delete-user-role-delete.component';
 
 @Component({
   selector: 'app-user-role-list',
@@ -23,181 +26,148 @@ import { DataSource } from '@angular/cdk/collections';
 })
 
 export class UserRoleListComponent implements OnInit {
+  displayProgressSpinner = false;
+  dataSource;
 
-  displayedColumns: string[] = ['userRole_Name','actions'];
-   myDatabase!: UserRoleService;
-   dataSource!: myDataSource;
-  userRole_Id!: number;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  displayedColumns: string[] = ['userRole_Name', 'usersCount', 'actions'];
 
-  constructor(public dialog: MatDialog,
-    public http:HttpClient, private service: UserRoleService, private _snackBar: MatSnackBar) { }
+  roles: UserRoleData[] = [];
+  role: UserRoleData;
 
-  @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort!: MatSort;
-  @ViewChild('filter',  {static: true}) filter!: ElementRef;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  constructor(
+    private _matSnackBar: MatSnackBar,
+    private _matDialog: MatDialog,
+    private _userRolesService: UserRoleService,
+    private _authService: AuthService,
+
+  ) {
+    this._setUser();
+  }
 
   ngOnInit(): void {
-    this.loadData();
+    this._getDataFromServer();
   }
 
-  reload() {
-    this.loadData();
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openAddDialog() {
-    const dialogRef = this.dialog.open(AddUserRoleDialogComponent, {
-      data: {EmployeeData: {} }
+  onAdd() {
+    let dialogRef = this._matDialog.open(AddUserRoleDialogComponent, {
+      width: "900px",
+      height: "auto"
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        // After dialog is closed we're doing frontend updates
-        // For add we're just pushing a new row inside DataService
-        this.myDatabase.dataChange.value.push(this.service.getDialogData());
-        this.refreshTable();
-        this.reload();
-      }
-
-    });
+    dialogRef.afterClosed().subscribe(res => {
+      this._getDataFromServer();
+    })
   }
 
-  startEdit(userRole_Id: number, userRole_Name: string ) {
-    this.userRole_Id = userRole_Id;
-
-    const dialogRef = this.dialog.open(EditUserRoleDialogComponent, {
-      data: {userRole_Id: userRole_Id, userRole_Name: userRole_Name}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-      if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.userRole_Id === this.userRole_Id);
-        // Then you update that record using data from dialogData (values you enetered)
-        this.myDatabase.dataChange.value[foundIndex] = this.service.getDialogData();
-        // And lastly refresh table
-        this.refreshTable();
-        this.reload();
+  onUpdateValue(value: UserRoleData) {
+    let dialogRef = this._matDialog.open(EditUserRoleDialogComponent, {
+      width: "80%",
+      height: "auto",
+      data: {
+        record: value
       }
     });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this._getDataFromServer();
+    });
   }
 
-  deleteItem(userRole_Id: number, userRole_Name: string) {
-
-    this.userRole_Id = userRole_Id;
-    const dialogRef = this.dialog.open(DeleteUserRoleDeleteComponent, {
-      data: {userRole_Id: userRole_Id, userRole_Name: userRole_Name}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-        const foundIndex = this.myDatabase.dataChange.value.findIndex(x => x.userRole_Id === this.userRole_Id);
-        // for delete we use splice in order to remove single object from DataService
-        this.myDatabase.dataChange.value.splice(foundIndex, 1);
-        this.refreshTable();
-        window.location.reload();
+  onDeleteValue(value: UserRoleData) {
+    let dialogRef = this._matDialog.open(DeleteUserRoleDeleteComponent, {
+      data: {
+        record: value
       }
     });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this._getDataFromServer();
+    });
   }
 
-  private refreshTable() {
-    this.paginator._changePageSize(this.paginator.pageSize);
-    this.reload();
+
+  onAddRequiredConsumables(element: Class) {
+    console.log(element)
+    let dialogRef = this._matDialog.open(AddRequiredConsumablesComponent, {
+      width: "80%",
+      height: "auto",
+      data: {
+        record: element
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this._getDataFromServer();
+    });
   }
-
-
-  public loadData() {
-    this.myDatabase = new UserRoleService(this.http);
-    this.dataSource = new myDataSource(this.myDatabase, this.paginator, this.sort);
-    fromEvent(this.filter.nativeElement, 'keyup')
-      // s.debounceTime(150)
-      // .distinctUntilChanged()
-      .subscribe(() => {
-        if (!this.dataSource) {
-          return;
+  private _getDataFromServer() {
+    this._userRolesService.getAll()
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Sent) {
+            this.displayProgressSpinner = true;
+          }
+          if (event.type == HttpEventType.Response) {
+            const res = event.body as UserRoleData[];
+            this.roles = res;
+            this.dataSource = new MatTableDataSource<UserRoleData>(this.roles);
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
+            this.displayProgressSpinner = false;
+          }
+        },
+        error: (error) => {
+          this.displayProgressSpinner = false;
+          this._openErrorMessageSnackBar(error.error.message);
+        },
+        complete: () => {
+          this.displayProgressSpinner = false;
         }
-        this.dataSource.filter = this.filter.nativeElement.value;
       });
   }
-}
 
-export class myDataSource extends DataSource<UserRoleData> {
-  _filterChange = new BehaviorSubject('');
-
-  get filter(): string {
-    return this._filterChange.value;
-  }
-
-  set filter(filter: string) {
-    this._filterChange.next(filter);
-  }
-
-  filteredData: UserRoleData[] = [];
-  renderedData: UserRoleData[] = [];
-
-  constructor(public _myDatabase: UserRoleService,
-              public _paginator: MatPaginator,
-              public _sort: MatSort) {
-    super();
-    // Reset to the first page when the user changes the filter.
-    this._filterChange.subscribe(() => this._paginator.pageIndex = 0);
-  }
-
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<UserRoleData[]> {
-    // Listen for any changes in the base data, sorting, filtering, or pagination
-    const displayDataChanges = [
-      this._myDatabase.dataChange,
-      this._sort.sortChange,
-      this._filterChange,
-      this._paginator.page
-    ];
-
-    this._myDatabase.getAllUserRoles();
-
-
-    return merge(...displayDataChanges).pipe(map( () => {
-        // Filter data
-        this.filteredData = this._myDatabase.data.slice().filter((userRole: UserRoleData) => {
-          const searchStr = (userRole.userRole_Id + userRole.userRole_Name);
-          return searchStr.toString().indexOf(this.filter.toLowerCase()) !== -1;
-        });
-
-        // Sort filtered data
-        const sortedData = this.sortData(this.filteredData.slice());
-
-
-        // Grab the page's slice of the filtered sorted data.
-        const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-        this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
-        return this.renderedData;
-      }
-    ));
-  }
-
-
-  disconnect() {}
-
-  sortData(data: UserRoleData[]): UserRoleData[] {
-    if (!this._sort.active || this._sort.direction === '') {
-      return data;
-    }
-
-    return data.sort((a, b) => {
-      let propertyA: number | string = '' ;
-      let propertyB: number | string = '';
-
-      switch (this._sort.active) {
-        case 'userRole_Id': [propertyA, propertyB] = [a.userRole_Id, b.userRole_Id]; break;
-        case 'userRole_Name': [propertyA, propertyB] = [a.userRole_Name, b.userRole_Name]; break;
-      }
-
-      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
-
-      return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
+  openSnackBar(message: string, action: string) {
+    this._matSnackBar.open(message, action, {
+      duration: 2000,
     });
   }
+
+  private _openErrorMessageSnackBar(errorMessage: string) {
+    const snackBar = this._matSnackBar.openFromComponent(CustomErrorSnackBarComponent, {
+      data: {
+        preClose: () => { snackBar.dismiss() },
+        parent: errorMessage
+      }
+    });
+  }
+
+  user: CurrentUser;
+  private _setUser() {
+    if (this._authService.currentUser != null) {
+      this.user = this._authService.currentUser;
+    }
+  }
+
+  get isAdmin() {
+    if (this._authService.currentUser != null) {
+      if (this.user.EmployeeType == 'Admin' || this.user.UserRole == 'administrator') {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    return false;
+  }
+
 }
+
+

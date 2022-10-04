@@ -16,3 +16,9 @@ pre {
   width: 100%;
   justify-content: space-around;
 }
+
+.add-form-control{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}

@@ -52,6 +52,15 @@ import { SchoolEvaluationReportComponent } from './components/reports/school-eva
 import { ViewConsumablesByClassReportComponent } from './components/reports/consumables-by-class/view-consumables-by-class-report/view-consumables-by-class-report.component';
 import { ViewWeeklyAttendanceReportComponent } from './components/reports/child-attendance-reporting/view-weekly-attendance-report/view-weekly-attendance-report.component';
 import { ConsumablesByChildReportComponent } from './components/reports/consumables-by-child-report/consumables-by-child-report.component';
+import { ResetAccountPasswordComponent } from './components/user-account/reset-account-password/reset-account-password.component';
+import { ListCompaniesComponent } from './components/companies/list-companies/list-companies.component';
+import { ListActivitiesComponent } from './components/activities/list-activities/list-activities.component';
+import { ListEventsComponent } from './components/event/list-events/list-events.component';
+import { CreateBlockComponent } from './components/blog/create-block/create-block.component';
+import { ListBlogComponent } from './components/blog/list-blog/list-blog.component';
+import { ViewBlogComponent } from './components/blog/view-blog/view-blog.component';
+import { ListCommunicationsComponent } from './components/communication/list-communications/list-communications.component';
+import { ViewMixpanelComponent } from './components/helpers/view-mixpanel/view-mixpanel.component';
 
 const authModule = () => import('../app/auth/auth.module').then(x => x.AuthModule);
 const userModule = () => import('../app/users/user/user.module').then(x => x.UserModule);
@@ -61,6 +70,12 @@ const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'users', loadChildren: userModule, canActivate: [AuthGuard] },
   { path: 'auth', loadChildren: authModule },
+
+  {
+    path: 'reset-password',
+    component: ResetAccountPasswordComponent,
+    canActivate: [AuthGuard]
+  },
 
   {
     path: 'user-roles',
@@ -311,6 +326,47 @@ const routes: Routes = [
   {
     path: 'consumables-by-child-report',
     component: ConsumablesByChildReportComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-companies',
+    component: ListCompaniesComponent,
+    canActivate: [AuthGuard]
+  },
+
+  {
+    path: 'list-activities',
+    component: ListActivitiesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-events',
+    component: ListEventsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'add-blog',
+    component: CreateBlockComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'view-blog/:id',
+    component: ViewBlogComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-blogs',
+    component: ListBlogComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'list-communications',
+    component: ListCommunicationsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'view-mixpanel',
+    component: ViewMixpanelComponent,
     canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' },

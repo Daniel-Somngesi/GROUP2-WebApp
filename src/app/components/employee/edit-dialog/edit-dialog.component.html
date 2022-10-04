@@ -1,127 +1,136 @@
-<h1>Update Employee {{data.employee_Id}}</h1>
-<form [formGroup]="employeeForm">
-  <table>
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Update Employee</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
 
-    <tr>
-      <td>
-        <mat-form-field class="demo-full-width">
-          <input class="form-control" [(ngModel)]="data.employee_Name" formControlName="employee_Name"
-            pattern="[a-zA-Z ]*" matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
-        </mat-form-field>
-        <mat-error>
-          <span *ngIf="!employeeForm.get('employee_Name').value && employeeForm.get('employee_Name').touched"></span>
+  <form [formGroup]="form" (submit)="onSubmit()" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Name</mat-label>
+        <input type="text" matInput formControlName="Name" required>
+        <mat-error *ngIf="Name.touched && Name.invalid">
+          <div *ngIf="Name.errors.required">please provide name.</div>
+          <div *ngIf="Name.errors.pattern">Value shoud only contain alphabets</div>
         </mat-error>
+      </mat-form-field>
 
-        <mat-form-field class="demo-full-width">
-          <input class="form-control" [(ngModel)]="data.employee_Surname" formControlName="employee_Surname"
-            pattern="[a-zA-Z ]*" matTooltip="Enter enter surname" matInput placeholder="Surname" autocomplete="off"
-            required>
-        </mat-form-field>
-        <mat-error>
-          <span
-            *ngIf="!employeeForm.get('employee_Surname').value && employeeForm.get('employee_Surname').touched"></span>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Surname</mat-label>
+        <input type="text" matInput formControlName="Surname" required>
+        <mat-error *ngIf="Surname.touched && Surname.invalid">
+          <div *ngIf="Surname.errors.required">please provide surname.</div>
+          <div *ngIf="Surname.errors.pattern">Value shoud only contain alphabets</div>
         </mat-error>
+      </mat-form-field>
+    </div>
 
-        <mat-form-field class="demo-full-width">
-          <input class="form-control" formControlName="id_Number" (blur)="getDob(employeeForm.get('id_Number').value)"
-            [(ngModel)]="data.id_Number" name="id_Number" matTooltip="Enter ID number" matInput placeholder="ID number"
-            autocomplete="off" required>
-        </mat-form-field>
-        <mat-error>
-          <span *ngIf="!employeeForm.get('id_Number').value && employeeForm.get('id_Number').touched"></span>
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Email</mat-label>
+        <input type="email" matInput formControlName="Email" required>
+        <mat-error *ngIf="Email.touched && Email.invalid">
+          <div *ngIf="Email.errors.required">please provide email.</div>
+          <div *ngIf="Email.errors.email">Provide valid email address</div>
+          <div *ngIf="Email.errors.pattern">Provide valid email format</div>
         </mat-error>
-      </td>
-      <td>
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Date of birth</mat-label>
-          <input placeholder="Date of birth" [(ngModel)]="data.doB" name="doB" [max]="maxDate" formControlName="doB"
-            matInput matTooltip="Enter date of birth" [matDatepicker]="picker" autocomplete="on" required>
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <br>
-        <mat-radio-group matTooltip="Enter Gender" name="gender" [(ngModel)]="data.gender" formControlName="gender">
-          <label id="lbl" for="gender">Gender</label>
-          <mat-radio-button value="Male" name="gender">Male</mat-radio-button>
-          <mat-radio-button value="Female" name="gender">Female</mat-radio-button>
-        </mat-radio-group>
+      </mat-form-field>
 
-        <br>
-
-        <mat-form-field class="demo-full-width">
-          <input class="form-control" name="employee_Email" [(ngModel)]="data.employee_Email"
-            formControlName="employee_Email" matTooltip="Enter email" matInput placeholder="Email" autocomplete="off"
-            required>
-        </mat-form-field>
-        <mat-error>
-          <span *ngIf="!employeeForm.get('employee_Email').value && employeeForm.get('employee_Email').touched"></span>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Phone Number</mat-label>
+        <input type="text" matInput formControlName="PhoneNumber" required>
+        <mat-error *ngIf="PhoneNumber.touched && PhoneNumber.invalid">
+          <div *ngIf="PhoneNumber.errors.required">please provide phone number.</div>
+          <div *ngIf="PhoneNumber.errors.pattern">phone number should start with +27 and not contain the zero</div>
         </mat-error>
-      </td>
-      <td>
-        <mat-form-field class="demo-full-width">
-          <input class="form-control" name="phone_Number" [(ngModel)]="data.phone_Number" formControlName="phone_Number"
-            matTooltip="Enter phone number" matInput placeholder="Phone number" autocomplete="off" required>
-          <mat-hint>should start with 0 and spaces must not be included</mat-hint>
-        </mat-form-field>
-        <mat-error>
-          <span *ngIf="!employeeForm.get('phone_Number').value && employeeForm.get('phone_Number').touched"></span>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> ID Number</mat-label>
+        <input type="text" matInput formControlName="IdNumber" required>
+        <mat-error *ngIf="IdNumber.touched && IdNumber.invalid">
+          <div *ngIf="IdNumber.errors.required">please provide email.</div>
+          <div *ngIf="IdNumber.errors.pattern">Provide valid valid SA ID Number</div>
         </mat-error>
+      </mat-form-field>
 
-        <br>
-
-        <mat-form-field class="demo-full-width">
-          <input class="form-control" name="address_Line1" [(ngModel)]="data.address_Line1"
-            formControlName="address_Line1" matTooltip="Enter address line 1" matInput placeholder="Address line 1"
-            autocomplete="off" required>
-        </mat-form-field>
-        <mat-error>
-          <span *ngIf="!employeeForm.get('address_Line1').value && employeeForm.get('address_Line1').touched"></span>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Gender</mat-label>
+        <mat-select matInput formControlName="Gender" required>
+          <mat-option>--Select option--</mat-option>
+          <mat-option value="Male">Male</mat-option>
+          <mat-option value="Female">Female</mat-option>
+        </mat-select>
+        <mat-error *ngIf="Gender.touched && Gender.invalid">
+          <div *ngIf="Gender.errors.required">please provide gender.</div>
         </mat-error>
+      </mat-form-field>
 
-
-        <mat-form-field class="demo-full-width">
-          <input class="form-control" name="address_Line2" [(ngModel)]="data.address_Line2"
-            formControlName="address_Line2" matTooltip="Enter address line 2" matInput placeholder="Address line 2"
-            autocomplete="off" required>
-        </mat-form-field>
-        <mat-error>
-          <span *ngIf="!employeeForm.get('address_Line2').value && employeeForm.get('address_Line2').touched"></span>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Type</mat-label>
+        <mat-select formControlName="Type" required>
+          <mat-option>--Select--</mat-option>
+          <mat-option *ngFor="let type of types" [value]="type.id">
+            {{type.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="Type.touched && Type.invalid">
+          <div *ngIf="Type.errors.required">please provide employee type.</div>
         </mat-error>
-      </td>
-      <td>
-        <mat-form-field class="demo-full-width">
-          <input class="form-control" formControlName="postal_Code" [(ngModel)]="data.postal_code" name="postal_code"
-            matTooltip="Postal code" matInput placeholder="Postal code" autocomplete="off" required>
-        </mat-form-field>
-        <mat-error>
-          <span *ngIf="!employeeForm.get('postal_Code').value && employeeForm.get('postal_Code').touched"></span>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Address Line 1</mat-label>
+        <input type="text" matInput formControlName="AddressLine1" required>
+        <mat-error *ngIf="AddressLine1.touched && AddressLine1.invalid">
+          <div *ngIf="AddressLine1.errors.required">please provide address line 1.</div>
+          <div *ngIf="AddressLine1.errors.maxLength">address line 1 cannot be more than 50 characters</div>
         </mat-error>
+      </mat-form-field>
 
-        <mat-form-field class="demo-full-width">
-          <input class="form-control" pattern="[a-zA-Z ]*" [(ngModel)]="data.city" formControlName="city"
-            matTooltip="Enter city" matInput placeholder="City" autocomplete="off" required>
-        </mat-form-field>
-        <mat-error>
-          <span *ngIf="!employeeForm.get('city').value && employeeForm.get('city').touched"></span>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Address Line 2</mat-label>
+        <input type="text" matInput formControlName="AddressLine2" required>
+        <mat-error *ngIf="AddressLine2.touched && AddressLine2.invalid">
+          <div *ngIf="AddressLine2.errors.required">please provide address line 2.</div>
+          <div *ngIf="AddressLine2.errors.maxLength">address line 2 cannot be more than 50 characters</div>
         </mat-error>
+      </mat-form-field>
+    </div>
 
-        <label id="lbl" for="employeeType_ID">Type</label>
-        <select name="employeeType_ID" (blur)="getEmployeeTypeName()" formControlName="eType" [(ngModel)]="mySelect"
-          [(ngModel)]="data.employee_Type" required>
-          <option *ngFor="let i of type" [ngValue]="data.employeeType_Name">
-            {{ i.employeeType_Name }}
-          </option>
-        </select>
-        <input class="form-control invisible" [(ngModel)]="data.employeeType_Name" [(ngModel)]="typeName"
-          formControlName="emplTypeName" autocomplete="off">
-      </td>
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> City Or Town</mat-label>
+        <input type="text" matInput formControlName="City" required>
+        <mat-error *ngIf="City.touched && City.invalid">
+          <div *ngIf="City.errors.required">please provide city or town</div>
+          <div *ngIf="City.errors.maxLength">city or town cannot be more than 50 characters</div>
+        </mat-error>
+      </mat-form-field>
 
-    </tr>
-  </table>
-  <br>
-  <div mat-dialog-actions>
-    <button mat-button [disabled]="!employeeForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
-    <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
-  </div>
-</form>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Postal Code</mat-label>
+        <input type="text" matInput formControlName="postalCode" required>
+        <mat-error *ngIf="postalCode.touched && postalCode.invalid">
+          <div *ngIf="postalCode.errors.required">please provide postal code.</div>
+          <div *ngIf="postalCode.errors.pattern">postal code should be 4 digits and only contain numbers</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="button-row">
+      <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+      <button mat-raised-button type="submit" color="primary">Update</button>
+    </div>
+
+  </form>
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

@@ -41,10 +41,10 @@
           <th class="table-header-item">Received Quantity For class</th>
         </tr>
         <tr *ngFor="let consumable of class.items">
-          <td>{{consumable.name}}</td>
-          <td>{{consumable.quantityPerChild}}</td>
-          <td>{{consumable.quantityExpectedForClass}}</td>
-          <td>{{consumable.quantityReceivedForClass}}</td>
+          <td *ngIf="consumable.quantityPerChild >0">{{consumable.name}}</td>
+          <td *ngIf="consumable.quantityPerChild >0">{{consumable.quantityPerChild}}</td>
+          <td *ngIf="consumable.quantityPerChild >0">{{consumable.quantityExpectedForClass}}</td>
+          <td *ngIf="consumable.quantityPerChild >0">{{consumable.quantityReceivedForClass}}</td>
         </tr>
       </table>
     </div>

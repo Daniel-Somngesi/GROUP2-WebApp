@@ -40,7 +40,9 @@
           <mat-icon class="icon-library">delete</mat-icon>
         </button>
 
-        <button mat-button [matMenuTriggerFor]="menu">More</button>
+        <button mat-button [matMenuTriggerFor]="menu">
+          <mat-icon class="icon-library">more_horiz</mat-icon>
+        </button>
 
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="onAddRequiredConsumables(element)">Add Required Consumables</button>

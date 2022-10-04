@@ -8,6 +8,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginComponent } from 'src/app/auth/login/login.component';
 import { RegisterComponent } from 'src/app/auth/register/register.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 
@@ -23,7 +24,8 @@ import { RegisterComponent } from 'src/app/auth/register/register.component';
 declarations: [
     LayoutComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ForgotPasswordComponent
 ]
 })
 export class AuthModule { }

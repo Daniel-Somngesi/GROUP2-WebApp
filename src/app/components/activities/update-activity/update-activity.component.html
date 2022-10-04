@@ -1,0 +1,58 @@
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Update Activity</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
+
+  <form [formGroup]="activityFormGroup" (submit)="onSubmit()" *ngIf="activityFormGroup != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Name</mat-label>
+        <input type="text" matInput formControlName="ActivityName" required />
+        <mat-error *ngIf="ActivityName.touched && ActivityName.invalid">
+          <div *ngIf="ActivityName.errors.required">please provide name.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Company</mat-label>
+        <mat-select formControlName="CompanyId" required>
+          <mat-option>--Select--</mat-option>
+          <mat-option *ngFor="let company of companies" [value]="company.id">
+            {{company.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="CompanyId.touched && CompanyId.invalid">
+          <div *ngIf="CompanyId.errors.required">please select company.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-field">
+      <mat-hint>From</mat-hint>
+      <input class="form-control" [formControlName]="'start'" type="text" [(ngModel)]="start" mwlFlatpickr
+        [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+        placeholder="Not set" [minDate]="minDate" required />
+    </div>
+
+    <div class="form-field">
+      <mat-hint>To</mat-hint>
+      <input class="form-control" [formControlName]="'end'" type="text" [(ngModel)]="end" mwlFlatpickr required
+        [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+        placeholder="Not set" [minDate]="minDate" />
+    </div>
+
+    <div class="button-row">
+      <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+      <button mat-raised-button type="submit" color="primary">Update</button>
+    </div>
+
+  </form>
+
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

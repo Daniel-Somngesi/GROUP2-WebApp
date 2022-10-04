@@ -24,10 +24,20 @@ export class AddNewAcademicYearComponent implements OnInit {
     this._buildForm(this._formBuilder);
   }
   onSubmit() {
+    let isValid = true;
+
     if (this.form.invalid) {
       this.openSnackBar("Provide all required input", "Error");
+      isValid = false;
+      return;
     }
-    else {
+
+    if (this.EndDate.value <= this.StartDate.value) {
+      this.openSnackBar("End date cannot be lower than start date", "Error");
+      isValid = false;
+      return;
+    }
+    if (isValid) {
       this._scheduleService.create(this.form.value)
         .subscribe({
           next: (event) => {

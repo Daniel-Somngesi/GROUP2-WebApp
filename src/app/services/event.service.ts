@@ -1,70 +1,45 @@
-import { CalendarEvent } from 'angular-calendar';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { iEvent } from '../Interface/Interface';
-import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
-const apiURL = environment.apiUrl + 'Event';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
+  endpointBase = environment.apiUrl;
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
+  headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`
   }
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private _httpClient: HttpClient) { }
 
-
-  createEvent(payload) {
-    return this.httpClient
-      .post(apiURL.concat("/AddEvent"), payload, { reportProgress: true, observe: 'events' });
+  getAll() {
+    return this._httpClient.get(
+      this.endpointBase.concat("Event"),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
   }
 
-
-  createSlot(payload) {
-    return this.httpClient
-      .post(apiURL.concat("/AddSlot"), payload, { reportProgress: true, observe: 'events' });
+  create(payload: any) {
+    return this._httpClient.post(
+      this.endpointBase.concat("Event"), payload,
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
   }
 
-
-
-  findEvent(eventId: number): Observable<any> {
-    return this.httpClient.get<iEvent>(apiURL + '/' + eventId)
-      .pipe(
-        catchError(this.errorHandler)
-      )
+  update(id: number, payload: any) {
+    return this._httpClient.put(
+      this.endpointBase.concat("Event/" + id), payload,
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
   }
 
-  updateEvent(eventId: number, event: any): Observable<any> {
-    return this.httpClient.put<iEvent>(apiURL + '/' + event, this.httpOptions)
-      .pipe(
-        catchError(this.errorHandler)
-      )
-  }
-
-  deleteEvent(id: any) {
-    this.httpClient.delete(`${apiURL}/${id}`).subscribe(data => {
-    },
-      (err: HttpErrorResponse) => {
-        alert('Error occurred. Details: ' + err.name + ' ' + err.message);
-      })
-  }
-
-
-  errorHandler(error: any) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(errorMessage);
+  delete(id: number) {
+    return this._httpClient.delete(
+      this.endpointBase.concat("Event/" + id),
+      { reportProgress: true, observe: 'events', headers: this.headers }
+    );
   }
 }

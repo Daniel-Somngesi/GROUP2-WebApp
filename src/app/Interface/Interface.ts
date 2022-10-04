@@ -1,6 +1,7 @@
 export interface UserRoleData {
   userRole_Id: number;
   userRole_Name: string;
+  usersCount:number
 }
 
 export interface ConsumablesData {
@@ -15,28 +16,8 @@ export interface MedicalAidTypeData {
   medicalAidTypeName: string;
 }
 
-export interface EmployeeData {
-  employee_Id: number;
-  employee_Name: string;
-  employee_Surname: string;
-  phone_Number: any;
-  gender: string;
-  employeeType_ID?: any;
-  address_Line1: string;
-  address_Line2: string;
-  city: string;
-  doB: string;
-  employee_Email: any;
-  id_Number: string;
-  postal_code: string;
-  employeeType_Name: string;
-}
 
-export interface EmployeeTypeData {
-  employeeType_ID?: any;
-  employeeType_Name: string;
-  employeeType_Description: string;
-}
+
 
 export interface BookingTypeData {
   id: number;
@@ -50,16 +31,12 @@ export interface SlotTypeData {
 
 
 export interface DocumentData {
-  document_Id: number;
-  document_Name: string;
-  docPath: string;
+  id: number;
+  name: string;
   description: string;
+  docPath: string;
 }
 
-export interface DocumentToCreate {
-  document_Name: string;
-  docPath: string;
-}
 
 export interface QuestionData {
   question_Id: any;

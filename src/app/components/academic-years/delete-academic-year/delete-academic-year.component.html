@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Delete Academic Year</h1>
+<div mat-dialog-content>
+  <p >Are you sure you want to delete academic year?</p>
+  <strong *ngIf="record.slotsCount >0">NB: Cannot delete if year has at least one slot</strong><br/>
+  <strong *ngIf="record.eventsCount >0">NB: Cannot delete if year has at least one event</strong><br/>
+  <strong *ngIf="record.activitiesCount >0">NB: Cannot delete if year has at least one activity</strong><br/>
+</div>
+<div mat-dialog-actions class="button-row">
+  <button mat-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-button mat-dialog-close color="primary" type="button" [disabled]="
+  record.slotsCount >0
+  || record.eventsCount >0
+  || record.classesCount >0
+  || record.activitiesCount >0
+  " cdkFocusInitial
+    (click)="onSubmit()">Delete</button>
+</div>
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

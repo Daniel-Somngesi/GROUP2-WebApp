@@ -10,15 +10,44 @@
 
   <mat-table [dataSource]="dataSource" matSort class="table" #mytable>
 
+    <ng-container matColumnDef="role">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Role </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="username">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Username </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="role">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Role </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+    <ng-container matColumnDef="phoneNumber">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.phoneNumber}} </mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="accountStatus">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Account Status </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.accountStatus}} </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+
+      <mat-cell *matCellDef="let element">
+        <button mat-button [matMenuTriggerFor]="menu" matTooltip="View Actions">
+          <mat-icon class="icon-library">more_horiz</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item *ngIf="element.accountStatus == 'Employee Profile Not Created'"
+            (click)="onCreateEmployeeAccount(element)">Create Employee Account</button>
+          <button mat-menu-item (click)="onUpdate(element)">Update</button>
+          <button mat-menu-item *ngIf="element.role != 'administrator'" (click)="onDelete(element)">Delete</button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
 
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

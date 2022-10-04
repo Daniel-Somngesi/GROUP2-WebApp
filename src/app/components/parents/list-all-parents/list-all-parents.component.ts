@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Parent } from 'src/app/helpers/types/parent.types';
 import { ParentService } from 'src/app/services/parent/parent.service';
-import { ViewParentChildDetailsComponent } from '../view-parent-child-details/view-parent-child-details.component';
+import { ForceDeleteParentComponent } from '../force-delete-parent/force-delete-parent.component';
 
 @Component({
   selector: 'app-list-all-parents',
@@ -30,6 +30,7 @@ export class ListAllParentsComponent implements OnInit {
   constructor(
     private _dialog: MatDialog,
     private _snackBar: MatSnackBar,
+    private _matDialog:MatDialog,
     private _parentService: ParentService,
     private _router: Router
 
@@ -49,6 +50,19 @@ export class ListAllParentsComponent implements OnInit {
     this._router.navigate(['parent-details', parent.email]);
   }
 
+  onForceDelete(parent: Parent){
+    let dialogRef = this._matDialog.open(ForceDeleteParentComponent, {
+      data: {
+        record: parent
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this.displayProgressSpinner = false;
+      this._getDataFromServer();
+    });
+  }
+
   private _getDataFromServer() {
     this._parentService.getAll()
       .subscribe({
@@ -57,12 +71,13 @@ export class ListAllParentsComponent implements OnInit {
             this.displayProgressSpinner = true;
           }
           if (event.type == HttpEventType.Response) {
+            this.displayProgressSpinner = false;
             const res = event.body as Parent[];
             this.parents = res;
             this.dataSource = new MatTableDataSource<Parent>(this.parents);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
-            this.displayProgressSpinner = false;
+
           }
         },
         error: (error) => {
@@ -71,10 +86,10 @@ export class ListAllParentsComponent implements OnInit {
         },
         complete: () => {
           this.displayProgressSpinner = false;
-
         }
       });
   }
+
 
   private _openSnackBar(message: string, action: string, _duration: number) {
     this._snackBar.open(message, action, {

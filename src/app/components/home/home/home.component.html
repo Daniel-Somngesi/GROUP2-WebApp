@@ -1,6 +1,7 @@
 <div class="heading" [hidden]="isShow">
-  <h3 >Hi {{user.UserName}}<span class="wave">👋</span></h3>
-  <small>Need help? Our <a href="#">user manual</a> will show you how to use and quickly navigate the system.</small>
+  <h3>Hi {{user.UserName}}<span class="wave">👋</span></h3>
+  <small>Need help? Our <a href="https://profound-arithmetic-4321e9.netlify.app/" target="_blank">user manual</a> will
+    show you how to use and quickly navigate the system.</small>
   <i (click)=toggleDisplay() style="font-size:20px; float:right; padding-right:10px;"
     class="fa-regular fa-circle-xmark"></i>
 </div>
@@ -23,12 +24,7 @@
     Schedule
   </button>
 
-  <button class="box-item">
-    <i style="color:#cf0ccf" class="fa-solid fa-utensils"> </i><br />
-    Weekly Menu
-  </button>
-
-  <button class="box-item" *ngIf="isAdmin">
+  <button class="box-item" *ngIf="isAdmin" (click)="onGoToDocuments()">
     <i style="color:#c2590a" class="fa-regular fa-paste"></i>
     <br />
     Documents
@@ -41,3 +37,7 @@
   </button>
 
 </div>
+
+
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

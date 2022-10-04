@@ -15,6 +15,12 @@ export class SlotService {
   constructor(private _httpClient: HttpClient) {
   }
 
+  create(payload) {
+    return this._httpClient
+      .post(this.endpointBase.concat("Slot"), payload,
+        { reportProgress: true, observe: 'events', headers: this.headers });
+  }
+
   getAllGroupedByDays() {
     return this._httpClient.get(
       this.endpointBase.concat("Slot/All/GroupedByDays"),
