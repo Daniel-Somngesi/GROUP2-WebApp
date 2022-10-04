@@ -40,7 +40,12 @@
           Validate OTP
         </a>
 
-        <a  (click)="onNavigateToRegister()" class="btn btn-link">Register</a>
+        <a (click)="onNavigateToRegister()" class="validate-otp btn btn-secondary ">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Register
+        </a>
+
+        <a (click)="onNavigateToForgotPassword()" class="btn btn-link">Forgot Password</a>
       </div>
     </form>
   </div>

@@ -17,7 +17,7 @@
   display: flex;
   flex: 1;
 }
-.button-row{
+.button-row {
   display: flex;
   justify-content: space-between;
 }

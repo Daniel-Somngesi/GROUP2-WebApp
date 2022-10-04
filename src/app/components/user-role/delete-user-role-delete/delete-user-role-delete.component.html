@@ -1,14 +1,13 @@
-<div class="container">
-  <h4 mat-dialog-title>Are you sure?</h4>
-  <div mat-dialog-content>
-    <p>Deleting user role {{data.userRole_Id}}</p>
-    <p></p>
-    <p>Name: {{data.userRole_Name}} </p>
-  </div>
-
-  <div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="1" color="accent" (click)="confirmDelete()">Yes</button>
-    <button mat-button (click)="onNoClick()" tabindex="-1">No</button>
-  </div>
+<h1 mat-dialog-title>Delete User Role</h1>
+<div mat-dialog-content>
+  <p *ngIf="record.usersCount ==0">Are you sure you want to delete user role?</p>
+  <strong *ngIf="record.usersCount >0">NB: Cannot delete user role with at least one user</strong>
+</div>
+<div mat-dialog-actions class="button-row">
+  <button mat-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-button mat-dialog-close color="primary" type="button" [disabled]="record.usersCount >0" cdkFocusInitial
+    (click)="onSubmit()">Delete</button>
 </div>
 
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">

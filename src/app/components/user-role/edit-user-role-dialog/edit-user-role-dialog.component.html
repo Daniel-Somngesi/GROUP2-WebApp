@@ -1,20 +1,29 @@
-<h1>Update User Role {{data.userRole_Id}}</h1>
-<form [formGroup]="userRoleForm">
+<div class="container">
+  <mat-toolbar class="top-section">
+    <span class="fill-remaining-space"></span>
+    <span class="title">Update User Role</span>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar>
 
-    <td><mat-form-field class="demo-full-width">
-      <input class="form-control" [(ngModel)]="data.userRole_Name" formControlName="userRole_Name" pattern="[a-zA-Z ]*"  matTooltip="Enter name" matInput placeholder="Name" autocomplete="off" required>
-    </mat-form-field>
-    <mat-error>
-      <span *ngIf="!userRoleForm.get('userRole_Name').value && userRoleForm.get('userRole_Name').touched">Invalid format</span>
-    </mat-error>
+  <form [formGroup]="form" (submit)="onSubmit()" *ngIf="form != null">
+    <div class="inline-form-field">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Name</mat-label>
+        <input type="text" matInput formControlName="Name" required>
+        <mat-error *ngIf="Name.touched && Name.invalid">
+          <div *ngIf="Name.errors.required">please provide name.</div>
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-<br>
-<div mat-dialog-actions>
-  <button mat-button [disabled]="!userRoleForm.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
-  <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    <div class="button-row">
+      <button mat-raised-button type="button" (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+      <button mat-raised-button type="submit" color="primary">Update</button>
+    </div>
+
+  </form>
+
 </div>
-</form>
 
-
-
-
+<app-progress-spinner class="example-margin" color="warn" mode="indeterminate" value="50" [backdropEnabled]="true"
+  [positionGloballyCenter]="true" [displayProgressSpinner]="displayProgressSpinner">
